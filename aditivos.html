@@ -1,0 +1,2585 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Aditivos BIM - Talismã</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #f0f2f5; color: #1a1a2e; line-height: 1.5; }
+
+.header { background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 50%, #b91c1c 100%); color: white; padding: 40px 0; text-align: center; }
+.header h1 { font-size: 2.2em; font-weight: 700; letter-spacing: 1px; margin-bottom: 8px; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+.header p { font-size: 1.1em; opacity: 0.85; }
+.header .subtitle { font-size: 0.95em; opacity: 0.6; margin-top: 4px; }
+.header .tag { display: inline-block; background: rgba(255,255,255,0.2); padding: 4px 16px; border-radius: 20px; font-size: 0.85em; margin-top: 10px; }
+
+.container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
+
+.nav { background: white; border-bottom: 2px solid #e2e8f0; padding: 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+.nav-inner { display: flex; gap: 0; max-width: 1400px; margin: 0 auto; overflow-x: auto; }
+.nav a { padding: 14px 24px; text-decoration: none; color: #64748b; font-weight: 600; font-size: 0.9em; border-bottom: 3px solid transparent; transition: all 0.2s; white-space: nowrap; cursor: pointer; }
+.nav a:hover, .nav a.active { color: #991b1b; border-bottom-color: #991b1b; background: #fef2f2; }
+
+.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin: 30px 0; }
+.kpi-card { background: white; border-radius: 16px; padding: 28px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.06); border: 1px solid #e2e8f0; transition: transform 0.2s; }
+.kpi-card:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+.kpi-label { font-size: 0.8em; text-transform: uppercase; letter-spacing: 1.5px; color: #94a3b8; font-weight: 600; margin-bottom: 8px; }
+.kpi-value { font-size: 1.8em; font-weight: 800; }
+.kpi-sub { font-size: 0.85em; color: #64748b; margin-top: 6px; }
+.kpi-card.red { border-top: 4px solid #dc2626; }
+.kpi-card.red .kpi-value { color: #dc2626; }
+.kpi-card.blue { border-top: 4px solid #3b82f6; }
+.kpi-card.blue .kpi-value { color: #1a1a2e; }
+.kpi-card.orange { border-top: 4px solid #f59e0b; }
+.kpi-card.orange .kpi-value { color: #92400e; }
+.kpi-card.purple { border-top: 4px solid #7c3aed; }
+.kpi-card.purple .kpi-value { color: #5b21b6; }
+
+.section { background: white; border-radius: 16px; padding: 32px; margin: 24px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.06); border: 1px solid #e2e8f0; }
+.section-title { font-size: 1.3em; font-weight: 700; color: #1a1a2e; margin-bottom: 6px; }
+.section-subtitle { font-size: 0.9em; color: #94a3b8; margin-bottom: 24px; }
+
+.charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 24px 0; }
+.chart-card { background: white; border-radius: 16px; padding: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); border: 1px solid #e2e8f0; }
+.chart-card h3 { font-size: 1.05em; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+
+table { width: 100%; border-collapse: collapse; font-size: 0.88em; }
+thead { background: #7f1d1d; color: white; }
+thead th { padding: 12px 14px; text-align: left; font-weight: 600; font-size: 0.85em; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; }
+tbody tr { border-bottom: 1px solid #f1f5f9; transition: background 0.15s; }
+tbody tr:hover { background: #fef2f2; }
+tbody tr:nth-child(even) { background: #fafbfc; }
+tbody tr:nth-child(even):hover { background: #fef2f2; }
+td { padding: 10px 14px; }
+.td-center { text-align: center; }
+.td-right { text-align: right; font-variant-numeric: tabular-nums; }
+.td-bold { font-weight: 700; }
+.td-code { font-family: 'Cascadia Code', 'Fira Code', monospace; font-size: 0.9em; color: #475569; }
+.td-desc { max-width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.9em; color: #475569; }
+.positivo { color: #dc2626; }
+
+.total-row { background: #fef2f2 !important; font-weight: 700; border-top: 2px solid #fca5a5; }
+
+.search-box { margin-bottom: 16px; }
+.search-box input { width: 100%; padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 0.95em; outline: none; transition: border-color 0.2s; }
+.search-box input:focus { border-color: #991b1b; }
+
+.metodo-item { margin-bottom: 24px; }
+.metodo-item h4 { color: #991b1b; font-size: 1.05em; margin-bottom: 8px; border-left: 4px solid #dc2626; padding-left: 12px; }
+.metodo-item p, .metodo-item ul { color: #475569; font-size: 0.95em; line-height: 1.7; }
+.metodo-item ul { padding-left: 20px; }
+.metodo-item li { margin-bottom: 4px; }
+
+.footer { text-align: center; padding: 30px; color: #94a3b8; font-size: 0.85em; margin-top: 20px; }
+.nota { background: #fef2f2; border: 1px solid #fca5a5; border-radius: 10px; padding: 14px 18px; font-size: 0.88em; color: #991b1b; margin-top: 20px; }
+
+.hidden { display: none; }
+
+@media print {
+    .nav, .search-box { display: none; }
+    .section, .chart-card { break-inside: avoid; box-shadow: none; border: 1px solid #ddd; }
+    .kpi-card { box-shadow: none; border: 1px solid #ddd; }
+    body { background: white; }
+    .hidden { display: block !important; }
+}
+@media (max-width: 900px) {
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    .charts-grid { grid-template-columns: 1fr; }
+    .kpi-value { font-size: 1.4em; }
+    .header h1 { font-size: 1.5em; }
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN OVERLAY -->
+<div id="loginOverlay" style="
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(135deg, #0c4a6e 0%, #075985 50%, #0369a1 100%);
+    z-index: 99999; display: flex; align-items: center; justify-content: center;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+">
+    <div style="
+        background: white; border-radius: 20px; padding: 40px 48px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3); max-width: 420px; width: 90%;
+        text-align: center;
+    ">
+        <div style="font-size: 2.5em; margin-bottom: 8px;">🔒</div>
+        <h2 style="color: #1a1a2e; font-size: 1.3em; margin-bottom: 4px;">Acesso Restrito</h2>
+        <p style="color: #94a3b8; font-size: 0.88em; margin-bottom: 24px;">Auditoria BIM — Talismã</p>
+        <div id="loginError" style="display:none; background:#fef2f2; color:#dc2626; padding:8px 14px; border-radius:8px; font-size:0.85em; margin-bottom:14px;">
+            Usuário ou senha incorretos
+        </div>
+        <input id="loginUser" type="text" placeholder="Usuário" style="
+            width: 100%; padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: 10px;
+            font-size: 0.95em; margin-bottom: 10px; outline: none; box-sizing: border-box;
+        " onfocus="this.style.borderColor='#0369a1'" onblur="this.style.borderColor='#e2e8f0'">
+        <input id="loginPass" type="password" placeholder="Senha" style="
+            width: 100%; padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: 10px;
+            font-size: 0.95em; margin-bottom: 18px; outline: none; box-sizing: border-box;
+        " onfocus="this.style.borderColor='#0369a1'" onblur="this.style.borderColor='#e2e8f0'"
+        onkeydown="if(event.key==='Enter')doLogin()">
+        <button onclick="doLogin()" style="
+            width: 100%; padding: 12px; background: #0369a1; color: white; border: none;
+            border-radius: 10px; font-size: 1em; font-weight: 600; cursor: pointer;
+            transition: background 0.2s;
+        " onmouseover="this.style.background='#075985'" onmouseout="this.style.background='#0369a1'">
+            Entrar
+        </button>
+        <p style="color: #cbd5e1; font-size: 0.75em; margin-top: 16px;">
+            Acesso exclusivo para auditores autorizados
+        </p>
+    </div>
+</div>
+<script>
+async function sha256(msg) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(msg));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+async function doLogin() {
+    const u = document.getElementById('loginUser').value.trim();
+    const p = document.getElementById('loginPass').value;
+    const h = await sha256(u + ':' + p);
+    if (h === '836c34d78339ae662c8888a588aae210e5a5f3c24252f8823e87fd0a2e3d11d8') {
+        document.getElementById('loginOverlay').style.display = 'none';
+        sessionStorage.setItem('auth_talisma', '1');
+    } else {
+        document.getElementById('loginError').style.display = 'block';
+        document.getElementById('loginPass').value = '';
+        document.getElementById('loginPass').focus();
+    }
+}
+// Auto-login if already authenticated in this session
+if (sessionStorage.getItem('auth_talisma') === '1') {
+    document.getElementById('loginOverlay').style.display = 'none';
+}
+</script>
+<!-- END LOGIN OVERLAY -->
+
+
+<div class="header">
+    <h1>ADITIVOS — AUDITORIA BIM</h1>
+    <p>Itens com quantidade BIM superior ao orçamento original</p>
+    <p class="subtitle">Escola Estadual — Município de Guaçuí/ES</p>
+    <div class="tag">APENAS ADITIVOS — SEM RETROATIVOS</div>
+</div>
+
+<div class="nav">
+    <div class="nav-inner">
+        <a class="active" onclick="showSection('painel')">Painel Geral</a>
+        <a onclick="showSection('edificacoes')">Por Edificação</a>
+        <a onclick="showSection('top30')">Top Divergências</a>
+        <a onclick="showSection('categorias')">Por Categoria</a>
+        <a onclick="showSection('completo')">Lista Completa</a>
+        <a onclick="showSection('metodologia')">Metodologia</a>
+    </div>
+</div>
+
+<div class="container">
+
+<!-- ═══════ PAINEL GERAL ═══════ -->
+<div id="painel" class="page-section">
+
+    <div class="kpi-grid">
+        <div class="kpi-card red">
+            <div class="kpi-label">Total de Aditivos</div>
+            <div class="kpi-value">R$ 2,24 Mi</div>
+            <div class="kpi-sub">R$ 2.236.048,72</div>
+        </div>
+        <div class="kpi-card blue">
+            <div class="kpi-label">Valor do Orçamento</div>
+            <div class="kpi-value">R$ 18,09 Mi</div>
+            <div class="kpi-sub">R$ 18.094.836,90</div>
+        </div>
+        <div class="kpi-card orange">
+            <div class="kpi-label">% Aditivo / Orçamento</div>
+            <div class="kpi-value">12,4%</div>
+            <div class="kpi-sub">do valor total orçado</div>
+        </div>
+        <div class="kpi-card purple">
+            <div class="kpi-label">Itens com Aditivo</div>
+            <div class="kpi-value">131</div>
+            <div class="kpi-sub">de 1.268 itens auditados</div>
+        </div>
+    </div>
+
+    <div class="charts-grid">
+        <div class="chart-card">
+            <h3>Aditivo por Edificação</h3>
+            <canvas id="chartEdif" height="280"></canvas>
+        </div>
+        <div class="chart-card">
+            <h3>Aditivo por Categoria (Top 10)</h3>
+            <canvas id="chartCat" height="280"></canvas>
+        </div>
+    </div>
+
+    <div class="nota">
+        <strong>Este relatório apresenta APENAS os itens de aditivo</strong> — onde o levantamento BIM identificou quantidade superior ao orçamento original. Itens onde o orçamento tinha quantidade maior que o BIM (retroativo/economia) não estão incluídos.
+    </div>
+</div>
+
+<!-- ═══════ POR EDIFICAÇÃO ═══════ -->
+<div id="edificacoes" class="page-section hidden">
+    <div class="section" style="margin-top:24px">
+        <div class="section-title">Aditivos por Edificação</div>
+        <div class="section-subtitle">Apenas edificações com itens de aditivo identificados</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Edificação</th>
+                    <th style="text-align:center">Itens</th>
+                    <th style="text-align:right">Valor Orçamento</th>
+                    <th style="text-align:right">Valor Aditivo</th>
+                    <th style="text-align:right">% s/ Edificação</th>
+                    <th style="text-align:right">% s/ Total Aditivo</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+        <tr>
+            <td class="td-bold">BLOCO AUDITÓRIO E PASSARELA</td>
+            <td class="td-center">64</td>
+            <td class="td-right">R$ 1.792.299,37</td>
+            <td class="td-right td-bold positivo">R$ 1.444.402,68</td>
+            <td class="td-right">80.6%</td>
+            <td class="td-right">64.6%</td>
+        </tr>
+        <tr>
+            <td class="td-bold">BLOCO PEDAGÓGICO</td>
+            <td class="td-center">20</td>
+            <td class="td-right">R$ 5.439.454,52</td>
+            <td class="td-right td-bold positivo">R$ 432.768,65</td>
+            <td class="td-right">8.0%</td>
+            <td class="td-right">19.4%</td>
+        </tr>
+        <tr>
+            <td class="td-bold">BLOCO ADMINISTRATIVO</td>
+            <td class="td-center">30</td>
+            <td class="td-right">R$ 2.580.193,77</td>
+            <td class="td-right td-bold positivo">R$ 270.378,21</td>
+            <td class="td-right">10.5%</td>
+            <td class="td-right">12.1%</td>
+        </tr>
+        <tr>
+            <td class="td-bold">QUADRA POLIESPORTIVA</td>
+            <td class="td-center">7</td>
+            <td class="td-right">R$ 1.837.439,40</td>
+            <td class="td-right td-bold positivo">R$ 64.586,19</td>
+            <td class="td-right">3.5%</td>
+            <td class="td-right">2.9%</td>
+        </tr>
+        <tr>
+            <td class="td-bold">CASTELO D'ÁGUA</td>
+            <td class="td-center">10</td>
+            <td class="td-right">R$ 526.443,98</td>
+            <td class="td-right td-bold positivo">R$ 23.912,99</td>
+            <td class="td-right">4.5%</td>
+            <td class="td-right">1.1%</td>
+        </tr>
+                <tr class="total-row">
+                    <td>TOTAL</td>
+                    <td class="td-center">131</td>
+                    <td class="td-right">R$ 12.175.831,04</td>
+                    <td class="td-right positivo">R$ 2.236.048,72</td>
+                    <td></td>
+                    <td class="td-right">100%</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="chart-card" style="margin:24px 0">
+        <h3>Comparativo — Valor Original da Edificação vs Aditivo Encontrado</h3>
+        <canvas id="chartEdifComp" height="250"></canvas>
+    </div>
+</div>
+
+<!-- ═══════ TOP 30 ═══════ -->
+<div id="top30" class="page-section hidden">
+    <div class="section" style="margin-top:24px">
+        <div class="section-title">Top 30 — Maiores Aditivos por Valor</div>
+        <div class="section-subtitle">Itens ordenados por valor de aditivo (BIM > Orçamento)</div>
+        <div style="overflow-x:auto;">
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Item</th>
+                    <th>Descrição</th>
+                    <th>Edificação</th>
+                    <th>Unid</th>
+                    <th style="text-align:right">Qtd Orçam.</th>
+                    <th style="text-align:right">Qtd BIM</th>
+                    <th style="text-align:right">Diferença</th>
+                    <th style="text-align:right">Aditivo R$</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+        <tr>
+            <td class="td-center">1</td>
+            <td class="td-code">080101</td>
+            <td class="td-desc">'Fornecimento, fabricação, transporte e montagem de estrutura para cobertura em perfi</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">kg</td>
+            <td class="td-right">8.719,68</td>
+            <td class="td-right">20.893,82</td>
+            <td class="td-right positivo">+12.174,14</td>
+            <td class="td-right td-bold positivo">R$ 318.597,24</td>
+        </tr>
+        <tr>
+            <td class="td-center">2</td>
+            <td class="td-code">030202</td>
+            <td class="td-desc">Fôrma de tábua de madeira de 2.5x30.0cm, levando-se em conta utilização 1 vez (inclui</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">937,87</td>
+            <td class="td-right">3.142,10</td>
+            <td class="td-right positivo">+2.204,23</td>
+            <td class="td-right td-bold positivo">R$ 263.118,94</td>
+        </tr>
+        <tr>
+            <td class="td-center">3</td>
+            <td class="td-code">080105</td>
+            <td class="td-desc">'Fornecimento, fabricação, transporte e montagem de estrutura para cobertura em perfi</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">kg</td>
+            <td class="td-right">2.506,89</td>
+            <td class="td-right">10.429,19</td>
+            <td class="td-right positivo">+7.922,30</td>
+            <td class="td-right td-bold positivo">R$ 221.190,62</td>
+        </tr>
+        <tr>
+            <td class="td-center">4</td>
+            <td class="td-code">080201</td>
+            <td class="td-desc">Cobertura em telha termoacustica tipo telha/telha em aço galvalume, chapa superior tr</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">535,68</td>
+            <td class="td-right">1.354,26</td>
+            <td class="td-right positivo">+818,58</td>
+            <td class="td-right td-bold positivo">R$ 146.132,90</td>
+        </tr>
+        <tr>
+            <td class="td-center">5</td>
+            <td class="td-code">030206</td>
+            <td class="td-desc">Fornecimento e aplicação de concreto USINADO Fck=30 MPa  - considerando lançamento MA</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">m3</td>
+            <td class="td-right">127,43</td>
+            <td class="td-right">325,90</td>
+            <td class="td-right positivo">+198,47</td>
+            <td class="td-right td-bold positivo">R$ 140.524,70</td>
+        </tr>
+        <tr>
+            <td class="td-center">6</td>
+            <td class="td-code">080101</td>
+            <td class="td-desc">Fornecimento, fabricação, transporte e montagem de estrutura metálica composta por pi</td>
+            <td class="td-center">BLC. PED</td>
+            <td class="td-center">kg</td>
+            <td class="td-right">20.037,80</td>
+            <td class="td-right">24.330,51</td>
+            <td class="td-right positivo">+4.292,71</td>
+            <td class="td-right td-bold positivo">R$ 122.900,29</td>
+        </tr>
+        <tr>
+            <td class="td-center">7</td>
+            <td class="td-code">120201</td>
+            <td class="td-desc">Porcelanato polido, acabamento acetinado, dim. 60x60cm, ref. de cor CIMENTO CINZA BOL</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">360,54</td>
+            <td class="td-right">1.081,56</td>
+            <td class="td-right positivo">+721,02</td>
+            <td class="td-right td-bold positivo">R$ 108.895,65</td>
+        </tr>
+        <tr>
+            <td class="td-center">8</td>
+            <td class="td-code">030305</td>
+            <td class="td-desc">Fornecimento e aplicação de concreto USINADO Fck=25 MPa - considerando BOMBEAMENTO (5</td>
+            <td class="td-center">BLC. PED</td>
+            <td class="td-center">m3</td>
+            <td class="td-right">266,71</td>
+            <td class="td-right">412,10</td>
+            <td class="td-right positivo">+145,39</td>
+            <td class="td-right td-bold positivo">R$ 92.937,65</td>
+        </tr>
+        <tr>
+            <td class="td-center">9</td>
+            <td class="td-code">030301</td>
+            <td class="td-desc">Fôrma em chapa de madeira compensada plastificada 12mm para estrutura em geral, 5 rea</td>
+            <td class="td-center">BLC. PED</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">2.401,24</td>
+            <td class="td-right">3.241,00</td>
+            <td class="td-right positivo">+839,76</td>
+            <td class="td-right td-bold positivo">R$ 80.440,61</td>
+        </tr>
+        <tr>
+            <td class="td-center">10</td>
+            <td class="td-code">030202</td>
+            <td class="td-desc">Fôrma de tábua de madeira de 2.5x30.0cm, levando-se em conta utilização 1 vez (inclui</td>
+            <td class="td-center">BLC. PED</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">1.198,06</td>
+            <td class="td-right">1.721,10</td>
+            <td class="td-right positivo">+523,04</td>
+            <td class="td-right td-bold positivo">R$ 62.435,28</td>
+        </tr>
+        <tr>
+            <td class="td-center">11</td>
+            <td class="td-code">030106</td>
+            <td class="td-desc">Fornecimento e aplicação de concreto USINADO Fck=30 MPa  - considerando lançamento MA</td>
+            <td class="td-center">BLC. ADM</td>
+            <td class="td-center">m3</td>
+            <td class="td-right">150,00</td>
+            <td class="td-right">227,10</td>
+            <td class="td-right positivo">+77,10</td>
+            <td class="td-right td-bold positivo">R$ 54.589,88</td>
+        </tr>
+        <tr>
+            <td class="td-center">12</td>
+            <td class="td-code">030202</td>
+            <td class="td-desc">Fôrma de tábua de madeira de 2.5 x 30.0 cm para fundações, levando-se em conta a util</td>
+            <td class="td-center">QUADRA POLI</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">553,37</td>
+            <td class="td-right">1.238,80</td>
+            <td class="td-right positivo">+685,43</td>
+            <td class="td-right td-bold positivo">R$ 53.292,18</td>
+        </tr>
+        <tr>
+            <td class="td-center">13</td>
+            <td class="td-code">030102</td>
+            <td class="td-desc">Fôrma de tábua de madeira de 2.5x30.0cm, levando-se em conta utilização 1 vez (inclui</td>
+            <td class="td-center">BLC. ADM</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">673,37</td>
+            <td class="td-right">1.116,30</td>
+            <td class="td-right positivo">+442,93</td>
+            <td class="td-right td-bold positivo">R$ 52.872,55</td>
+        </tr>
+        <tr>
+            <td class="td-center">14</td>
+            <td class="td-code">120201</td>
+            <td class="td-desc">Porcelanato polido, acabamento acetinado, dim. 60x60cm, ref. de cor CIMENTO CINZA BOL</td>
+            <td class="td-center">BLC. ADM</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">826,26</td>
+            <td class="td-right">1.081,56</td>
+            <td class="td-right positivo">+255,30</td>
+            <td class="td-right td-bold positivo">R$ 38.557,96</td>
+        </tr>
+        <tr>
+            <td class="td-center">15</td>
+            <td class="td-code">040301</td>
+            <td class="td-desc">Alvenaria de blocos de concreto 9x19x39cm, c/ resist. mínimo a compres. 2.5 MPa, asse</td>
+            <td class="td-center">BLC. PED</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">1.947,12</td>
+            <td class="td-right">2.477,66</td>
+            <td class="td-right positivo">+530,54</td>
+            <td class="td-right td-bold positivo">R$ 36.575,43</td>
+        </tr>
+        <tr>
+            <td class="td-center">16</td>
+            <td class="td-code">040301</td>
+            <td class="td-desc">Alvenaria de blocos de concreto 9x19x39cm, c/ resist. mínimo a compres. 2.5 MPa, asse</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">546,57</td>
+            <td class="td-right">978,08</td>
+            <td class="td-right positivo">+431,51</td>
+            <td class="td-right td-bold positivo">R$ 29.748,30</td>
+        </tr>
+        <tr>
+            <td class="td-center">17</td>
+            <td class="td-code">110301</td>
+            <td class="td-desc">Cerâmica retificada, acabamento brilhante, dim. 33x61cm, ref. de cor OVIEDO PURO BRAN</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">119,54</td>
+            <td class="td-right">484,10</td>
+            <td class="td-right positivo">+364,56</td>
+            <td class="td-right td-bold positivo">R$ 25.901,99</td>
+        </tr>
+        <tr>
+            <td class="td-center">18</td>
+            <td class="td-code">290101</td>
+            <td class="td-desc">Fornecimento e Instalação de Unidade Evaporadora e Condensadora de Ar Condicionado ti</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">und</td>
+            <td class="td-right">7,00</td>
+            <td class="td-right">10,00</td>
+            <td class="td-right positivo">+3,00</td>
+            <td class="td-right td-bold positivo">R$ 24.632,43</td>
+        </tr>
+        <tr>
+            <td class="td-center">19</td>
+            <td class="td-code">080101</td>
+            <td class="td-desc">'Fornecimento, fabricação, transporte e montagem de estrutura para cobertura em perfi</td>
+            <td class="td-center">BLC. ADM</td>
+            <td class="td-center">kg</td>
+            <td class="td-right">8.682,05</td>
+            <td class="td-right">9.537,20</td>
+            <td class="td-right positivo">+855,15</td>
+            <td class="td-right td-bold positivo">R$ 24.012,61</td>
+        </tr>
+        <tr>
+            <td class="td-center">20</td>
+            <td class="td-code">170301</td>
+            <td class="td-desc">Guarda corpo de tubo de aço inox AISI 304, Ø1.1/2" (montantes, travamento horizontal </td>
+            <td class="td-center">BLC. ADM</td>
+            <td class="td-center">m</td>
+            <td class="td-right">23,20</td>
+            <td class="td-right">48,27</td>
+            <td class="td-right positivo">+25,07</td>
+            <td class="td-right td-bold positivo">R$ 21.764,02</td>
+        </tr>
+        <tr>
+            <td class="td-center">21</td>
+            <td class="td-code">120101</td>
+            <td class="td-desc">Regularização de base para revestimento de pisos porcelanato, empregando argamassa de</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">359,79</td>
+            <td class="td-right">1.081,56</td>
+            <td class="td-right positivo">+721,77</td>
+            <td class="td-right td-bold positivo">R$ 17.582,32</td>
+        </tr>
+        <tr>
+            <td class="td-center">22</td>
+            <td class="td-code">030301</td>
+            <td class="td-desc">Fôrma em chapa de madeira compensada plastificada 12mm para estrutura em geral, 5 rea</td>
+            <td class="td-center">BLC. ADM</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">1.244,79</td>
+            <td class="td-right">1.425,30</td>
+            <td class="td-right positivo">+180,51</td>
+            <td class="td-right td-bold positivo">R$ 17.291,05</td>
+        </tr>
+        <tr>
+            <td class="td-center">23</td>
+            <td class="td-code">140603</td>
+            <td class="td-desc">Fornecimento e instalação de Detector de fumaça linear detector/receptor, Intelbras, </td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">und</td>
+            <td class="td-right">7,00</td>
+            <td class="td-right">15,00</td>
+            <td class="td-right positivo">+8,00</td>
+            <td class="td-right td-bold positivo">R$ 16.458,64</td>
+        </tr>
+        <tr>
+            <td class="td-center">24</td>
+            <td class="td-code">060301</td>
+            <td class="td-desc">Janela de correr para vidro em alumínio anodizado cor natural, linha 25, completa, in</td>
+            <td class="td-center">BLC. PED</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">153,09</td>
+            <td class="td-right">126,00</td>
+            <td class="td-right positivo">+27,09</td>
+            <td class="td-right td-bold positivo">R$ 15.113,51</td>
+        </tr>
+        <tr>
+            <td class="td-center">25</td>
+            <td class="td-code">110201</td>
+            <td class="td-desc">Emboço de argamassa de cimento, cal hidratada CH1 e areia  média ou grossa lavada no </td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">162,55</td>
+            <td class="td-right">577,11</td>
+            <td class="td-right positivo">+414,56</td>
+            <td class="td-right td-bold positivo">R$ 13.672,19</td>
+        </tr>
+        <tr>
+            <td class="td-center">26</td>
+            <td class="td-code">040201</td>
+            <td class="td-desc">Alvenaria de blocos de concreto 9x19x39cm, c/ resist. mínimo a compres. 2.5 MPa, asse</td>
+            <td class="td-center">BLC. ADM</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">878,38</td>
+            <td class="td-right">1.011,63</td>
+            <td class="td-right positivo">+133,25</td>
+            <td class="td-right td-bold positivo">R$ 9.186,25</td>
+        </tr>
+        <tr>
+            <td class="td-center">27</td>
+            <td class="td-code">030301</td>
+            <td class="td-desc">Fôrma em chapa de madeira compensada plastificada 12mm para estrutura em geral, 5 rea</td>
+            <td class="td-center">CST. ÁGUA</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">388,11</td>
+            <td class="td-right">481,70</td>
+            <td class="td-right positivo">+93,59</td>
+            <td class="td-right td-bold positivo">R$ 8.964,99</td>
+        </tr>
+        <tr>
+            <td class="td-center">28</td>
+            <td class="td-code">290102</td>
+            <td class="td-desc">Tubo de cobre com isolamento térmico - ø 5/8" esp. 9mm</td>
+            <td class="td-center">BLC. ADM</td>
+            <td class="td-center">m</td>
+            <td class="td-right">51,00</td>
+            <td class="td-right">227,84</td>
+            <td class="td-right positivo">+176,84</td>
+            <td class="td-right td-bold positivo">R$ 8.893,28</td>
+        </tr>
+        <tr>
+            <td class="td-center">29</td>
+            <td class="td-code">140401</td>
+            <td class="td-desc">Tubo de aço galvanizado com costura diam. 65mm, inclusive conexões</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">m</td>
+            <td class="td-right">27,26</td>
+            <td class="td-right">79,53</td>
+            <td class="td-right positivo">+52,27</td>
+            <td class="td-right td-bold positivo">R$ 8.670,02</td>
+        </tr>
+        <tr>
+            <td class="td-center">30</td>
+            <td class="td-code">050201</td>
+            <td class="td-desc">Porta em madeira de lei tipo angelim pedra/equiv, esp.35mm maciça c/friso p/ verniz, </td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">und</td>
+            <td class="td-right">3,00</td>
+            <td class="td-right">8,00</td>
+            <td class="td-right positivo">+5,00</td>
+            <td class="td-right td-bold positivo">R$ 8.413,25</td>
+        </tr>
+            </tbody>
+        </table>
+        </div>
+    </div>
+
+    <div class="chart-card" style="margin:24px 0">
+        <h3>Top 10 Aditivos — Impacto Financeiro (R$)</h3>
+        <canvas id="chartTop10" height="320"></canvas>
+    </div>
+</div>
+
+<!-- ═══════ POR CATEGORIA ═══════ -->
+<div id="categorias" class="page-section hidden">
+    <div class="section" style="margin-top:24px">
+        <div class="section-title">Aditivos por Categoria de Serviço</div>
+        <div class="section-subtitle">Top 15 categorias com maior valor de aditivo</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Categoria</th>
+                    <th style="text-align:center">Qtd Itens</th>
+                    <th style="text-align:right">Valor Aditivo</th>
+                    <th style="text-align:right">% do Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+        <tr>
+            <td>COBERTURA</td>
+            <td class="td-center">12</td>
+            <td class="td-right td-bold positivo">R$ 845.822,04</td>
+            <td class="td-right">37.8%</td>
+        </tr>
+        <tr>
+            <td>ESTRUTURAS</td>
+            <td class="td-center">11</td>
+            <td class="td-right td-bold positivo">R$ 830.177,97</td>
+            <td class="td-right">37.1%</td>
+        </tr>
+        <tr>
+            <td>PISOS INTERNOS E EXTERNOS</td>
+            <td class="td-center">7</td>
+            <td class="td-right td-bold positivo">R$ 177.835,86</td>
+            <td class="td-right">8.0%</td>
+        </tr>
+        <tr>
+            <td>PAREDES E PAINÉIS</td>
+            <td class="td-center">5</td>
+            <td class="td-right td-bold positivo">R$ 80.418,24</td>
+            <td class="td-right">3.6%</td>
+        </tr>
+        <tr>
+            <td>REVESTIMENTO DE PAREDES</td>
+            <td class="td-center">8</td>
+            <td class="td-right td-bold positivo">R$ 62.512,69</td>
+            <td class="td-right">2.8%</td>
+        </tr>
+        <tr>
+            <td>SERVIÇOS COMPLEMENTARES EXTERNOS</td>
+            <td class="td-center">3</td>
+            <td class="td-right td-bold positivo">R$ 34.628,06</td>
+            <td class="td-right">1.5%</td>
+        </tr>
+        <tr>
+            <td>INSTALAÇÃO DE INCÊNDIO</td>
+            <td class="td-center">11</td>
+            <td class="td-right td-bold positivo">R$ 29.377,14</td>
+            <td class="td-right">1.3%</td>
+        </tr>
+        <tr>
+            <td>ESQUADRIAS METÁLICAS</td>
+            <td class="td-center">7</td>
+            <td class="td-right td-bold positivo">R$ 27.084,00</td>
+            <td class="td-right">1.2%</td>
+        </tr>
+        <tr>
+            <td>APARELHOS DE AR-CONDICIONADO</td>
+            <td class="td-center">1</td>
+            <td class="td-right td-bold positivo">R$ 24.632,43</td>
+            <td class="td-right">1.1%</td>
+        </tr>
+        <tr>
+            <td>INFRAESTRUTURA PARA INSTALAÇÕES ELÉTRICAS</td>
+            <td class="td-center">5</td>
+            <td class="td-right td-bold positivo">R$ 23.142,53</td>
+            <td class="td-right">1.0%</td>
+        </tr>
+        <tr>
+            <td>INSTALAÇÕES HIDRO-SANITÁRIAS</td>
+            <td class="td-center">16</td>
+            <td class="td-right td-bold positivo">R$ 16.447,74</td>
+            <td class="td-right">0.7%</td>
+        </tr>
+        <tr>
+            <td>APARELHOS ELÉTRICOS</td>
+            <td class="td-center">9</td>
+            <td class="td-right td-bold positivo">R$ 15.423,03</td>
+            <td class="td-right">0.7%</td>
+        </tr>
+        <tr>
+            <td>ESQUADRIAS DE MADEIRA</td>
+            <td class="td-center">2</td>
+            <td class="td-right td-bold positivo">R$ 10.351,90</td>
+            <td class="td-right">0.5%</td>
+        </tr>
+        <tr>
+            <td>APARELHOS HIDRO-SANITÁRIOS</td>
+            <td class="td-center">7</td>
+            <td class="td-right td-bold positivo">R$ 10.108,76</td>
+            <td class="td-right">0.5%</td>
+        </tr>
+        <tr>
+            <td>SISTEMA DE CLIMATIZAÇÃO</td>
+            <td class="td-center">1</td>
+            <td class="td-right td-bold positivo">R$ 8.893,28</td>
+            <td class="td-right">0.4%</td>
+        </tr>
+                <tr class="total-row">
+                    <td>TOTAL</td>
+                    <td class="td-center">131</td>
+                    <td class="td-right positivo">R$ 2.236.048,72</td>
+                    <td class="td-right">100%</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="chart-card" style="margin:24px 0">
+        <h3>Distribuição dos Aditivos por Categoria</h3>
+        <canvas id="chartCatPizza" height="320"></canvas>
+    </div>
+</div>
+
+<!-- ═══════ LISTA COMPLETA ═══════ -->
+<div id="completo" class="page-section hidden">
+    <div class="section" style="margin-top:24px">
+        <div class="section-title">Lista Completa — Todos os 131 Itens de Aditivo</div>
+        <div class="section-subtitle">Todos os itens onde o levantamento BIM superou o orçamento original</div>
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Buscar por item, descrição, edificação ou categoria..." onkeyup="filterTable()">
+        </div>
+        <div style="overflow-x:auto;">
+        <table id="fullTable">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Item</th>
+                    <th>Descrição</th>
+                    <th>Edificação</th>
+                    <th>Unid</th>
+                    <th style="text-align:right">Qtd Orçam.</th>
+                    <th style="text-align:right">Qtd BIM</th>
+                    <th style="text-align:right">Diferença</th>
+                    <th style="text-align:right">R$ Unit.</th>
+                    <th style="text-align:right">Aditivo R$</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+        <tr>
+            <td class="td-center">1</td>
+            <td class="td-code">080101</td>
+            <td class="td-desc">'Fornecimento, fabricação, transporte e montagem de estrutura para cobertura em </td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">kg</td>
+            <td class="td-right">8.719,68</td>
+            <td class="td-right">20.893,82</td>
+            <td class="td-right positivo">+12.174,14</td>
+            <td class="td-right">R$ 26,17</td>
+            <td class="td-right td-bold positivo">R$ 318.597,24</td>
+        </tr>
+        <tr>
+            <td class="td-center">2</td>
+            <td class="td-code">030202</td>
+            <td class="td-desc">Fôrma de tábua de madeira de 2.5x30.0cm, levando-se em conta utilização 1 vez (i</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">937,87</td>
+            <td class="td-right">3.142,10</td>
+            <td class="td-right positivo">+2.204,23</td>
+            <td class="td-right">R$ 119,37</td>
+            <td class="td-right td-bold positivo">R$ 263.118,94</td>
+        </tr>
+        <tr>
+            <td class="td-center">3</td>
+            <td class="td-code">080105</td>
+            <td class="td-desc">'Fornecimento, fabricação, transporte e montagem de estrutura para cobertura em </td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">kg</td>
+            <td class="td-right">2.506,89</td>
+            <td class="td-right">10.429,19</td>
+            <td class="td-right positivo">+7.922,30</td>
+            <td class="td-right">R$ 27,92</td>
+            <td class="td-right td-bold positivo">R$ 221.190,62</td>
+        </tr>
+        <tr>
+            <td class="td-center">4</td>
+            <td class="td-code">080201</td>
+            <td class="td-desc">Cobertura em telha termoacustica tipo telha/telha em aço galvalume, chapa superi</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">535,68</td>
+            <td class="td-right">1.354,26</td>
+            <td class="td-right positivo">+818,58</td>
+            <td class="td-right">R$ 178,52</td>
+            <td class="td-right td-bold positivo">R$ 146.132,90</td>
+        </tr>
+        <tr>
+            <td class="td-center">5</td>
+            <td class="td-code">030206</td>
+            <td class="td-desc">Fornecimento e aplicação de concreto USINADO Fck=30 MPa  - considerando lançamen</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">m3</td>
+            <td class="td-right">127,43</td>
+            <td class="td-right">325,90</td>
+            <td class="td-right positivo">+198,47</td>
+            <td class="td-right">R$ 708,04</td>
+            <td class="td-right td-bold positivo">R$ 140.524,70</td>
+        </tr>
+        <tr>
+            <td class="td-center">6</td>
+            <td class="td-code">080101</td>
+            <td class="td-desc">Fornecimento, fabricação, transporte e montagem de estrutura metálica composta p</td>
+            <td class="td-center">BLC. PED</td>
+            <td class="td-center">kg</td>
+            <td class="td-right">20.037,80</td>
+            <td class="td-right">24.330,51</td>
+            <td class="td-right positivo">+4.292,71</td>
+            <td class="td-right">R$ 28,63</td>
+            <td class="td-right td-bold positivo">R$ 122.900,29</td>
+        </tr>
+        <tr>
+            <td class="td-center">7</td>
+            <td class="td-code">120201</td>
+            <td class="td-desc">Porcelanato polido, acabamento acetinado, dim. 60x60cm, ref. de cor CIMENTO CINZ</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">360,54</td>
+            <td class="td-right">1.081,56</td>
+            <td class="td-right positivo">+721,02</td>
+            <td class="td-right">R$ 151,03</td>
+            <td class="td-right td-bold positivo">R$ 108.895,65</td>
+        </tr>
+        <tr>
+            <td class="td-center">8</td>
+            <td class="td-code">030305</td>
+            <td class="td-desc">Fornecimento e aplicação de concreto USINADO Fck=25 MPa - considerando BOMBEAMEN</td>
+            <td class="td-center">BLC. PED</td>
+            <td class="td-center">m3</td>
+            <td class="td-right">266,71</td>
+            <td class="td-right">412,10</td>
+            <td class="td-right positivo">+145,39</td>
+            <td class="td-right">R$ 639,23</td>
+            <td class="td-right td-bold positivo">R$ 92.937,65</td>
+        </tr>
+        <tr>
+            <td class="td-center">9</td>
+            <td class="td-code">030301</td>
+            <td class="td-desc">Fôrma em chapa de madeira compensada plastificada 12mm para estrutura em geral, </td>
+            <td class="td-center">BLC. PED</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">2.401,24</td>
+            <td class="td-right">3.241,00</td>
+            <td class="td-right positivo">+839,76</td>
+            <td class="td-right">R$ 95,79</td>
+            <td class="td-right td-bold positivo">R$ 80.440,61</td>
+        </tr>
+        <tr>
+            <td class="td-center">10</td>
+            <td class="td-code">030202</td>
+            <td class="td-desc">Fôrma de tábua de madeira de 2.5x30.0cm, levando-se em conta utilização 1 vez (i</td>
+            <td class="td-center">BLC. PED</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">1.198,06</td>
+            <td class="td-right">1.721,10</td>
+            <td class="td-right positivo">+523,04</td>
+            <td class="td-right">R$ 119,37</td>
+            <td class="td-right td-bold positivo">R$ 62.435,28</td>
+        </tr>
+        <tr>
+            <td class="td-center">11</td>
+            <td class="td-code">030106</td>
+            <td class="td-desc">Fornecimento e aplicação de concreto USINADO Fck=30 MPa  - considerando lançamen</td>
+            <td class="td-center">BLC. ADM</td>
+            <td class="td-center">m3</td>
+            <td class="td-right">150,00</td>
+            <td class="td-right">227,10</td>
+            <td class="td-right positivo">+77,10</td>
+            <td class="td-right">R$ 708,04</td>
+            <td class="td-right td-bold positivo">R$ 54.589,88</td>
+        </tr>
+        <tr>
+            <td class="td-center">12</td>
+            <td class="td-code">030202</td>
+            <td class="td-desc">Fôrma de tábua de madeira de 2.5 x 30.0 cm para fundações, levando-se em conta a</td>
+            <td class="td-center">QUADRA POLI</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">553,37</td>
+            <td class="td-right">1.238,80</td>
+            <td class="td-right positivo">+685,43</td>
+            <td class="td-right">R$ 77,75</td>
+            <td class="td-right td-bold positivo">R$ 53.292,18</td>
+        </tr>
+        <tr>
+            <td class="td-center">13</td>
+            <td class="td-code">030102</td>
+            <td class="td-desc">Fôrma de tábua de madeira de 2.5x30.0cm, levando-se em conta utilização 1 vez (i</td>
+            <td class="td-center">BLC. ADM</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">673,37</td>
+            <td class="td-right">1.116,30</td>
+            <td class="td-right positivo">+442,93</td>
+            <td class="td-right">R$ 119,37</td>
+            <td class="td-right td-bold positivo">R$ 52.872,55</td>
+        </tr>
+        <tr>
+            <td class="td-center">14</td>
+            <td class="td-code">120201</td>
+            <td class="td-desc">Porcelanato polido, acabamento acetinado, dim. 60x60cm, ref. de cor CIMENTO CINZ</td>
+            <td class="td-center">BLC. ADM</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">826,26</td>
+            <td class="td-right">1.081,56</td>
+            <td class="td-right positivo">+255,30</td>
+            <td class="td-right">R$ 151,03</td>
+            <td class="td-right td-bold positivo">R$ 38.557,96</td>
+        </tr>
+        <tr>
+            <td class="td-center">15</td>
+            <td class="td-code">040301</td>
+            <td class="td-desc">Alvenaria de blocos de concreto 9x19x39cm, c/ resist. mínimo a compres. 2.5 MPa,</td>
+            <td class="td-center">BLC. PED</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">1.947,12</td>
+            <td class="td-right">2.477,66</td>
+            <td class="td-right positivo">+530,54</td>
+            <td class="td-right">R$ 68,94</td>
+            <td class="td-right td-bold positivo">R$ 36.575,43</td>
+        </tr>
+        <tr>
+            <td class="td-center">16</td>
+            <td class="td-code">040301</td>
+            <td class="td-desc">Alvenaria de blocos de concreto 9x19x39cm, c/ resist. mínimo a compres. 2.5 MPa,</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">546,57</td>
+            <td class="td-right">978,08</td>
+            <td class="td-right positivo">+431,51</td>
+            <td class="td-right">R$ 68,94</td>
+            <td class="td-right td-bold positivo">R$ 29.748,30</td>
+        </tr>
+        <tr>
+            <td class="td-center">17</td>
+            <td class="td-code">110301</td>
+            <td class="td-desc">Cerâmica retificada, acabamento brilhante, dim. 33x61cm, ref. de cor OVIEDO PURO</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">119,54</td>
+            <td class="td-right">484,10</td>
+            <td class="td-right positivo">+364,56</td>
+            <td class="td-right">R$ 71,05</td>
+            <td class="td-right td-bold positivo">R$ 25.901,99</td>
+        </tr>
+        <tr>
+            <td class="td-center">18</td>
+            <td class="td-code">290101</td>
+            <td class="td-desc">Fornecimento e Instalação de Unidade Evaporadora e Condensadora de Ar Condiciona</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">und</td>
+            <td class="td-right">7,00</td>
+            <td class="td-right">10,00</td>
+            <td class="td-right positivo">+3,00</td>
+            <td class="td-right">R$ 8.210,81</td>
+            <td class="td-right td-bold positivo">R$ 24.632,43</td>
+        </tr>
+        <tr>
+            <td class="td-center">19</td>
+            <td class="td-code">080101</td>
+            <td class="td-desc">'Fornecimento, fabricação, transporte e montagem de estrutura para cobertura em </td>
+            <td class="td-center">BLC. ADM</td>
+            <td class="td-center">kg</td>
+            <td class="td-right">8.682,05</td>
+            <td class="td-right">9.537,20</td>
+            <td class="td-right positivo">+855,15</td>
+            <td class="td-right">R$ 28,08</td>
+            <td class="td-right td-bold positivo">R$ 24.012,61</td>
+        </tr>
+        <tr>
+            <td class="td-center">20</td>
+            <td class="td-code">170301</td>
+            <td class="td-desc">Guarda corpo de tubo de aço inox AISI 304, Ø1.1/2" (montantes, travamento horizo</td>
+            <td class="td-center">BLC. ADM</td>
+            <td class="td-center">m</td>
+            <td class="td-right">23,20</td>
+            <td class="td-right">48,27</td>
+            <td class="td-right positivo">+25,07</td>
+            <td class="td-right">R$ 868,13</td>
+            <td class="td-right td-bold positivo">R$ 21.764,02</td>
+        </tr>
+        <tr>
+            <td class="td-center">21</td>
+            <td class="td-code">120101</td>
+            <td class="td-desc">Regularização de base para revestimento de pisos porcelanato, empregando argamas</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">359,79</td>
+            <td class="td-right">1.081,56</td>
+            <td class="td-right positivo">+721,77</td>
+            <td class="td-right">R$ 24,36</td>
+            <td class="td-right td-bold positivo">R$ 17.582,32</td>
+        </tr>
+        <tr>
+            <td class="td-center">22</td>
+            <td class="td-code">030301</td>
+            <td class="td-desc">Fôrma em chapa de madeira compensada plastificada 12mm para estrutura em geral, </td>
+            <td class="td-center">BLC. ADM</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">1.244,79</td>
+            <td class="td-right">1.425,30</td>
+            <td class="td-right positivo">+180,51</td>
+            <td class="td-right">R$ 95,79</td>
+            <td class="td-right td-bold positivo">R$ 17.291,05</td>
+        </tr>
+        <tr>
+            <td class="td-center">23</td>
+            <td class="td-code">140603</td>
+            <td class="td-desc">Fornecimento e instalação de Detector de fumaça linear detector/receptor, Intelb</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">und</td>
+            <td class="td-right">7,00</td>
+            <td class="td-right">15,00</td>
+            <td class="td-right positivo">+8,00</td>
+            <td class="td-right">R$ 2.057,33</td>
+            <td class="td-right td-bold positivo">R$ 16.458,64</td>
+        </tr>
+        <tr>
+            <td class="td-center">24</td>
+            <td class="td-code">060301</td>
+            <td class="td-desc">Janela de correr para vidro em alumínio anodizado cor natural, linha 25, complet</td>
+            <td class="td-center">BLC. PED</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">153,09</td>
+            <td class="td-right">126,00</td>
+            <td class="td-right positivo">+27,09</td>
+            <td class="td-right">R$ 557,90</td>
+            <td class="td-right td-bold positivo">R$ 15.113,51</td>
+        </tr>
+        <tr>
+            <td class="td-center">25</td>
+            <td class="td-code">110201</td>
+            <td class="td-desc">Emboço de argamassa de cimento, cal hidratada CH1 e areia  média ou grossa lavad</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">162,55</td>
+            <td class="td-right">577,11</td>
+            <td class="td-right positivo">+414,56</td>
+            <td class="td-right">R$ 32,98</td>
+            <td class="td-right td-bold positivo">R$ 13.672,19</td>
+        </tr>
+        <tr>
+            <td class="td-center">26</td>
+            <td class="td-code">040201</td>
+            <td class="td-desc">Alvenaria de blocos de concreto 9x19x39cm, c/ resist. mínimo a compres. 2.5 MPa,</td>
+            <td class="td-center">BLC. ADM</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">878,38</td>
+            <td class="td-right">1.011,63</td>
+            <td class="td-right positivo">+133,25</td>
+            <td class="td-right">R$ 68,94</td>
+            <td class="td-right td-bold positivo">R$ 9.186,25</td>
+        </tr>
+        <tr>
+            <td class="td-center">27</td>
+            <td class="td-code">030301</td>
+            <td class="td-desc">Fôrma em chapa de madeira compensada plastificada 12mm para estrutura em geral, </td>
+            <td class="td-center">CST. ÁGUA</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">388,11</td>
+            <td class="td-right">481,70</td>
+            <td class="td-right positivo">+93,59</td>
+            <td class="td-right">R$ 95,79</td>
+            <td class="td-right td-bold positivo">R$ 8.964,99</td>
+        </tr>
+        <tr>
+            <td class="td-center">28</td>
+            <td class="td-code">290102</td>
+            <td class="td-desc">Tubo de cobre com isolamento térmico - ø 5/8" esp. 9mm</td>
+            <td class="td-center">BLC. ADM</td>
+            <td class="td-center">m</td>
+            <td class="td-right">51,00</td>
+            <td class="td-right">227,84</td>
+            <td class="td-right positivo">+176,84</td>
+            <td class="td-right">R$ 50,29</td>
+            <td class="td-right td-bold positivo">R$ 8.893,28</td>
+        </tr>
+        <tr>
+            <td class="td-center">29</td>
+            <td class="td-code">140401</td>
+            <td class="td-desc">Tubo de aço galvanizado com costura diam. 65mm, inclusive conexões</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">m</td>
+            <td class="td-right">27,26</td>
+            <td class="td-right">79,53</td>
+            <td class="td-right positivo">+52,27</td>
+            <td class="td-right">R$ 165,87</td>
+            <td class="td-right td-bold positivo">R$ 8.670,02</td>
+        </tr>
+        <tr>
+            <td class="td-center">30</td>
+            <td class="td-code">050201</td>
+            <td class="td-desc">Porta em madeira de lei tipo angelim pedra/equiv, esp.35mm maciça c/friso p/ ver</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">und</td>
+            <td class="td-right">3,00</td>
+            <td class="td-right">8,00</td>
+            <td class="td-right positivo">+5,00</td>
+            <td class="td-right">R$ 1.682,65</td>
+            <td class="td-right td-bold positivo">R$ 8.413,25</td>
+        </tr>
+        <tr>
+            <td class="td-center">31</td>
+            <td class="td-code">200201</td>
+            <td class="td-desc">Perfilado perfurado em chapa de aço, dimensões 38 mm x 38 mm inclusive suportes </td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">m</td>
+            <td class="td-right">161,00</td>
+            <td class="td-right">318,18</td>
+            <td class="td-right positivo">+157,18</td>
+            <td class="td-right">R$ 47,12</td>
+            <td class="td-right td-bold positivo">R$ 7.406,32</td>
+        </tr>
+        <tr>
+            <td class="td-center">32</td>
+            <td class="td-code">220201</td>
+            <td class="td-desc">Projetor externo de LED potência 50W, vida útil superior a 25.000 h, IP 66, temp</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">und</td>
+            <td class="td-right">8,00</td>
+            <td class="td-right">62,00</td>
+            <td class="td-right positivo">+54,00</td>
+            <td class="td-right">R$ 132,80</td>
+            <td class="td-right td-bold positivo">R$ 7.171,20</td>
+        </tr>
+        <tr>
+            <td class="td-center">33</td>
+            <td class="td-code">110302</td>
+            <td class="td-desc">Cerâmica 10 x 10 cm, ref Camburi branco Eliane, Cecrisa ou Portobello, empregand</td>
+            <td class="td-center">BLC. PED</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">1.039,73</td>
+            <td class="td-right">972,09</td>
+            <td class="td-right positivo">+67,64</td>
+            <td class="td-right">R$ 105,45</td>
+            <td class="td-right td-bold positivo">R$ 7.132,64</td>
+        </tr>
+        <tr>
+            <td class="td-center">34</td>
+            <td class="td-code">170201</td>
+            <td class="td-desc">Guarda corpo de tubo de aço inox AISI 304, Ø1.1/2" (montantes, travamento horizo</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">m</td>
+            <td class="td-right">14,40</td>
+            <td class="td-right">22,24</td>
+            <td class="td-right positivo">+7,84</td>
+            <td class="td-right">R$ 868,13</td>
+            <td class="td-right td-bold positivo">R$ 6.806,14</td>
+        </tr>
+        <tr>
+            <td class="td-center">35</td>
+            <td class="td-code">150301</td>
+            <td class="td-desc">Torneira de pressão, acionamento por alavanca, tipo mesa, c/ arejador, acab. cro</td>
+            <td class="td-center">BLC. ADM</td>
+            <td class="td-center">und</td>
+            <td class="td-right">2,00</td>
+            <td class="td-right">8,00</td>
+            <td class="td-right positivo">+6,00</td>
+            <td class="td-right">R$ 1.044,97</td>
+            <td class="td-right td-bold positivo">R$ 6.269,82</td>
+        </tr>
+        <tr>
+            <td class="td-center">36</td>
+            <td class="td-code">120101</td>
+            <td class="td-desc">Regularização de base para revestimento de pisos porcelanato, empregando argamas</td>
+            <td class="td-center">BLC. ADM</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">826,26</td>
+            <td class="td-right">1.081,56</td>
+            <td class="td-right positivo">+255,30</td>
+            <td class="td-right">R$ 24,36</td>
+            <td class="td-right td-bold positivo">R$ 6.219,11</td>
+        </tr>
+        <tr>
+            <td class="td-center">37</td>
+            <td class="td-code">080106</td>
+            <td class="td-desc">Fornecimento, fabricação, montagem e pintura das chapas de ancoragem dos pilares</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">und</td>
+            <td class="td-right">12,00</td>
+            <td class="td-right">32,00</td>
+            <td class="td-right positivo">+20,00</td>
+            <td class="td-right">R$ 309,86</td>
+            <td class="td-right td-bold positivo">R$ 6.197,20</td>
+        </tr>
+        <tr>
+            <td class="td-center">38</td>
+            <td class="td-code">170202</td>
+            <td class="td-desc">Corrimão de tubo de aço inox AISI 304, Ø2" (corrimão duplo) esp1.5mm, Ø1.1/2" (l</td>
+            <td class="td-center">BLC. PED</td>
+            <td class="td-center">m</td>
+            <td class="td-right">17,96</td>
+            <td class="td-right">14,35</td>
+            <td class="td-right positivo">+3,61</td>
+            <td class="td-right">R$ 1.678,09</td>
+            <td class="td-right td-bold positivo">R$ 6.057,90</td>
+        </tr>
+        <tr>
+            <td class="td-center">39</td>
+            <td class="td-code">200301</td>
+            <td class="td-desc">Caixa de ligação de alumínio silício, tipo CONDULETES, saída E, entrada rosquead</td>
+            <td class="td-center">BLC. ADM</td>
+            <td class="td-center">und</td>
+            <td class="td-right">42,00</td>
+            <td class="td-right">182,00</td>
+            <td class="td-right positivo">+140,00</td>
+            <td class="td-right">R$ 41,21</td>
+            <td class="td-right td-bold positivo">R$ 5.769,40</td>
+        </tr>
+        <tr>
+            <td class="td-center">40</td>
+            <td class="td-code">100105</td>
+            <td class="td-desc">Tubo de PVC rígido soldável marrom, DN 85mm (3"), inclusive conexões</td>
+            <td class="td-center">CST. ÁGUA</td>
+            <td class="td-center">m</td>
+            <td class="td-right">4,82</td>
+            <td class="td-right">47,07</td>
+            <td class="td-right positivo">+42,25</td>
+            <td class="td-right">R$ 125,58</td>
+            <td class="td-right td-bold positivo">R$ 5.305,76</td>
+        </tr>
+        <tr>
+            <td class="td-center">41</td>
+            <td class="td-code">110202</td>
+            <td class="td-desc">Cerâmica retificada, acabamento brilhante, dim. 33x61cm, ref. de cor OVIEDO PURO</td>
+            <td class="td-center">BLC. ADM</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">111,26</td>
+            <td class="td-right">185,10</td>
+            <td class="td-right positivo">+73,84</td>
+            <td class="td-right">R$ 71,05</td>
+            <td class="td-right td-bold positivo">R$ 5.246,33</td>
+        </tr>
+        <tr>
+            <td class="td-center">42</td>
+            <td class="td-code">100101</td>
+            <td class="td-desc">Forro de gesso acabamento tipo liso</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">22,24</td>
+            <td class="td-right">149,23</td>
+            <td class="td-right positivo">+126,99</td>
+            <td class="td-right">R$ 41,25</td>
+            <td class="td-right td-bold positivo">R$ 5.238,34</td>
+        </tr>
+        <tr>
+            <td class="td-center">43</td>
+            <td class="td-code">200203</td>
+            <td class="td-desc">Eletrocalha metálica perfurada galv a fogo conf norma NBR632 em chapa de ferro g</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">m</td>
+            <td class="td-right">32,00</td>
+            <td class="td-right">58,10</td>
+            <td class="td-right positivo">+26,10</td>
+            <td class="td-right">R$ 195,35</td>
+            <td class="td-right td-bold positivo">R$ 5.098,64</td>
+        </tr>
+        <tr>
+            <td class="td-center">44</td>
+            <td class="td-code">200102</td>
+            <td class="td-desc">Eletroduto em aço galvanizado leve, diâmetro externo 25mm (3/4"), inclusive abra</td>
+            <td class="td-center">BLC. ADM</td>
+            <td class="td-center">m</td>
+            <td class="td-right">187,00</td>
+            <td class="td-right">281,06</td>
+            <td class="td-right positivo">+94,06</td>
+            <td class="td-right">R$ 50,83</td>
+            <td class="td-right td-bold positivo">R$ 4.781,07</td>
+        </tr>
+        <tr>
+            <td class="td-center">45</td>
+            <td class="td-code">040301</td>
+            <td class="td-desc">Alvenaria de blocos de concreto 14x19x39cm, c/ resist. mínimo a compres. 2.5 MPa</td>
+            <td class="td-center">CST. ÁGUA</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">313,17</td>
+            <td class="td-right">369,50</td>
+            <td class="td-right positivo">+56,33</td>
+            <td class="td-right">R$ 84,26</td>
+            <td class="td-right td-bold positivo">R$ 4.746,37</td>
+        </tr>
+        <tr>
+            <td class="td-center">46</td>
+            <td class="td-code">090102</td>
+            <td class="td-desc">Pintura impermeabilizante com igolflex branco ou equivalente a 3 demãos, inclusi</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">37,67</td>
+            <td class="td-right">108,72</td>
+            <td class="td-right positivo">+71,05</td>
+            <td class="td-right">R$ 63,53</td>
+            <td class="td-right td-bold positivo">R$ 4.513,81</td>
+        </tr>
+        <tr>
+            <td class="td-center">47</td>
+            <td class="td-code">130204</td>
+            <td class="td-desc">Tubo PVC rígido soldável branco, para esgoto, no diâmetro de 100mm (4"), inclusi</td>
+            <td class="td-center">BLC. ADM</td>
+            <td class="td-center">m</td>
+            <td class="td-right">2,42</td>
+            <td class="td-right">50,49</td>
+            <td class="td-right positivo">+48,07</td>
+            <td class="td-right">R$ 91,27</td>
+            <td class="td-right td-bold positivo">R$ 4.387,35</td>
+        </tr>
+        <tr>
+            <td class="td-center">48</td>
+            <td class="td-code">110202</td>
+            <td class="td-desc">Reboco tipo paulista de argamassa de cimento, cal hidratada CH1 e areia média ou</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">885,18</td>
+            <td class="td-right">963,01</td>
+            <td class="td-right positivo">+77,83</td>
+            <td class="td-right">R$ 56,03</td>
+            <td class="td-right td-bold positivo">R$ 4.360,81</td>
+        </tr>
+        <tr>
+            <td class="td-center">49</td>
+            <td class="td-code">090401</td>
+            <td class="td-desc">Fornecimento e instalação de Detector de fumaça linear detector/receptor, Intelb</td>
+            <td class="td-center">QUADRA POLI</td>
+            <td class="td-center">und</td>
+            <td class="td-right">2,00</td>
+            <td class="td-right">4,00</td>
+            <td class="td-right positivo">+2,00</td>
+            <td class="td-right">R$ 2.057,33</td>
+            <td class="td-right td-bold positivo">R$ 4.114,66</td>
+        </tr>
+        <tr>
+            <td class="td-center">50</td>
+            <td class="td-code">220102</td>
+            <td class="td-desc">Luminaria sobrepor compl., corpo ch. aço pintada branca, refletor e aletas parab</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">und</td>
+            <td class="td-right">48,00</td>
+            <td class="td-right">65,00</td>
+            <td class="td-right positivo">+17,00</td>
+            <td class="td-right">R$ 238,59</td>
+            <td class="td-right td-bold positivo">R$ 4.056,03</td>
+        </tr>
+        <tr>
+            <td class="td-center">51</td>
+            <td class="td-code">060201</td>
+            <td class="td-desc">Janela de correr para vidro em alumínio anodizado cor natural, linha 25, complet</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">8,10</td>
+            <td class="td-right">15,30</td>
+            <td class="td-right positivo">+7,20</td>
+            <td class="td-right">R$ 557,90</td>
+            <td class="td-right td-bold positivo">R$ 4.016,88</td>
+        </tr>
+        <tr>
+            <td class="td-center">52</td>
+            <td class="td-code">030205</td>
+            <td class="td-desc">Fornecimento e aplicação de concreto USINADO Fck=30 MPa  - considerando lançamen</td>
+            <td class="td-center">QUADRA POLI</td>
+            <td class="td-center">m3</td>
+            <td class="td-right">131,86</td>
+            <td class="td-right">137,10</td>
+            <td class="td-right positivo">+5,24</td>
+            <td class="td-right">R$ 708,04</td>
+            <td class="td-right td-bold positivo">R$ 3.710,13</td>
+        </tr>
+        <tr>
+            <td class="td-center">53</td>
+            <td class="td-code">160104</td>
+            <td class="td-desc">Textura acrílica fina, marcas de referência Suvinil, Coral ou Metalatex, aplicaç</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">407,64</td>
+            <td class="td-right">577,22</td>
+            <td class="td-right positivo">+169,58</td>
+            <td class="td-right">R$ 19,10</td>
+            <td class="td-right td-bold positivo">R$ 3.238,98</td>
+        </tr>
+        <tr>
+            <td class="td-center">54</td>
+            <td class="td-code">060701</td>
+            <td class="td-desc">Brise metálico quadriculado tipo colméia, em alumínio anodizado branco, malha 10</td>
+            <td class="td-center">BLC. ADM</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">62,25</td>
+            <td class="td-right">66,58</td>
+            <td class="td-right positivo">+4,33</td>
+            <td class="td-right">R$ 740,68</td>
+            <td class="td-right td-bold positivo">R$ 3.207,14</td>
+        </tr>
+        <tr>
+            <td class="td-center">55</td>
+            <td class="td-code">320201</td>
+            <td class="td-desc">Cabo de cobre nú 50mm2, ref. TEL 5750, marca de referência Termotécnica ou equiv</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">m</td>
+            <td class="td-right">97,00</td>
+            <td class="td-right">142,74</td>
+            <td class="td-right positivo">+45,74</td>
+            <td class="td-right">R$ 68,06</td>
+            <td class="td-right td-bold positivo">R$ 3.113,06</td>
+        </tr>
+        <tr>
+            <td class="td-center">56</td>
+            <td class="td-code">130207</td>
+            <td class="td-desc">Tubo de PVC rígido soldável branco, para esgoto, série normal, diâmetro 75mm (3"</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">m</td>
+            <td class="td-right">4,95</td>
+            <td class="td-right">56,12</td>
+            <td class="td-right positivo">+51,17</td>
+            <td class="td-right">R$ 58,27</td>
+            <td class="td-right td-bold positivo">R$ 2.981,68</td>
+        </tr>
+        <tr>
+            <td class="td-center">57</td>
+            <td class="td-code">110101</td>
+            <td class="td-desc">Chapisco de argamassa de cimento e areia média ou grossa lavada, no traço 1:3, e</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">1.111,85</td>
+            <td class="td-right">1.539,94</td>
+            <td class="td-right positivo">+428,09</td>
+            <td class="td-right">R$ 6,85</td>
+            <td class="td-right td-bold positivo">R$ 2.932,42</td>
+        </tr>
+        <tr>
+            <td class="td-center">58</td>
+            <td class="td-code">110301</td>
+            <td class="td-desc">Emboço de argamassa de cimento, cal hidratada CH1 e areia  média ou grossa lavad</td>
+            <td class="td-center">BLC. ADM</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">328,98</td>
+            <td class="td-right">417,31</td>
+            <td class="td-right positivo">+88,33</td>
+            <td class="td-right">R$ 32,98</td>
+            <td class="td-right td-bold positivo">R$ 2.913,12</td>
+        </tr>
+        <tr>
+            <td class="td-center">59</td>
+            <td class="td-code">220101</td>
+            <td class="td-desc">Luminaria sobrepor compl., corpo ch. aço pintada branca, refletor e aletas parab</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">und</td>
+            <td class="td-right">5,00</td>
+            <td class="td-right">20,00</td>
+            <td class="td-right positivo">+15,00</td>
+            <td class="td-right">R$ 190,46</td>
+            <td class="td-right td-bold positivo">R$ 2.856,90</td>
+        </tr>
+        <tr>
+            <td class="td-center">60</td>
+            <td class="td-code">060301</td>
+            <td class="td-desc">Janela tipo maxim-ar para vidro em alumínio anodizado natural, linha 25, complet</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">2,95</td>
+            <td class="td-right">8,30</td>
+            <td class="td-right positivo">+5,35</td>
+            <td class="td-right">R$ 522,86</td>
+            <td class="td-right td-bold positivo">R$ 2.799,39</td>
+        </tr>
+        <tr>
+            <td class="td-center">61</td>
+            <td class="td-code">080203</td>
+            <td class="td-desc">Frontal de acabamento telha/telha onda inferior, em aço galvanizado, para telha </td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">m</td>
+            <td class="td-right">87,12</td>
+            <td class="td-right">134,83</td>
+            <td class="td-right positivo">+47,71</td>
+            <td class="td-right">R$ 57,21</td>
+            <td class="td-right td-bold positivo">R$ 2.729,49</td>
+        </tr>
+        <tr>
+            <td class="td-center">62</td>
+            <td class="td-code">120101</td>
+            <td class="td-desc">Regularização de base para revestimento de pisos porcelanato, empregando argamas</td>
+            <td class="td-center">BLC. PED</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">1.689,61</td>
+            <td class="td-right">1.580,64</td>
+            <td class="td-right positivo">+108,97</td>
+            <td class="td-right">R$ 24,36</td>
+            <td class="td-right td-bold positivo">R$ 2.654,51</td>
+        </tr>
+        <tr>
+            <td class="td-center">63</td>
+            <td class="td-code">140301</td>
+            <td class="td-desc">Hidrante de parede, com abrigo em chapa, 80x90x17cm, com suporte e mangueiras 2 </td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">und</td>
+            <td class="td-right">1,00</td>
+            <td class="td-right">2,00</td>
+            <td class="td-right positivo">+1,00</td>
+            <td class="td-right">R$ 2.408,69</td>
+            <td class="td-right td-bold positivo">R$ 2.408,69</td>
+        </tr>
+        <tr>
+            <td class="td-center">64</td>
+            <td class="td-code">120302</td>
+            <td class="td-desc">Rodapé de granito cinza esp. 2cm, h=7cm, assentado com argamassa de cimento, cal</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">m</td>
+            <td class="td-right">66,34</td>
+            <td class="td-right">121,71</td>
+            <td class="td-right positivo">+55,37</td>
+            <td class="td-right">R$ 43,26</td>
+            <td class="td-right td-bold positivo">R$ 2.395,49</td>
+        </tr>
+        <tr>
+            <td class="td-center">65</td>
+            <td class="td-code">160103</td>
+            <td class="td-desc">Pintura em paredes e forros, aplicação manual, com três demão de tinta
+látex acr</td>
+            <td class="td-center">BLC. PED</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">2.545,14</td>
+            <td class="td-right">2.457,69</td>
+            <td class="td-right positivo">+87,45</td>
+            <td class="td-right">R$ 26,30</td>
+            <td class="td-right td-bold positivo">R$ 2.299,93</td>
+        </tr>
+        <tr>
+            <td class="td-center">66</td>
+            <td class="td-code">130103</td>
+            <td class="td-desc">Tubo de PVC rígido soldável marrom, DN 75mm (2.1/2"), inclusive conexões</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">m</td>
+            <td class="td-right">36,41</td>
+            <td class="td-right">56,12</td>
+            <td class="td-right positivo">+19,71</td>
+            <td class="td-right">R$ 101,40</td>
+            <td class="td-right td-bold positivo">R$ 1.998,59</td>
+        </tr>
+        <tr>
+            <td class="td-center">67</td>
+            <td class="td-code">060401</td>
+            <td class="td-desc">Esquadria tipo visor fixo para vidro, em alumínio anodizado cor natural, linha 2</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">3,00</td>
+            <td class="td-right">7,46</td>
+            <td class="td-right positivo">+4,46</td>
+            <td class="td-right">R$ 436,46</td>
+            <td class="td-right td-bold positivo">R$ 1.944,87</td>
+        </tr>
+        <tr>
+            <td class="td-center">68</td>
+            <td class="td-code">050101</td>
+            <td class="td-desc">Marco de madeira de lei de 1ª (Peroba, Ipê, Angelim Pedra ou equivalente) com 15</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">und</td>
+            <td class="td-right">5,00</td>
+            <td class="td-right">10,00</td>
+            <td class="td-right positivo">+5,00</td>
+            <td class="td-right">R$ 387,73</td>
+            <td class="td-right td-bold positivo">R$ 1.938,65</td>
+        </tr>
+        <tr>
+            <td class="td-center">69</td>
+            <td class="td-code">080202</td>
+            <td class="td-desc">Arremate de borda lateral LR-40 em aço galvanizado, desenvolvimento 300 mm, pint</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">m</td>
+            <td class="td-right">6,53</td>
+            <td class="td-right">40,06</td>
+            <td class="td-right positivo">+33,53</td>
+            <td class="td-right">R$ 53,49</td>
+            <td class="td-right td-bold positivo">R$ 1.793,52</td>
+        </tr>
+        <tr>
+            <td class="td-center">70</td>
+            <td class="td-code">090701</td>
+            <td class="td-desc">Tubo de aço galvanizado com costura diam. 65mm, inclusive conexões</td>
+            <td class="td-center">QUADRA POLI</td>
+            <td class="td-center">m</td>
+            <td class="td-right">1,98</td>
+            <td class="td-right">12,00</td>
+            <td class="td-right positivo">+10,02</td>
+            <td class="td-right">R$ 165,87</td>
+            <td class="td-right td-bold positivo">R$ 1.662,02</td>
+        </tr>
+        <tr>
+            <td class="td-center">71</td>
+            <td class="td-code">080201</td>
+            <td class="td-desc">Cobertura em telha termoacustica tipo telha/telha em aço galvalume, chapa superi</td>
+            <td class="td-center">BLC. PED</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">1.961,65</td>
+            <td class="td-right">1.970,46</td>
+            <td class="td-right positivo">+8,81</td>
+            <td class="td-right">R$ 178,52</td>
+            <td class="td-right td-bold positivo">R$ 1.572,76</td>
+        </tr>
+        <tr>
+            <td class="td-center">72</td>
+            <td class="td-code">100102</td>
+            <td class="td-desc">Forro acústico em placa de fibra mineral 625x625x14 mm, apoiado sobre perfil em </td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">303,62</td>
+            <td class="td-right">319,42</td>
+            <td class="td-right positivo">+15,80</td>
+            <td class="td-right">R$ 98,98</td>
+            <td class="td-right td-bold positivo">R$ 1.563,88</td>
+        </tr>
+        <tr>
+            <td class="td-center">73</td>
+            <td class="td-code">120303</td>
+            <td class="td-desc">Peitoril de granito cinza andorinha polido largura de 17 cm, esp. 2 cm, com ping</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">m</td>
+            <td class="td-right">12,92</td>
+            <td class="td-right">31,60</td>
+            <td class="td-right positivo">+18,68</td>
+            <td class="td-right">R$ 81,95</td>
+            <td class="td-right td-bold positivo">R$ 1.530,83</td>
+        </tr>
+        <tr>
+            <td class="td-center">74</td>
+            <td class="td-code">110303</td>
+            <td class="td-desc">Tubo de aço galvanizado com costura ø 65 mm (2.1/2"), inclusive conexões, confor</td>
+            <td class="td-center">CST. ÁGUA</td>
+            <td class="td-center">m</td>
+            <td class="td-right">10,84</td>
+            <td class="td-right">19,63</td>
+            <td class="td-right positivo">+8,79</td>
+            <td class="td-right">R$ 165,87</td>
+            <td class="td-right td-bold positivo">R$ 1.458,00</td>
+        </tr>
+        <tr>
+            <td class="td-center">75</td>
+            <td class="td-code">190201</td>
+            <td class="td-desc">Cabo de cobre nú 50mm2, ref. TEL 5750, marca de referência Termotécnica ou equiv</td>
+            <td class="td-center">QUADRA POLI</td>
+            <td class="td-center">m</td>
+            <td class="td-right">121,00</td>
+            <td class="td-right">140,87</td>
+            <td class="td-right positivo">+19,87</td>
+            <td class="td-right">R$ 68,06</td>
+            <td class="td-right td-bold positivo">R$ 1.352,35</td>
+        </tr>
+        <tr>
+            <td class="td-center">76</td>
+            <td class="td-code">100104</td>
+            <td class="td-desc">Tubo de PVC rígido soldável marrom, DN 60mm (2"), inclusive conexões</td>
+            <td class="td-center">CST. ÁGUA</td>
+            <td class="td-center">m</td>
+            <td class="td-right">4,76</td>
+            <td class="td-right">24,48</td>
+            <td class="td-right positivo">+19,72</td>
+            <td class="td-right">R$ 68,21</td>
+            <td class="td-right td-bold positivo">R$ 1.345,10</td>
+        </tr>
+        <tr>
+            <td class="td-center">77</td>
+            <td class="td-code">160104</td>
+            <td class="td-desc">Textura acrílica fina, marcas de referência Suvinil, Coral ou Metalatex, aplicaç</td>
+            <td class="td-center">BLC. PED</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">802,77</td>
+            <td class="td-right">739,45</td>
+            <td class="td-right positivo">+63,32</td>
+            <td class="td-right">R$ 19,10</td>
+            <td class="td-right td-bold positivo">R$ 1.209,41</td>
+        </tr>
+        <tr>
+            <td class="td-center">78</td>
+            <td class="td-code">090201</td>
+            <td class="td-desc">Impermeabilização de superfície c/ revestimento impermeabilizante bicomponente s</td>
+            <td class="td-center">BLC. ADM</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">14,11</td>
+            <td class="td-right">116,49</td>
+            <td class="td-right positivo">+102,38</td>
+            <td class="td-right">R$ 11,78</td>
+            <td class="td-right td-bold positivo">R$ 1.206,04</td>
+        </tr>
+        <tr>
+            <td class="td-center">79</td>
+            <td class="td-code">100502</td>
+            <td class="td-desc">Registro de gaveta bruto diam. 40mm (11/2")</td>
+            <td class="td-center">CST. ÁGUA</td>
+            <td class="td-center">und</td>
+            <td class="td-right">3,00</td>
+            <td class="td-right">11,00</td>
+            <td class="td-right positivo">+8,00</td>
+            <td class="td-right">R$ 144,62</td>
+            <td class="td-right td-bold positivo">R$ 1.156,96</td>
+        </tr>
+        <tr>
+            <td class="td-center">80</td>
+            <td class="td-code">150101</td>
+            <td class="td-desc">Vaso sanitário padrão popular completo com acessórios para ligação, marcas de re</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">und</td>
+            <td class="td-right">4,00</td>
+            <td class="td-right">6,00</td>
+            <td class="td-right positivo">+2,00</td>
+            <td class="td-right">R$ 555,15</td>
+            <td class="td-right td-bold positivo">R$ 1.110,30</td>
+        </tr>
+        <tr>
+            <td class="td-center">81</td>
+            <td class="td-code">150304</td>
+            <td class="td-desc">Válvula de Descarga com acabamento anti-vandalismo, marcas de referência Fabrima</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">und</td>
+            <td class="td-right">4,00</td>
+            <td class="td-right">6,00</td>
+            <td class="td-right positivo">+2,00</td>
+            <td class="td-right">R$ 538,13</td>
+            <td class="td-right td-bold positivo">R$ 1.076,26</td>
+        </tr>
+        <tr>
+            <td class="td-center">82</td>
+            <td class="td-code">150302</td>
+            <td class="td-desc">Torneira para lavatório linha anti-vandalismo, marcas de referência Fabrimar, De</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">und</td>
+            <td class="td-right">4,00</td>
+            <td class="td-right">6,00</td>
+            <td class="td-right positivo">+2,00</td>
+            <td class="td-right">R$ 523,03</td>
+            <td class="td-right td-bold positivo">R$ 1.046,06</td>
+        </tr>
+        <tr>
+            <td class="td-center">83</td>
+            <td class="td-code">320103</td>
+            <td class="td-desc">Barra chata em alumínio 7/8"x1/8" (70mm²), com furos diâmetro 7 mm ref. TEL-771,</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">m</td>
+            <td class="td-right">40,00</td>
+            <td class="td-right">66,20</td>
+            <td class="td-right positivo">+26,20</td>
+            <td class="td-right">R$ 38,60</td>
+            <td class="td-right td-bold positivo">R$ 1.011,32</td>
+        </tr>
+        <tr>
+            <td class="td-center">84</td>
+            <td class="td-code">130104</td>
+            <td class="td-desc">Tubo de PVC rígido soldável marrom, DN 50mm (1.1/2"), inclusive conexões</td>
+            <td class="td-center">BLC. PED</td>
+            <td class="td-center">m</td>
+            <td class="td-right">39,18</td>
+            <td class="td-right">21,53</td>
+            <td class="td-right positivo">+17,65</td>
+            <td class="td-right">R$ 47,72</td>
+            <td class="td-right td-bold positivo">R$ 842,26</td>
+        </tr>
+        <tr>
+            <td class="td-center">85</td>
+            <td class="td-code">130208</td>
+            <td class="td-desc">Tubo de PVC rígido soldável branco, para esgoto, série normal, diâmetro 75mm (3"</td>
+            <td class="td-center">BLC. ADM</td>
+            <td class="td-center">m</td>
+            <td class="td-right">4,13</td>
+            <td class="td-right">18,36</td>
+            <td class="td-right positivo">+14,23</td>
+            <td class="td-right">R$ 58,27</td>
+            <td class="td-right td-bold positivo">R$ 829,18</td>
+        </tr>
+        <tr>
+            <td class="td-center">86</td>
+            <td class="td-code">130204</td>
+            <td class="td-desc">Tubo PVC rígido soldável branco, para esgoto, no diâmetro de 100mm (4"), inclusi</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">m</td>
+            <td class="td-right">14,21</td>
+            <td class="td-right">21,96</td>
+            <td class="td-right positivo">+7,75</td>
+            <td class="td-right">R$ 91,27</td>
+            <td class="td-right td-bold positivo">R$ 707,34</td>
+        </tr>
+        <tr>
+            <td class="td-center">87</td>
+            <td class="td-code">140601</td>
+            <td class="td-desc">Acionador manual de alarme de incêndio endereçavel wireless, Autonomia: 12 meses</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">und</td>
+            <td class="td-right">1,00</td>
+            <td class="td-right">2,00</td>
+            <td class="td-right positivo">+1,00</td>
+            <td class="td-right">R$ 623,15</td>
+            <td class="td-right td-bold positivo">R$ 623,15</td>
+        </tr>
+        <tr>
+            <td class="td-center">88</td>
+            <td class="td-code">140501</td>
+            <td class="td-desc">Bloco autônomo de iluminação de emergência 30 LEDS, Bivolt, Autonomia de 6 hrs, </td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">und</td>
+            <td class="td-right">6,00</td>
+            <td class="td-right">15,00</td>
+            <td class="td-right positivo">+9,00</td>
+            <td class="td-right">R$ 63,32</td>
+            <td class="td-right td-bold positivo">R$ 569,88</td>
+        </tr>
+        <tr>
+            <td class="td-center">89</td>
+            <td class="td-code">130205</td>
+            <td class="td-desc">Tubo de PVC rígido soldável marrom, DN 25mm (3/4"), inclusive conexões</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">m</td>
+            <td class="td-right">33,11</td>
+            <td class="td-right">57,22</td>
+            <td class="td-right positivo">+24,11</td>
+            <td class="td-right">R$ 22,43</td>
+            <td class="td-right td-bold positivo">R$ 540,79</td>
+        </tr>
+        <tr>
+            <td class="td-center">90</td>
+            <td class="td-code">100101</td>
+            <td class="td-desc">Tubo de PVC rígido soldável marrom, DN 32mm (1"), inclusive conexões</td>
+            <td class="td-center">CST. ÁGUA</td>
+            <td class="td-center">m</td>
+            <td class="td-right">20,90</td>
+            <td class="td-right">39,89</td>
+            <td class="td-right positivo">+18,99</td>
+            <td class="td-right">R$ 26,69</td>
+            <td class="td-right td-bold positivo">R$ 506,84</td>
+        </tr>
+        <tr>
+            <td class="td-center">91</td>
+            <td class="td-code">130205</td>
+            <td class="td-desc">Tubo de PVC rígido soldável marrom, DN 25mm (3/4"), inclusive conexões</td>
+            <td class="td-center">BLC. ADM</td>
+            <td class="td-center">m</td>
+            <td class="td-right">29,77</td>
+            <td class="td-right">51,14</td>
+            <td class="td-right positivo">+21,37</td>
+            <td class="td-right">R$ 22,43</td>
+            <td class="td-right td-bold positivo">R$ 479,33</td>
+        </tr>
+        <tr>
+            <td class="td-center">92</td>
+            <td class="td-code">220305</td>
+            <td class="td-desc">Tomada padrão brasileiro linha branca, NBR 14136 2 polos + terra 10A/250V, com p</td>
+            <td class="td-center">BLC. ADM</td>
+            <td class="td-center">und</td>
+            <td class="td-right">34,00</td>
+            <td class="td-right">47,00</td>
+            <td class="td-right positivo">+13,00</td>
+            <td class="td-right">R$ 35,90</td>
+            <td class="td-right td-bold positivo">R$ 466,70</td>
+        </tr>
+        <tr>
+            <td class="td-center">93</td>
+            <td class="td-code">140101</td>
+            <td class="td-desc">Extintor de incêndio portátil de pó químico ABC com capacidade 2A-20B:C (6 kg), </td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">und</td>
+            <td class="td-right">2,00</td>
+            <td class="td-right">4,00</td>
+            <td class="td-right positivo">+2,00</td>
+            <td class="td-right">R$ 211,07</td>
+            <td class="td-right td-bold positivo">R$ 422,14</td>
+        </tr>
+        <tr>
+            <td class="td-center">94</td>
+            <td class="td-code">220302</td>
+            <td class="td-desc">Tomada padrão brasileiro linha branca, NBR 14136 2 polos + terra 10A/250V, com p</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">und</td>
+            <td class="td-right">8,00</td>
+            <td class="td-right">19,00</td>
+            <td class="td-right positivo">+11,00</td>
+            <td class="td-right">R$ 35,90</td>
+            <td class="td-right td-bold positivo">R$ 394,90</td>
+        </tr>
+        <tr>
+            <td class="td-center">95</td>
+            <td class="td-code">320101</td>
+            <td class="td-desc">Cabo de cobre nú 35mm2, ref. TEL 5735, marca de referência Termotécnica ou equiv</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">m</td>
+            <td class="td-right">6,00</td>
+            <td class="td-right">15,04</td>
+            <td class="td-right positivo">+9,04</td>
+            <td class="td-right">R$ 42,38</td>
+            <td class="td-right td-bold positivo">R$ 383,12</td>
+        </tr>
+        <tr>
+            <td class="td-center">96</td>
+            <td class="td-code">050201</td>
+            <td class="td-desc">Cobertura em telha termoacustica tipo telha/telha em aço galvalume, chapa superi</td>
+            <td class="td-center">QUADRA POLI</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">882,58</td>
+            <td class="td-right">884,64</td>
+            <td class="td-right positivo">+2,06</td>
+            <td class="td-right">R$ 178,52</td>
+            <td class="td-right td-bold positivo">R$ 367,75</td>
+        </tr>
+        <tr>
+            <td class="td-center">97</td>
+            <td class="td-code">130207</td>
+            <td class="td-desc">Tubo de PVC rígido soldável branco, para esgoto, série normal, diâmetro 50mm (2"</td>
+            <td class="td-center">BLC. ADM</td>
+            <td class="td-center">m</td>
+            <td class="td-right">4,62</td>
+            <td class="td-right">14,09</td>
+            <td class="td-right positivo">+9,47</td>
+            <td class="td-right">R$ 37,77</td>
+            <td class="td-right td-bold positivo">R$ 357,68</td>
+        </tr>
+        <tr>
+            <td class="td-center">98</td>
+            <td class="td-code">110101</td>
+            <td class="td-desc">Chapisco de argamassa de cimento e areia média ou grossa lavada, no traço 1:3, e</td>
+            <td class="td-center">BLC. ADM</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">1.750,66</td>
+            <td class="td-right">1.802,22</td>
+            <td class="td-right positivo">+51,56</td>
+            <td class="td-right">R$ 6,85</td>
+            <td class="td-right td-bold positivo">R$ 353,19</td>
+        </tr>
+        <tr>
+            <td class="td-center">99</td>
+            <td class="td-code">100102</td>
+            <td class="td-desc">Tubo de PVC rígido soldável marrom, DN 40mm (1.1/4"), inclusive conexões</td>
+            <td class="td-center">CST. ÁGUA</td>
+            <td class="td-center">m</td>
+            <td class="td-right">20,79</td>
+            <td class="td-right">30,68</td>
+            <td class="td-right positivo">+9,89</td>
+            <td class="td-right">R$ 34,94</td>
+            <td class="td-right td-bold positivo">R$ 345,56</td>
+        </tr>
+        <tr>
+            <td class="td-center">100</td>
+            <td class="td-code">080205</td>
+            <td class="td-desc">Rufo lateral em aço galvalume, pintura eletrostática cor branca em todas as face</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">m</td>
+            <td class="td-right">36,33</td>
+            <td class="td-right">42,47</td>
+            <td class="td-right positivo">+6,14</td>
+            <td class="td-right">R$ 53,19</td>
+            <td class="td-right td-bold positivo">R$ 326,59</td>
+        </tr>
+        <tr>
+            <td class="td-center">101</td>
+            <td class="td-code">340203</td>
+            <td class="td-desc">Kit completo para solda Exotérmica (Molde HCL 5/8" Ref: TEL905611 / Cartucho n° </td>
+            <td class="td-center">BLC. ADM</td>
+            <td class="td-center">und</td>
+            <td class="td-right">9,00</td>
+            <td class="td-right">15,00</td>
+            <td class="td-right positivo">+6,00</td>
+            <td class="td-right">R$ 49,06</td>
+            <td class="td-right td-bold positivo">R$ 294,36</td>
+        </tr>
+        <tr>
+            <td class="td-center">102</td>
+            <td class="td-code">130203</td>
+            <td class="td-desc">Tubo PVC rígido soldável branco, para esgoto, no diâmetro de 75mm (2 1/2"), incl</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">m</td>
+            <td class="td-right">8,97</td>
+            <td class="td-right">12,36</td>
+            <td class="td-right positivo">+3,39</td>
+            <td class="td-right">R$ 76,93</td>
+            <td class="td-right td-bold positivo">R$ 260,79</td>
+        </tr>
+        <tr>
+            <td class="td-center">103</td>
+            <td class="td-code">130206</td>
+            <td class="td-desc">Tubo de PVC rígido soldável branco, para esgoto, série normal, diâmetro 40mm (1 </td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">m</td>
+            <td class="td-right">4,62</td>
+            <td class="td-right">12,44</td>
+            <td class="td-right positivo">+7,82</td>
+            <td class="td-right">R$ 29,45</td>
+            <td class="td-right td-bold positivo">R$ 230,30</td>
+        </tr>
+        <tr>
+            <td class="td-center">104</td>
+            <td class="td-code">150502</td>
+            <td class="td-desc">Porta sabonete líquido ABS, com reservatório, dimensões 29x12x11 cm, com fechadu</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">und</td>
+            <td class="td-right">4,00</td>
+            <td class="td-right">6,00</td>
+            <td class="td-right positivo">+2,00</td>
+            <td class="td-right">R$ 111,50</td>
+            <td class="td-right td-bold positivo">R$ 223,00</td>
+        </tr>
+        <tr>
+            <td class="td-center">105</td>
+            <td class="td-code">150503</td>
+            <td class="td-desc">Porta papel toalha ABS ou equivalente, interfolhado 2 ou 3 dobras, dimensões 37x</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">und</td>
+            <td class="td-right">4,00</td>
+            <td class="td-right">6,00</td>
+            <td class="td-right positivo">+2,00</td>
+            <td class="td-right">R$ 97,13</td>
+            <td class="td-right td-bold positivo">R$ 194,26</td>
+        </tr>
+        <tr>
+            <td class="td-center">106</td>
+            <td class="td-code">150501</td>
+            <td class="td-desc">Porta papel higiênico ABS ou equivalente, rolo de 300 a 400 m, dimensões 27.5x27</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">und</td>
+            <td class="td-right">6,00</td>
+            <td class="td-right">8,00</td>
+            <td class="td-right positivo">+2,00</td>
+            <td class="td-right">R$ 94,53</td>
+            <td class="td-right td-bold positivo">R$ 189,06</td>
+        </tr>
+        <tr>
+            <td class="td-center">107</td>
+            <td class="td-code">040101</td>
+            <td class="td-desc">Divisória de granito com 3 cm de  espessura, assentada com argamassa de cimento </td>
+            <td class="td-center">BLC. PED</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">47,04</td>
+            <td class="td-right">46,71</td>
+            <td class="td-right positivo">+0,33</td>
+            <td class="td-right">R$ 490,58</td>
+            <td class="td-right td-bold positivo">R$ 161,89</td>
+        </tr>
+        <tr>
+            <td class="td-center">108</td>
+            <td class="td-code">130106</td>
+            <td class="td-desc">Tubo de PVC rígido soldável marrom, DN 75mm (2.1/2"), inclusive conexões</td>
+            <td class="td-center">BLC. PED</td>
+            <td class="td-center">m</td>
+            <td class="td-right">8,83</td>
+            <td class="td-right">7,36</td>
+            <td class="td-right positivo">+1,47</td>
+            <td class="td-right">R$ 101,40</td>
+            <td class="td-right td-bold positivo">R$ 149,06</td>
+        </tr>
+        <tr>
+            <td class="td-center">109</td>
+            <td class="td-code">320101</td>
+            <td class="td-desc">Cabo de cobre nú 35mm2, ref. TEL 5735, marca de referência Termotécnica ou equiv</td>
+            <td class="td-center">BLC. PED</td>
+            <td class="td-center">m</td>
+            <td class="td-right">24,00</td>
+            <td class="td-right">20,93</td>
+            <td class="td-right positivo">+3,07</td>
+            <td class="td-right">R$ 42,38</td>
+            <td class="td-right td-bold positivo">R$ 130,11</td>
+        </tr>
+        <tr>
+            <td class="td-center">110</td>
+            <td class="td-code">220401</td>
+            <td class="td-desc">Interruptor de uma tecla simples 10A/250V, com placa 4x2"</td>
+            <td class="td-center">BLC. PED</td>
+            <td class="td-center">und</td>
+            <td class="td-right">14,00</td>
+            <td class="td-right">10,00</td>
+            <td class="td-right positivo">+4,00</td>
+            <td class="td-right">R$ 32,16</td>
+            <td class="td-right td-bold positivo">R$ 128,64</td>
+        </tr>
+        <tr>
+            <td class="td-center">111</td>
+            <td class="td-code">220301</td>
+            <td class="td-desc">Interruptor de uma tecla simples 10A/250V, com placa 4x2"</td>
+            <td class="td-center">BLC. ADM</td>
+            <td class="td-center">und</td>
+            <td class="td-right">12,00</td>
+            <td class="td-right">16,00</td>
+            <td class="td-right positivo">+4,00</td>
+            <td class="td-right">R$ 32,16</td>
+            <td class="td-right td-bold positivo">R$ 128,64</td>
+        </tr>
+        <tr>
+            <td class="td-center">112</td>
+            <td class="td-code">220303</td>
+            <td class="td-desc">Tomada padrão brasileiro linha branca, NBR 14136 2 polos + terra 20A/250V, com p</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">und</td>
+            <td class="td-right">2,00</td>
+            <td class="td-right">5,00</td>
+            <td class="td-right positivo">+3,00</td>
+            <td class="td-right">R$ 41,18</td>
+            <td class="td-right td-bold positivo">R$ 123,54</td>
+        </tr>
+        <tr>
+            <td class="td-center">113</td>
+            <td class="td-code">140602</td>
+            <td class="td-desc">Sirene simples branca 12V/300mA potência 105 dBi, conforme PT018/2014 - CBMES, R</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">und</td>
+            <td class="td-right">1,00</td>
+            <td class="td-right">2,00</td>
+            <td class="td-right positivo">+1,00</td>
+            <td class="td-right">R$ 97,96</td>
+            <td class="td-right td-bold positivo">R$ 97,96</td>
+        </tr>
+        <tr>
+            <td class="td-center">114</td>
+            <td class="td-code">220301</td>
+            <td class="td-desc">Interruptor de uma tecla simples 10A/250V, com placa 4x2"</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">und</td>
+            <td class="td-right">9,00</td>
+            <td class="td-right">12,00</td>
+            <td class="td-right positivo">+3,00</td>
+            <td class="td-right">R$ 32,16</td>
+            <td class="td-right td-bold positivo">R$ 96,48</td>
+        </tr>
+        <tr>
+            <td class="td-center">115</td>
+            <td class="td-code">140402</td>
+            <td class="td-desc">Caixa de ligação de alumínio silício, tipo CONDULETES, saída C, entrada rosquead</td>
+            <td class="td-center">QUADRA POLI</td>
+            <td class="td-center">und</td>
+            <td class="td-right">2,00</td>
+            <td class="td-right">4,00</td>
+            <td class="td-right positivo">+2,00</td>
+            <td class="td-right">R$ 43,55</td>
+            <td class="td-right td-bold positivo">R$ 87,10</td>
+        </tr>
+        <tr>
+            <td class="td-center">116</td>
+            <td class="td-code">130502</td>
+            <td class="td-desc">Adaptador de PVC soldável para registro, diâmetro 50mm x 1 1/2"</td>
+            <td class="td-center">BLC. ADM</td>
+            <td class="td-center">und</td>
+            <td class="td-right">4,00</td>
+            <td class="td-right">10,28</td>
+            <td class="td-right positivo">+6,28</td>
+            <td class="td-right">R$ 13,45</td>
+            <td class="td-right td-bold positivo">R$ 84,47</td>
+        </tr>
+        <tr>
+            <td class="td-center">117</td>
+            <td class="td-code">130203</td>
+            <td class="td-desc">Tubo PVC rígido soldável branco, para esgoto, no diâmetro de 75mm (2 1/2"), incl</td>
+            <td class="td-center">BLC. ADM</td>
+            <td class="td-center">m</td>
+            <td class="td-right">17,35</td>
+            <td class="td-right">18,36</td>
+            <td class="td-right positivo">+1,01</td>
+            <td class="td-right">R$ 76,93</td>
+            <td class="td-right td-bold positivo">R$ 77,70</td>
+        </tr>
+        <tr>
+            <td class="td-center">118</td>
+            <td class="td-code">340102</td>
+            <td class="td-desc">Terminal estanhado de 1 compressão 1 furo, 35mm², ref. TEL-5135, marca de referê</td>
+            <td class="td-center">BLC. ADM</td>
+            <td class="td-center">und</td>
+            <td class="td-right">16,00</td>
+            <td class="td-right">18,00</td>
+            <td class="td-right positivo">+2,00</td>
+            <td class="td-right">R$ 25,93</td>
+            <td class="td-right td-bold positivo">R$ 51,86</td>
+        </tr>
+        <tr>
+            <td class="td-center">119</td>
+            <td class="td-code">200203</td>
+            <td class="td-desc">Kit completo para solda Exotérmica (Molde HCL 5/8" Ref: TEL905611 / Cartucho n° </td>
+            <td class="td-center">CST. ÁGUA</td>
+            <td class="td-center">und</td>
+            <td class="td-right">4,00</td>
+            <td class="td-right">5,00</td>
+            <td class="td-right positivo">+1,00</td>
+            <td class="td-right">R$ 49,06</td>
+            <td class="td-right td-bold positivo">R$ 49,06</td>
+        </tr>
+        <tr>
+            <td class="td-center">120</td>
+            <td class="td-code">100101</td>
+            <td class="td-desc">Aplicação de gesso calcinado de pega lenta para revestimento interno, 5mm de esp</td>
+            <td class="td-center">BLC. ADM</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">593,27</td>
+            <td class="td-right">595,75</td>
+            <td class="td-right positivo">+2,48</td>
+            <td class="td-right">R$ 18,51</td>
+            <td class="td-right td-bold positivo">R$ 45,90</td>
+        </tr>
+        <tr>
+            <td class="td-center">121</td>
+            <td class="td-code">140206</td>
+            <td class="td-desc">Placa de sinalização de segurança CODIGO 23 - 224(NBR 13.434); CÓDIGO E5 (NT 14/</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">und</td>
+            <td class="td-right">2,00</td>
+            <td class="td-right">4,00</td>
+            <td class="td-right positivo">+2,00</td>
+            <td class="td-right">R$ 22,50</td>
+            <td class="td-right td-bold positivo">R$ 45,00</td>
+        </tr>
+        <tr>
+            <td class="td-center">122</td>
+            <td class="td-code">340202</td>
+            <td class="td-desc">Terminal estanhado de 1 compressão 1 furo, 50mm², ref. TEL-5150, marca de referê</td>
+            <td class="td-center">BLC. ADM</td>
+            <td class="td-center">und</td>
+            <td class="td-right">8,00</td>
+            <td class="td-right">9,00</td>
+            <td class="td-right positivo">+1,00</td>
+            <td class="td-right">R$ 41,13</td>
+            <td class="td-right td-bold positivo">R$ 41,13</td>
+        </tr>
+        <tr>
+            <td class="td-center">123</td>
+            <td class="td-code">140207</td>
+            <td class="td-desc">Sinalização de solo p/ equip. de combate a incêndio, símbolo quadrado 1.00x1.00 </td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">und</td>
+            <td class="td-right">2,00</td>
+            <td class="td-right">4,00</td>
+            <td class="td-right positivo">+2,00</td>
+            <td class="td-right">R$ 18,33</td>
+            <td class="td-right td-bold positivo">R$ 36,66</td>
+        </tr>
+        <tr>
+            <td class="td-center">124</td>
+            <td class="td-code">100606</td>
+            <td class="td-desc">Adaptador de PVC soldável com flanges livres para caixa d'água, diâmetro 40mm x </td>
+            <td class="td-center">CST. ÁGUA</td>
+            <td class="td-center">und</td>
+            <td class="td-right">1,00</td>
+            <td class="td-right">2,00</td>
+            <td class="td-right positivo">+1,00</td>
+            <td class="td-right">R$ 34,36</td>
+            <td class="td-right td-bold positivo">R$ 34,36</td>
+        </tr>
+        <tr>
+            <td class="td-center">125</td>
+            <td class="td-code">130102</td>
+            <td class="td-desc">Tubo de PVC rígido soldável marrom, DN 32mm (1"), inclusive conexões</td>
+            <td class="td-center">BLC. PED</td>
+            <td class="td-center">m</td>
+            <td class="td-right">4,93</td>
+            <td class="td-right">4,01</td>
+            <td class="td-right positivo">+0,92</td>
+            <td class="td-right">R$ 26,69</td>
+            <td class="td-right td-bold positivo">R$ 24,55</td>
+        </tr>
+        <tr>
+            <td class="td-center">126</td>
+            <td class="td-code">140205</td>
+            <td class="td-desc">Placa de sinalização de segurança CODIGO 20 - 224(NBR 13.434); CÓDIGO E1 (NT 14/</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">und</td>
+            <td class="td-right">1,00</td>
+            <td class="td-right">2,00</td>
+            <td class="td-right positivo">+1,00</td>
+            <td class="td-right">R$ 22,50</td>
+            <td class="td-right td-bold positivo">R$ 22,50</td>
+        </tr>
+        <tr>
+            <td class="td-center">127</td>
+            <td class="td-code">140201</td>
+            <td class="td-desc">Placa de sinalização de segurança CODIGO 25 - 224(NBR 13.434); CÓDIGO E7 (NT 14/</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">und</td>
+            <td class="td-right">1,00</td>
+            <td class="td-right">2,00</td>
+            <td class="td-right positivo">+1,00</td>
+            <td class="td-right">R$ 22,50</td>
+            <td class="td-right td-bold positivo">R$ 22,50</td>
+        </tr>
+        <tr>
+            <td class="td-center">128</td>
+            <td class="td-code">130201</td>
+            <td class="td-desc">Tubo PVC rígido soldável branco, para esgoto, no diâmetro de 40mm (1 1/2"), incl</td>
+            <td class="td-center">BLC. AUD/PASS</td>
+            <td class="td-center">m</td>
+            <td class="td-right">12,07</td>
+            <td class="td-right">12,44</td>
+            <td class="td-right positivo">+0,37</td>
+            <td class="td-right">R$ 48,11</td>
+            <td class="td-right td-bold positivo">R$ 17,80</td>
+        </tr>
+        <tr>
+            <td class="td-center">129</td>
+            <td class="td-code">060402</td>
+            <td class="td-desc">Báscula de correr para vidro em alumínio anodizado, cor natural, linha 25, compl</td>
+            <td class="td-center">BLC. PED</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">0,74</td>
+            <td class="td-right">0,74</td>
+            <td class="td-right positivo">+0,00</td>
+            <td class="td-right">R$ 581,60</td>
+            <td class="td-right td-bold positivo">R$ 1,16</td>
+        </tr>
+        <tr>
+            <td class="td-center">130</td>
+            <td class="td-code">080202</td>
+            <td class="td-desc">Arremate de borda lateral LR-40 em aço galvanizado, desenvolvimento 300 mm, pint</td>
+            <td class="td-center">BLC. ADM</td>
+            <td class="td-center">m</td>
+            <td class="td-right">26,95</td>
+            <td class="td-right">26,97</td>
+            <td class="td-right positivo">+0,02</td>
+            <td class="td-right">R$ 53,49</td>
+            <td class="td-right td-bold positivo">R$ 1,07</td>
+        </tr>
+        <tr>
+            <td class="td-center">131</td>
+            <td class="td-code">060502</td>
+            <td class="td-desc">Janela tipo maxim-ar para vidro em alumínio anodizado natural, linha 25, complet</td>
+            <td class="td-center">BLC. PED</td>
+            <td class="td-center">m2</td>
+            <td class="td-right">0,74</td>
+            <td class="td-right">0,74</td>
+            <td class="td-right positivo">+0,00</td>
+            <td class="td-right">R$ 522,86</td>
+            <td class="td-right td-bold positivo">R$ 1,05</td>
+        </tr>
+            </tbody>
+        </table>
+        </div>
+    </div>
+</div>
+
+<!-- ═══════ METODOLOGIA ═══════ -->
+<div id="metodologia" class="page-section hidden">
+    <div class="section" style="margin-top:24px">
+        <div class="section-title">Metodologia da Auditoria</div>
+        <div class="section-subtitle">Detalhamento do processo, escopo e limitações</div>
+
+        <div class="metodo-item">
+            <h4>1. Objetivo</h4>
+            <p>Auditoria de quantitativos do orçamento da obra pública (escola estadual) por meio de modelo BIM (Building Information Modeling), comparando as quantidades orçadas com as quantidades extraídas do modelo tridimensional. Este relatório apresenta <strong>exclusivamente os itens de aditivo</strong> — onde o BIM identificou quantidades superiores às orçadas.</p>
+        </div>
+
+        <div class="metodo-item">
+            <h4>2. Edificações Auditadas</h4>
+            <ul>
+                <li>Bloco Pedagógico</li>
+                <li>Bloco Administrativo</li>
+                <li>Quadra Poliesportiva (sem estrutura metálica)</li>
+                <li>Bloco Auditório e Passarela de Ligação</li>
+                <li>Castelo D'Água</li>
+            </ul>
+        </div>
+
+        <div class="metodo-item">
+            <h4>3. Edificações Não Auditadas</h4>
+            <ul>
+                <li>Salas Provisórias</li>
+                <li>Cozinha Provisória</li>
+                <li>Bloco Vivência e Serviços</li>
+                <li>Área Externa e Contenções</li>
+                <li>Instalação do Canteiro / Provisórios</li>
+            </ul>
+            <p style="margin-top:8px"><strong>Motivo:</strong> inexistência ou não disponibilidade dos projetos executivos.</p>
+        </div>
+
+        <div class="metodo-item">
+            <h4>4. Disciplinas Analisadas</h4>
+            <ul>
+                <li><strong>Arquitetura</strong> — completo</li>
+                <li><strong>Estrutura</strong> — parcial (volume de concreto, área de forma e peso de estrutura metálica)</li>
+                <li><strong>Inst. Hidrossanitárias</strong> — completo</li>
+                <li><strong>Elétrica</strong> — parcial (sem disjuntores e fiação)</li>
+                <li><strong>PCI</strong> — completo</li>
+                <li><strong>SPDA</strong> — completo</li>
+                <li><strong>HVAC</strong> — completo</li>
+            </ul>
+        </div>
+
+        <div class="metodo-item">
+            <h4>5. Critério de Aditivo</h4>
+            <p>São considerados <strong>aditivos</strong> os itens em que a quantidade levantada pelo modelo BIM é <strong>superior</strong> à quantidade constante no orçamento original. O impacto financeiro é calculado multiplicando a diferença de quantidade pelo valor unitário do orçamento.</p>
+            <p style="margin-top:8px"><strong>Fórmula:</strong> Aditivo (R$) = (Qtd BIM − Qtd Orçamento) × R$ Unitário</p>
+        </div>
+
+        <div class="metodo-item">
+            <h4>6. Resultados</h4>
+            <ul>
+                <li>Valor total do orçamento: <strong>R$ 18.094.836,90</strong></li>
+                <li>Total de itens com aditivo: <strong>131 itens</strong></li>
+                <li>Valor total dos aditivos: <strong>R$ 2.236.048,72</strong></li>
+                <li>Representa <strong>12,4%</strong> do valor total orçado</li>
+            </ul>
+        </div>
+
+        <div class="metodo-item">
+            <h4>7. Limitações</h4>
+            <ul>
+                <li>Análises incompletas em Estrutura e Elétrica devem-se à inexistência ou não disponibilidade de todos os projetos executivos</li>
+                <li>A Quadra Poliesportiva não inclui estrutura metálica na auditoria</li>
+                <li>Valores unitários do orçamento original foram mantidos — apenas quantidades foram revisadas</li>
+                <li>Este relatório não inclui itens retroativos (onde o orçamento superou o BIM)</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+</div>
+
+<div class="footer">
+    Dashboard gerado a partir do arquivo COMPARATIVO ORCAMENTO - FINAL.xlsx<br>
+    Auditoria de Quantitativos via Modelo BIM — Talismã
+</div>
+
+<script>
+Chart.defaults.font.family = "'Segoe UI', system-ui, sans-serif";
+Chart.defaults.font.size = 12;
+
+const coresEdif = ['#dc2626','#ef4444','#f97316','#f59e0b','#eab308'];
+const coresCat = ['#dc2626','#ef4444','#f97316','#f59e0b','#eab308','#84cc16','#10b981','#06b6d4','#3b82f6','#8b5cf6'];
+
+// Edificações - horizontal bar
+new Chart(document.getElementById('chartEdif'), {
+    type: 'bar',
+    data: {
+        labels: ["BLOCO AUDIT\u00d3RIO E PASSARELA", "BLOCO PEDAG\u00d3GICO", "BLOCO ADMINISTRATIVO", "QUADRA POLIESPORTIVA", "CASTELO D'\u00c1GUA"],
+        datasets: [{ label: 'Aditivo R$', data: [1444402.68, 432768.65, 270378.21, 64586.19, 23912.99], backgroundColor: coresEdif, borderRadius: 6 }]
+    },
+    options: {
+        indexAxis: 'y',
+        responsive: true,
+        plugins: {
+            legend: { display: false },
+            tooltip: { callbacks: { label: ctx => 'R$ ' + (ctx.raw/1e3).toFixed(1) + ' mil' } }
+        },
+        scales: { x: { ticks: { callback: v => 'R$ ' + (v/1e3).toFixed(0) + 'k' } } }
+    }
+});
+
+// Categorias - horizontal bar
+new Chart(document.getElementById('chartCat'), {
+    type: 'bar',
+    data: {
+        labels: ["COBERTURA", "ESTRUTURAS", "PISOS INTERNOS E EXTER", "PAREDES E PAIN\u00c9IS", "REVESTIMENTO DE PAREDE", "SERVI\u00c7OS COMPLEMENTARE", "INSTALA\u00c7\u00c3O DE INC\u00caNDIO", "ESQUADRIAS MET\u00c1LICAS", "APARELHOS DE AR-CONDIC", "INFRAESTRUTURA PARA IN"],
+        datasets: [{ label: 'Aditivo R$', data: [845822.04, 830177.97, 177835.86, 80418.24, 62512.69, 34628.06, 29377.14, 27084.0, 24632.43, 23142.53], backgroundColor: coresCat, borderRadius: 6 }]
+    },
+    options: {
+        indexAxis: 'y',
+        responsive: true,
+        plugins: {
+            legend: { display: false },
+            tooltip: { callbacks: { label: ctx => 'R$ ' + (ctx.raw/1e3).toFixed(1) + ' mil' } }
+        },
+        scales: { x: { ticks: { callback: v => 'R$ ' + (v/1e3).toFixed(0) + 'k' } } }
+    }
+});
+
+// Edificação comparativo
+new Chart(document.getElementById('chartEdifComp'), {
+    type: 'bar',
+    data: {
+        labels: ["BLOCO AUDIT\u00d3RIO E PASSARELA", "BLOCO PEDAG\u00d3GICO", "BLOCO ADMINISTRATIVO", "QUADRA POLIESPORTIVA", "CASTELO D'\u00c1GUA"],
+        datasets: [
+            { label: 'Valor Original', data: [1792299.37, 5439454.52, 2580193.77, 1837439.4, 526443.98], backgroundColor: '#3b82f6', borderRadius: 4 },
+            { label: 'Aditivo', data: [1444402.68, 432768.65, 270378.21, 64586.19, 23912.99], backgroundColor: '#dc2626', borderRadius: 4 }
+        ]
+    },
+    options: {
+        responsive: true,
+        plugins: { tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': R$ ' + (ctx.raw/1e3).toFixed(1) + ' mil' } } },
+        scales: { y: { ticks: { callback: v => 'R$ ' + (v/1e6).toFixed(1) + 'M' } } }
+    }
+});
+
+// Top 10
+new Chart(document.getElementById('chartTop10'), {
+    type: 'bar',
+    data: {
+        labels: ["080101 - 'Fornecimento, fabrica\u00e7\u00e3o, t", "030202 - F\u00f4rma de t\u00e1bua de madeira de", "080105 - 'Fornecimento, fabrica\u00e7\u00e3o, t", "080201 - Cobertura em telha termoacus", "030206 - Fornecimento e aplica\u00e7\u00e3o de ", "080101 - Fornecimento, fabrica\u00e7\u00e3o, tr", "120201 - Porcelanato polido, acabamen", "030305 - Fornecimento e aplica\u00e7\u00e3o de ", "030301 - F\u00f4rma em chapa de madeira co", "030202 - F\u00f4rma de t\u00e1bua de madeira de"],
+        datasets: [{ label: 'Aditivo R$', data: [318597.24, 263118.94, 221190.62, 146132.9, 140524.7, 122900.29, 108895.65, 92937.65, 80440.61, 62435.28], backgroundColor: '#dc2626', borderRadius: 6 }]
+    },
+    options: {
+        indexAxis: 'y',
+        responsive: true,
+        plugins: {
+            legend: { display: false },
+            tooltip: { callbacks: { label: ctx => 'R$ ' + ctx.raw.toLocaleString('pt-BR', {minimumFractionDigits:2}) } }
+        },
+        scales: { x: { ticks: { callback: v => 'R$ ' + (v/1e3).toFixed(0) + 'k' } } }
+    }
+});
+
+// Categorias pizza
+new Chart(document.getElementById('chartCatPizza'), {
+    type: 'doughnut',
+    data: {
+        labels: ["COBERTURA", "ESTRUTURAS", "PISOS INTERNOS E EXT", "PAREDES E PAIN\u00c9IS", "REVESTIMENTO DE PARE", "SERVI\u00c7OS COMPLEMENTA", "INSTALA\u00c7\u00c3O DE INC\u00caND", "ESQUADRIAS MET\u00c1LICAS", "APARELHOS DE AR-COND", "INFRAESTRUTURA PARA "],
+        datasets: [{ data: [845822.04, 830177.97, 177835.86, 80418.24, 62512.69, 34628.06, 29377.14, 27084.0, 24632.43, 23142.53], backgroundColor: coresCat, borderWidth: 2, borderColor: '#fff' }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: { position: 'right', labels: { boxWidth: 12, padding: 8, font: { size: 11 } } },
+            tooltip: { callbacks: { label: ctx => ctx.label + ': R$ ' + (ctx.raw/1e3).toFixed(1) + ' mil' } }
+        }
+    }
+});
+
+// Navigation
+function showSection(id) {
+    document.querySelectorAll('.page-section').forEach(s => s.classList.add('hidden'));
+    document.getElementById(id).classList.remove('hidden');
+    document.querySelectorAll('.nav a').forEach(a => a.classList.remove('active'));
+    event.target.classList.add('active');
+}
+
+// Search
+function filterTable() {
+    const query = document.getElementById('searchInput').value.toLowerCase();
+    const rows = document.querySelectorAll('#fullTable tbody tr');
+    rows.forEach(row => {
+        row.style.display = row.textContent.toLowerCase().includes(query) ? '' : 'none';
+    });
+}
+</script>
+
+</body>
+</html>
