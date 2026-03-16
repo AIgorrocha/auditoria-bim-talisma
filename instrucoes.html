@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Instruções de Uso — Auditoria BIM Talismã</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f8fafc; color: #1a1a2e; line-height: 1.7; }
+
+.header { background: linear-gradient(135deg, #0c4a6e 0%, #075985 50%, #0369a1 100%); color: white; padding: 40px 0; text-align: center; }
+.header h1 { font-size: 2em; font-weight: 700; margin-bottom: 6px; }
+.header p { font-size: 1em; opacity: 0.85; }
+
+.container { max-width: 900px; margin: 0 auto; padding: 20px; }
+
+.card { background: white; border-radius: 14px; padding: 28px 32px; margin: 20px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
+.card h2 { color: #0c4a6e; font-size: 1.2em; margin-bottom: 16px; border-left: 4px solid #0369a1; padding-left: 12px; }
+.card h3 { color: #334155; font-size: 1em; margin: 16px 0 8px; }
+
+p { margin-bottom: 12px; color: #475569; }
+ul, ol { padding-left: 24px; margin-bottom: 14px; color: #475569; }
+li { margin-bottom: 6px; }
+
+.cred-box { background: #f0f9ff; border: 2px solid #bae6fd; border-radius: 10px; padding: 18px 24px; margin: 14px 0; }
+.cred-box strong { color: #0c4a6e; }
+.cred-item { font-family: 'Cascadia Code', 'Fira Code', monospace; font-size: 1.1em; color: #0369a1; background: white; padding: 4px 12px; border-radius: 6px; display: inline-block; margin: 4px 0; }
+
+.link-box { background: #f0fdf4; border: 2px solid #bbf7d0; border-radius: 10px; padding: 14px 20px; margin: 10px 0; }
+.link-box a { color: #16a34a; font-weight: 600; word-break: break-all; }
+
+.warn-box { background: #fffbeb; border: 2px solid #fde68a; border-radius: 10px; padding: 14px 20px; margin: 14px 0; color: #92400e; }
+
+.file-table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 0.92em; }
+.file-table thead { background: #0c4a6e; color: white; }
+.file-table th { padding: 10px 14px; text-align: left; font-weight: 600; }
+.file-table td { padding: 10px 14px; border-bottom: 1px solid #f1f5f9; }
+.file-table tr:hover { background: #f8fafc; }
+
+.badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 0.8em; font-weight: 700; }
+.badge-green { background: #dcfce7; color: #16a34a; }
+.badge-blue { background: #e0f2fe; color: #0369a1; }
+.badge-red { background: #fef2f2; color: #dc2626; }
+.badge-orange { background: #fffbeb; color: #d97706; }
+
+.step { display: flex; gap: 16px; margin: 16px 0; align-items: flex-start; }
+.step-num { background: #0369a1; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9em; flex-shrink: 0; }
+.step-content { flex: 1; }
+.step-content strong { color: #1a1a2e; }
+
+.folder-tree { font-family: 'Cascadia Code', monospace; font-size: 0.88em; background: #1a1a2e; color: #94a3b8; padding: 20px; border-radius: 10px; margin: 14px 0; line-height: 1.8; }
+.folder-tree .folder { color: #60a5fa; }
+.folder-tree .file-html { color: #34d399; }
+.folder-tree .file-xlsx { color: #fbbf24; }
+.folder-tree .file-rvt { color: #f472b6; }
+.folder-tree .file-doc { color: #a78bfa; }
+
+.footer { text-align: center; padding: 24px; color: #94a3b8; font-size: 0.82em; }
+</style>
+</head>
+<body>
+
+<div class="header">
+    <h1>INSTRUÇÕES DE USO</h1>
+    <p>Auditoria de Quantitativos via Modelo BIM — Talismã</p>
+</div>
+
+<div class="container">
+
+<!-- ══════════════════════════════ -->
+<div class="card">
+    <h2>1. Acesso Online (Dashboards)</h2>
+    <p>Os dashboards podem ser acessados diretamente pelo navegador, sem precisar baixar nada:</p>
+
+    <div class="link-box">
+        <strong>Dashboard Completo (aditivos + retroativos):</strong><br>
+        <a href="https://aigorrocha.github.io/auditoria-bim-talisma/" target="_blank">https://aigorrocha.github.io/auditoria-bim-talisma/</a>
+    </div>
+    <div class="link-box">
+        <strong>Dashboard Aditivos (apenas itens com aditivo):</strong><br>
+        <a href="https://aigorrocha.github.io/auditoria-bim-talisma/aditivos.html" target="_blank">https://aigorrocha.github.io/auditoria-bim-talisma/aditivos.html</a>
+    </div>
+    <div class="link-box">
+        <strong>Relatório de Auditoria (rastreabilidade completa):</strong><br>
+        <a href="https://aigorrocha.github.io/auditoria-bim-talisma/relatorio.html" target="_blank">https://aigorrocha.github.io/auditoria-bim-talisma/relatorio.html</a>
+    </div>
+
+    <div class="cred-box">
+        <strong>Credenciais de acesso (tela de login dos dashboards):</strong><br>
+        <span>Usuário:</span> <span class="cred-item">auditor.talisma</span><br>
+        <span>Senha:</span> <span class="cred-item">BIM@2026</span>
+    </div>
+    <p>Uma vez logado em uma página, as outras abrem sem pedir senha novamente (mesma sessão do navegador).</p>
+
+
+</div>
+
+<!-- ══════════════════════════════ -->
+<div class="card">
+    <h2>2. Conteúdo da Pasta</h2>
+    <p>A pasta <strong>TALISMA</strong> contém todos os arquivos da auditoria organizados assim:</p>
+
+    <div class="folder-tree">
+        <span class="folder">TALISMA/</span><br>
+        ├── <span class="file-html">DASHBOARD AUDITORIA BIM - TALISMA.html</span> &nbsp; ← Dashboard completo<br>
+        ├── <span class="file-html">DASHBOARD ADITIVOS BIM - TALISMA.html</span> &nbsp; ← Dashboard só aditivos<br>
+        ├── <span class="file-html">RELATORIO AUDITORIA BIM - TALISMA.html</span> &nbsp; ← Relatório de auditoria<br>
+        ├── <span class="file-html">INSTRUCOES DE USO.html</span> &nbsp; ← Este arquivo<br>
+        ├── <span class="file-xlsx">COMPARATIVO ORCAMENTO - FINAL.xlsx</span> &nbsp; ← Planilha comparativa completa<br>
+        ├── <span class="file-doc">Finalizamos o comparativo...docx</span> &nbsp; ← Documento explicativo<br>
+        │<br>
+        ├── <span class="folder">BLOCO PEDAGOGICO/</span><br>
+        │&nbsp;&nbsp;&nbsp;├── <span class="file-rvt">*.rvt</span> &nbsp; ← Modelos BIM (Revit)<br>
+        │&nbsp;&nbsp;&nbsp;└── <span class="file-xlsx">*.xlsx</span> &nbsp; ← Tabelas de quantitativos exportadas<br>
+        │<br>
+        ├── <span class="folder">BLOCO ADMINISTRATIVO/</span><br>
+        ├── <span class="folder">BLOCO AUDITORIO E PASSARELA DE LIGACAO/</span><br>
+        ├── <span class="folder">QUADRA POLIESPORTIVA/</span><br>
+        ├── <span class="folder">CASTELO D'AGUA/</span><br>
+        └── <span class="folder">REFEITORIO/</span><br>
+    </div>
+
+    <table class="file-table">
+        <thead>
+            <tr><th>Tipo de Arquivo</th><th>Extensão</th><th>Quantidade</th><th>Para que serve</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><span class="badge badge-green">HTML</span> Dashboards e Relatório</td>
+                <td>.html</td>
+                <td>3</td>
+                <td>Abrir no navegador — visualização dos resultados</td>
+            </tr>
+            <tr>
+                <td><span class="badge badge-orange">XLSX</span> Tabelas de Quantitativos</td>
+                <td>.xlsx</td>
+                <td>48</td>
+                <td>Quantitativos exportados do modelo BIM (Revit)</td>
+            </tr>
+            <tr>
+                <td><span class="badge badge-red">RVT</span> Modelos BIM</td>
+                <td>.rvt</td>
+                <td>40</td>
+                <td>Modelos 3D do Revit — para verificação no software</td>
+            </tr>
+            <tr>
+                <td><span class="badge badge-blue">XLSX</span> Comparativo Final</td>
+                <td>.xlsx</td>
+                <td>1</td>
+                <td>Planilha completa com todos os 2.103 itens comparados</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- ══════════════════════════════ -->
+<div class="card">
+    <h2>3. Como Verificar um Item (Passo a Passo)</h2>
+    <p>Para o auditor verificar qualquer item da auditoria:</p>
+
+    <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+            <strong>Abra o Relatório de Auditoria</strong><br>
+            Abra o arquivo <code>RELATORIO AUDITORIA BIM - TALISMA.html</code> no navegador (ou acesse online pelo link).
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+            <strong>Navegue até o item</strong><br>
+            Escolha a edificação na aba superior → Clique na disciplina (ex: ARQUITETURA) → Clique na categoria (ex: COBERTURA) → Encontre o item pelo código.
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+            <strong>Verifique a referência</strong><br>
+            Cada grupo de itens mostra:
+            <ul>
+                <li><strong>Nome da Tabela</strong> — tabela de quantitativos do Revit de onde veio o dado</li>
+                <li><strong>Nome do Arquivo</strong> — modelo BIM utilizado</li>
+                <li><span class="badge badge-green">📄 Abrir XLSX</span> — clique para abrir a planilha de quantitativos</li>
+                <li><span class="badge badge-blue">🧊 Abrir RVT</span> — clique para abrir o modelo no Revit</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+            <strong>Confira no arquivo XLSX</strong><br>
+            Ao abrir o XLSX, procure pela tabela indicada no relatório. A quantidade extraída do modelo estará lá. Compare com a coluna "Qtd BIM" do relatório.
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+            <strong>(Opcional) Confira no modelo Revit</strong><br>
+            Se quiser ir mais a fundo, abra o arquivo .rvt no Autodesk Revit. Navegue até a tabela (View → Schedules) com o nome indicado no relatório para verificar a extração diretamente do modelo 3D.
+        </div>
+    </div>
+
+    <div class="warn-box">
+        <strong>Importante:</strong> Os links "Abrir XLSX" e "Abrir RVT" só funcionam quando o HTML é aberto de dentro desta pasta no computador local. Se acessar online pela Vercel, use os arquivos XLSX que estão nas subpastas de cada edificação.
+    </div>
+</div>
+
+<!-- ══════════════════════════════ -->
+<div class="card">
+    <h2>4. Descrição dos Dashboards</h2>
+
+    <h3>Dashboard Completo</h3>
+    <p>Visão geral da auditoria com aditivos E retroativos:</p>
+    <ul>
+        <li><strong>Painel Geral</strong> — KPIs (valor do orçamento, aditivo, retroativo, itens auditados), gráficos por edificação e disciplinas</li>
+        <li><strong>Por Edificação</strong> — Tabela comparativa das 5 edificações + tabela geral das 10</li>
+        <li><strong>Top Divergências</strong> — 30 itens com maior impacto financeiro</li>
+        <li><strong>Por Categoria</strong> — Agrupamento por tipo de serviço</li>
+        <li><strong>Metodologia</strong> — Escopo, processo, limitações</li>
+    </ul>
+
+    <h3>Dashboard Aditivos</h3>
+    <p>Versão focada apenas nos itens de aditivo (BIM > Orçamento):</p>
+    <ul>
+        <li>131 itens onde o levantamento BIM encontrou quantidade superior ao orçamento</li>
+        <li>Valor total dos aditivos: <strong>R$ 2.236.048,72</strong></li>
+        <li>Inclui lista completa dos 131 itens com busca/filtro</li>
+        <li><strong>Não inclui</strong> itens retroativos (onde o orçamento era maior que o BIM)</li>
+    </ul>
+
+    <h3>Relatório de Auditoria</h3>
+    <p>Documento técnico de rastreabilidade para o auditor:</p>
+    <ul>
+        <li>1.268 itens organizados por Edificação → Disciplina → Categoria → Tabela BIM</li>
+        <li>Links diretos para os arquivos XLSX e RVT</li>
+        <li>Justificativa/método de verificação para cada item</li>
+        <li>Aba de rastreabilidade com todos os 41 arquivos BIM e suas tabelas</li>
+    </ul>
+</div>
+
+<!-- ══════════════════════════════ -->
+<div class="card">
+    <h2>5. Nomenclatura dos Arquivos BIM</h2>
+    <p>Os arquivos seguem o padrão:</p>
+    <p style="text-align:center; font-family:monospace; font-size:1.1em; color:#0369a1; background:#f0f9ff; padding:12px; border-radius:8px;">
+        GUACUI-EEEFM_<strong>[DISCIPLINA]</strong>_<strong>[EDIFICAÇÃO]</strong>_QTD_R00
+    </p>
+
+    <table class="file-table">
+        <thead><tr><th>Código</th><th>Disciplina</th></tr></thead>
+        <tbody>
+            <tr><td><code>ARQ</code></td><td>Arquitetura</td></tr>
+            <tr><td><code>CONC.ARM</code></td><td>Concreto Armado (Estrutura)</td></tr>
+            <tr><td><code>MET</code></td><td>Estrutura Metálica</td></tr>
+            <tr><td><code>HID</code></td><td>Instalações Hidráulicas</td></tr>
+            <tr><td><code>SAN</code></td><td>Instalações Sanitárias</td></tr>
+            <tr><td><code>ELE</code></td><td>Instalações Elétricas</td></tr>
+            <tr><td><code>PCI</code></td><td>Prevenção e Combate a Incêndio</td></tr>
+            <tr><td><code>SPDA</code></td><td>Sistema de Proteção contra Descargas Atmosféricas</td></tr>
+            <tr><td><code>CLIM</code></td><td>Climatização (HVAC)</td></tr>
+        </tbody>
+    </table>
+
+    <table class="file-table">
+        <thead><tr><th>Código</th><th>Edificação</th></tr></thead>
+        <tbody>
+            <tr><td><code>BL.PEDAGOGICO</code></td><td>Bloco Pedagógico</td></tr>
+            <tr><td><code>BL.ADMINISTRATIVO</code></td><td>Bloco Administrativo</td></tr>
+            <tr><td><code>AUDITÓRIO</code></td><td>Bloco Auditório e Passarela de Ligação</td></tr>
+            <tr><td><code>QD.POLIESPORTIVA</code> / <code>QUADRA</code></td><td>Quadra Poliesportiva</td></tr>
+            <tr><td><code>CASTELODAGUA</code></td><td>Castelo D'Água</td></tr>
+            <tr><td><code>REFEITÓRIO</code></td><td>Refeitório (parte do Bloco Auditório)</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- ══════════════════════════════ -->
+<div class="card">
+    <h2>6. Dados Principais da Auditoria</h2>
+
+    <table class="file-table">
+        <tbody>
+            <tr><td><strong>Valor total do orçamento</strong></td><td style="text-align:right"><strong>R$ 18.094.836,90</strong></td></tr>
+            <tr><td><strong>Total de itens no orçamento</strong></td><td style="text-align:right">2.103</td></tr>
+            <tr><td><strong>Itens auditados</strong></td><td style="text-align:right">1.268 (60,3%)</td></tr>
+            <tr><td><strong>Itens com referência BIM direta</strong></td><td style="text-align:right">347</td></tr>
+            <tr><td><strong>Arquivos BIM utilizados</strong></td><td style="text-align:right">41</td></tr>
+            <tr><td style="color:#dc2626"><strong>Aditivo (apenas)</strong></td><td style="text-align:right; color:#dc2626"><strong>R$ 2.236.048,72</strong></td></tr>
+            <tr><td style="color:#d97706"><strong>Aditivo + Retroativo (saldo)</strong></td><td style="text-align:right; color:#d97706"><strong>R$ 1.650.517,10</strong></td></tr>
+        </tbody>
+    </table>
+
+    <h3>Edificações Auditadas</h3>
+    <table class="file-table">
+        <thead><tr><th>Edificação</th><th style="text-align:right">Valor Orçamento</th><th style="text-align:right">Aditivo</th></tr></thead>
+        <tbody>
+            <tr><td>Bloco Pedagógico</td><td style="text-align:right">R$ 5.439.454,52</td><td style="text-align:right; color:#dc2626">R$ 432.768,65</td></tr>
+            <tr><td>Bloco Administrativo</td><td style="text-align:right">R$ 2.580.193,77</td><td style="text-align:right; color:#dc2626">R$ 270.378,21</td></tr>
+            <tr><td>Quadra Poliesportiva</td><td style="text-align:right">R$ 1.837.439,40</td><td style="text-align:right; color:#dc2626">R$ 64.586,19</td></tr>
+            <tr><td>Bloco Auditório e Passarela</td><td style="text-align:right">R$ 1.792.299,37</td><td style="text-align:right; color:#dc2626">R$ 1.444.402,68</td></tr>
+            <tr><td>Castelo D'Água</td><td style="text-align:right">R$ 526.443,98</td><td style="text-align:right; color:#dc2626">R$ 23.912,99</td></tr>
+        </tbody>
+    </table>
+
+    <h3>Edificações NÃO Auditadas</h3>
+    <p>Salas Provisórias, Cozinha Provisória, Bloco Vivência e Serviços, Área Externa e Contenções, Instalação do Canteiro — por inexistência ou indisponibilidade dos projetos executivos.</p>
+</div>
+
+<!-- ══════════════════════════════ -->
+<div class="card">
+    <h2>7. Requisitos Técnicos</h2>
+    <ul>
+        <li><strong>Para visualizar dashboards e relatório:</strong> Qualquer navegador moderno (Chrome, Edge, Firefox)</li>
+        <li><strong>Para abrir arquivos XLSX:</strong> Microsoft Excel ou Google Sheets</li>
+        <li><strong>Para abrir arquivos RVT:</strong> Autodesk Revit 2024 ou superior</li>
+        <li><strong>Acesso online:</strong> Conexão com internet (para carregar os gráficos via Chart.js)</li>
+    </ul>
+
+    <div class="warn-box">
+        <strong>Sobre os links de arquivos no relatório:</strong> Os botões "Abrir XLSX" e "Abrir RVT" dentro do Relatório de Auditoria funcionam apenas quando o arquivo HTML está na mesma pasta que as subpastas das edificações. Mantenha a estrutura de pastas original.
+    </div>
+</div>
+
+</div>
+
+<div class="footer">
+    Auditoria de Quantitativos via Modelo BIM — Escola Estadual — Guaçuí/ES
+</div>
+
+</body>
+</html>
