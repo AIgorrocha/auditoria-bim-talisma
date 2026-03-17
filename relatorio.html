@@ -19,7 +19,7 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f0f2f5; colo
 
 .nav { background: white; border-bottom: 2px solid #e2e8f0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
 .nav-inner { display: flex; gap: 0; max-width: 1500px; margin: 0 auto; overflow-x: auto; }
-.nav a { padding: 12px 18px; text-decoration: none; color: #64748b; font-weight: 600; font-size: 0.82em; border-bottom: 3px solid transparent; transition: all 0.2s; white-space: nowrap; cursor: pointer; }
+.nav a { padding: 12px 18px; text-decoration: none; color: #64748b; font-weight: 600; font-size: 0.82em; border-bottom: 3px solid transparent; transition: all 0.2s; white-space: nowrap; cursor: default; }
 .nav a:hover, .nav a.active { color: #075985; border-bottom-color: #075985; background: #f0f9ff; }
 
 .hidden { display: none; }
@@ -103,9 +103,10 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f0f2f5; colo
 .td-just { max-width: 250px; font-size: 0.82em; color: #64748b; font-style: italic; }
 .tab-paths { display: flex; gap: 8px; margin-top: 4px; flex-wrap: wrap; }
 .path-chip { font-size: 0.78em; padding: 3px 10px; border-radius: 4px; font-family: 'Cascadia Code', monospace; text-decoration: none; display: inline-block; transition: opacity 0.2s; cursor: pointer; }
-.path-chip:hover { opacity: 0.8; text-decoration: underline; }
+.path-chip:hover { opacity: 1; text-decoration: none; }
 .path-chip.xlsx { background: #dcfce7; color: #166534; }
 .path-chip.rvt { background: #e0f2fe; color: #075985; }
+
 .positivo { color: #dc2626; }
 .negativo { color: #16a34a; }
 .green { color: #16a34a; }
@@ -161,6 +162,8 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f0f2f5; colo
     .stats-bar { gap: 10px; }
     .stat-num { font-size: 1.2em; }
 }
+
+.path-label { font-size: 0.72em; color: #94a3b8; font-family: "Cascadia Code", monospace; margin-right: 8px; }
 </style>
 </head>
 <body>
@@ -189,12 +192,8 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f0f2f5; colo
 <div class="stats-bar">
 <div class="stat-item"><span class="stat-num">20</span><span class="stat-label">Itens</span></div>
 <div class="stat-item"><span class="stat-num blue">20</span><span class="stat-label">Com Ref. BIM</span></div>
-
 <div class="stat-item"><span class="stat-num red">20</span><span class="stat-label">Aditivos</span></div>
-
 </div>
-
-
 <!-- Arquivos BIM desta edificação -->
 <div class="arq-summary">
 <strong>Arquivos BIM utilizados:</strong>
@@ -208,23 +207,17 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f0f2f5; colo
 <span class="disc-arrow">▶</span>
 <span class="disc-title">ARQUITETURA</span>
 <span class="disc-badge">11 itens</span>
-
 <span class="badge-sm red">↑ 11</span>
-
 </div>
 <div class="disc-content">
-
 <div class="cat-block">
 <div class="cat-header" onclick="this.parentElement.classList.toggle('cat-open')">
 <span class="cat-arrow">▸</span>
 <span class="cat-title">COBERTURA</span>
 <span class="cat-count">1 itens</span>
 <span class="badge-sm red">↑ 11</span>
-
 </div>
 <div class="cat-content">
-
-
 <div class="tab-block">
 <div class="tab-header">
 <div class="tab-info">
@@ -232,7 +225,7 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f0f2f5; colo
 <strong>Tabela:</strong> TELHADO BLOCO
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_ARQ_MOD_R00_20251203</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_ARQ_MOD_R00_20251203</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -265,17 +258,14 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f0f2f5; colo
 </div>
 </div>
 </div>
-
 <div class="cat-block">
 <div class="cat-header" onclick="this.parentElement.classList.toggle('cat-open')">
 <span class="cat-arrow">▸</span>
 <span class="cat-title">ESQUADRIAS METÁLICAS</span>
 <span class="cat-count">3 itens</span>
 <span class="badge-sm red">↑ 11</span>
-
 </div>
 <div class="cat-content">
-
 <div class="tab-block">
 <div class="tab-header">
 <div class="tab-info">
@@ -283,7 +273,7 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f0f2f5; colo
 <strong>Tabela:</strong> JANELA BLC PEDAGOGICO
                                 <span class="tab-count">3 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -311,10 +301,6 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f0f2f5; colo
 <td class="td-center"><span class="badge-red">ADITIVO</span></td>
 <td class="td-just">Tabela: JANELA BLC PEDAGOGICO</td>
 </tr>
-
-
-
-
 <tr>
 <td class="td-code">060402</td>
 <td class="td-desc" title="Báscula de correr para vidro em alumínio anodizado, cor natural, linha 25, completa, incl. puxador com tranca, caixilho, alizar e contramarco, exclusive vidro, dimensões 1,23x0,60 m (W6)">Báscula de correr para vidro em alumínio anodizado, cor natural, linha 25, compl</td>
@@ -339,15 +325,11 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f0f2f5; colo
 <td class="td-center"><span class="badge-red">ADITIVO</span></td>
 <td class="td-just">Tabela: JANELA BLC PEDAGOGICO</td>
 </tr>
-
 </tbody>
 </table>
 </div>
-
 </div>
 </div>
-
-
 <div class="cat-block">
 <div class="cat-header" onclick="this.parentElement.classList.toggle('cat-open')">
 <span class="cat-arrow">▸</span>
@@ -356,7 +338,6 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f0f2f5; colo
 <span class="badge-sm red">↑ 11</span>
 </div>
 <div class="cat-content">
-
 <div class="tab-block">
 <div class="tab-header">
 <div class="tab-info">
@@ -364,7 +345,7 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f0f2f5; colo
 <strong>Tabela:</strong> PAREDE - MATERIAL - BLC PEDAGOGICO
                                 <span class="tab-count">2 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -415,10 +396,8 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f0f2f5; colo
 <span class="cat-title">PINTURA</span>
 <span class="cat-count">2 itens</span>
 <span class="badge-sm red">↑ 11</span>
-
 </div>
 <div class="cat-content">
-
 <div class="tab-block">
 <div class="tab-header">
 <div class="tab-info">
@@ -426,7 +405,7 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f0f2f5; colo
 <strong>Tabela:</strong> PAREDE - MATERIAL - BLC PEDAGOGICO
                                 <span class="tab-count">2 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -442,7 +421,6 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f0f2f5; colo
 <th>Justificativa / Método</th>
 </tr></thead>
 <tbody>
-
 <tr>
 <td class="td-code">160103</td>
 <td class="td-desc" title="Pintura em paredes e forros, aplicação manual, com três demão de tinta
@@ -476,18 +454,14 @@ látex acr</td>
 </div>
 </div>
 </div>
-
 <div class="cat-block">
 <div class="cat-header" onclick="this.parentElement.classList.toggle('cat-open')">
 <span class="cat-arrow">▸</span>
 <span class="cat-title">PISOS INTERNOS E EXTERNOS</span>
 <span class="cat-count">1 itens</span>
 <span class="badge-sm red">↑ 11</span>
-
 </div>
 <div class="cat-content">
-
-
 <div class="tab-block">
 <div class="tab-header">
 <div class="tab-info">
@@ -495,7 +469,7 @@ látex acr</td>
 <strong>Tabela:</strong> PISO MAT / BLOCO - BLC PEDAGOGICO
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -511,7 +485,6 @@ látex acr</td>
 <th>Justificativa / Método</th>
 </tr></thead>
 <tbody>
-
 <tr>
 <td class="td-code">120101</td>
 <td class="td-desc" title="Regularização de base para revestimento de pisos porcelanato, empregando argamassa de cimento e areia no traço 1:5 e espessura de 3 cm">Regularização de base para revestimento de pisos porcelanato, empregando argamas</td>
@@ -535,10 +508,8 @@ látex acr</td>
 <span class="cat-title">REVESTIMENTO DE PAREDES</span>
 <span class="cat-count">1 itens</span>
 <span class="badge-sm red">↑ 11</span>
-
 </div>
 <div class="cat-content">
-
 <div class="tab-block">
 <div class="tab-header">
 <div class="tab-info">
@@ -546,7 +517,7 @@ látex acr</td>
 <strong>Tabela:</strong> PAREDE - MATERIAL - BLC PEDAGOGICO
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -562,7 +533,6 @@ látex acr</td>
 <th>Justificativa / Método</th>
 </tr></thead>
 <tbody>
-
 <tr>
 <td class="td-code">110302</td>
 <td class="td-desc" title="Cerâmica 10 x 10 cm, ref Camburi branco Eliane, Cecrisa ou Portobello, empregando argamassa colante, inclusive rejuntamento junta plus cinza claro esp. 3 mm">Cerâmica 10 x 10 cm, ref Camburi branco Eliane, Cecrisa ou Portobello, empregand</td>
@@ -575,13 +545,9 @@ látex acr</td>
 <td class="td-center"><span class="badge-red">ADITIVO</span></td>
 <td class="td-just">Tabela: PAREDE - MATERIAL - BLC PEDAGOGICO</td>
 </tr>
-
-
-
 </tbody>
 </table>
 </div>
-
 </div>
 </div>
 <div class="cat-block">
@@ -590,7 +556,6 @@ látex acr</td>
 <span class="cat-title">SERVIÇOS COMPLEMENTARES EXTERNOS</span>
 <span class="cat-count">1 itens</span>
 <span class="badge-sm red">↑ 11</span>
-
 </div>
 <div class="cat-content">
 <div class="tab-block">
@@ -600,7 +565,7 @@ látex acr</td>
 <strong>Tabela:</strong> GUARDA CORPO - BLC PEDAGOGICO
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -616,7 +581,6 @@ látex acr</td>
 <th>Justificativa / Método</th>
 </tr></thead>
 <tbody>
-
 <tr>
 <td class="td-code">170202</td>
 <td (corrimão="" (longarinas)="" (suportes="" 1.5="" 2"="" 304="" 4"="" aisi="" c="" canoplas="" chapa="" chumbadores="" class="td-desc" conf.="" corrimão)="" det."="" do="" duplo)="" e="" em="" esp.="" esp1.5mm,="" fixação="" inox="" mm,="" n.16,="" parabolt,="" title="Corrimão de tubo de aço inox AISI 304, Ø2" ø1.1="" ø3="">Corrimão de tubo de aço inox AISI 304, Ø2" (corrimão duplo) esp1.5mm, Ø1.1/2" (l</td>
@@ -634,8 +598,6 @@ látex acr</td>
 </div>
 </div>
 </div>
-
-
 </div>
 </div>
 <div class="disc-block">
@@ -644,17 +606,14 @@ látex acr</td>
 <span class="disc-title">ESTRUTURA — CONCRETO ARMADO</span>
 <span class="disc-badge">3 itens</span>
 <span class="badge-sm red">↑ 3</span>
-
 </div>
 <div class="disc-content">
-
 <div class="cat-block">
 <div class="cat-header" onclick="this.parentElement.classList.toggle('cat-open')">
 <span class="cat-arrow">▸</span>
 <span class="cat-title">ESTRUTURAS</span>
 <span class="cat-count">3 itens</span>
 <span class="badge-sm red">↑ 3</span>
-
 </div>
 <div class="cat-content">
 <div class="tab-block">
@@ -664,7 +623,7 @@ látex acr</td>
 <strong>Tabela:</strong> Resumo por material e por elemento
                                 <span class="tab-count">3 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_CONC.ARM_BL.PEDAGOGICO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_CONC.ARM_BL.PEDAGOGICO_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_CONC.ARM_BL.PEDAGOGICO_QTD_R00.RVT" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_CONC.ARM_BL.PEDAGOGICO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_CONC.ARM_BL.PEDAGOGICO_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_CONC.ARM_BL.PEDAGOGICO_QTD_R00.RVT" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -680,7 +639,6 @@ látex acr</td>
 <th>Justificativa / Método</th>
 </tr></thead>
 <tbody>
-
 <tr>
 <td class="td-code">030305</td>
 <td class="td-desc" title="Fornecimento e aplicação de concreto USINADO Fck=25 MPa - considerando BOMBEAMENTO (5% de perdas já incluído no custo) (6% de taxa p/concr.bombeavel)">Fornecimento e aplicação de concreto USINADO Fck=25 MPa - considerando BOMBEAMEN</td>
@@ -729,7 +687,6 @@ látex acr</td>
 <span class="disc-arrow">▶</span>
 <span class="disc-title">ESTRUTURA — METÁLICA</span>
 <span class="disc-badge">1 itens</span>
-
 <span class="badge-sm red">↑ 1</span>
 </div>
 <div class="disc-content">
@@ -741,7 +698,6 @@ látex acr</td>
 <span class="badge-sm red">↑ 1</span>
 </div>
 <div class="cat-content">
-
 <div class="tab-block">
 <div class="tab-header">
 <div class="tab-info">
@@ -749,7 +705,7 @@ látex acr</td>
 <strong>Tabela:</strong> Estrutura para cobertura - Blc Pedagogico
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_MET_BL.PEDAGOGICO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_MET_BL.PEDAGOGICO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -784,15 +740,12 @@ látex acr</td>
 </div>
 </div>
 </div>
-
 <div class="disc-block">
 <div class="disc-header" onclick="this.parentElement.classList.toggle('open')">
 <span class="disc-arrow">▶</span>
 <span class="disc-title">HIDROSSANITÁRIA — ÁGUA FRIA</span>
 <span class="disc-badge">3 itens</span>
-
 <span class="badge-sm red">↑ 3</span>
-
 </div>
 <div class="disc-content">
 <div class="cat-block">
@@ -801,10 +754,8 @@ látex acr</td>
 <span class="cat-title">INSTALAÇÕES HIDRO-SANITÁRIAS</span>
 <span class="cat-count">3 itens</span>
 <span class="badge-sm red">↑ 3</span>
-
 </div>
 <div class="cat-content">
-
 <div class="tab-block">
 <div class="tab-header">
 <div class="tab-info">
@@ -812,7 +763,7 @@ látex acr</td>
 <strong>Tabela:</strong> TUBOS RÍGIDOS PED
                                 <span class="tab-count">3 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_HID_BL.PEDAGOGICO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_HID_BL.PEDAGOGICO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -840,8 +791,6 @@ látex acr</td>
 <td class="td-center"><span class="badge-red">ADITIVO</span></td>
 <td class="td-just">Tabela: TUBOS RÍGIDOS PED</td>
 </tr>
-
-
 <tr>
 <td class="td-code">130106</td>
 <td ),="" class="td-desc" conexões"="" inclusive="" title="Tubo de PVC rígido soldável marrom, DN 75mm (2.1/2">Tubo de PVC rígido soldável marrom, DN 75mm (2.1/2"), inclusive conexões</td>
@@ -866,12 +815,6 @@ látex acr</td>
 <td class="td-center"><span class="badge-red">ADITIVO</span></td>
 <td class="td-just">Tabela: TUBOS RÍGIDOS PED</td>
 </tr>
-
-
-
-
-
-
 </tbody>
 </table>
 </div>
@@ -879,16 +822,12 @@ látex acr</td>
 </div>
 </div>
 </div>
-
-
 <div class="disc-block">
 <div class="disc-header" onclick="this.parentElement.classList.toggle('open')">
 <span class="disc-arrow">▶</span>
 <span class="disc-title">ELÉTRICA</span>
 <span class="disc-badge">1 itens</span>
-
 <span class="badge-sm red">↑ 1</span>
-
 </div>
 <div class="disc-content">
 <div class="cat-block">
@@ -897,10 +836,8 @@ látex acr</td>
 <span class="cat-title">APARELHOS ELÉTRICOS</span>
 <span class="cat-count">1 itens</span>
 <span class="badge-sm red">↑ 1</span>
-
 </div>
 <div class="cat-content">
-
 <div class="tab-block">
 <div class="tab-header">
 <div class="tab-info">
@@ -908,7 +845,7 @@ látex acr</td>
 <strong>Tabela:</strong> Lista de Materiais - Completa
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_ELE_BL.PEDAGOGICO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_ELE_BL.PEDAGOGICO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_ARQ_BL.PEDAGOGICO_QTD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -924,7 +861,6 @@ látex acr</td>
 <th>Justificativa / Método</th>
 </tr></thead>
 <tbody>
-
 <tr>
 <td class="td-code">220401</td>
 <td "="" class="td-desc" title="Interruptor de uma tecla simples 10A/250V, com placa 4x2">Interruptor de uma tecla simples 10A/250V, com placa 4x2"</td>
@@ -937,29 +873,19 @@ látex acr</td>
 <td class="td-center"><span class="badge-red">ADITIVO</span></td>
 <td class="td-just">Tabela: Lista de Materiais - Completa</td>
 </tr>
-
-
-
-
 </tbody>
 </table>
 </div>
 </div>
 </div>
-
-
-
 </div>
 </div>
-
 <div class="disc-block">
 <div class="disc-header" onclick="this.parentElement.classList.toggle('open')">
 <span class="disc-arrow">▶</span>
 <span class="disc-title">SPDA</span>
 <span class="disc-badge">1 itens</span>
-
 <span class="badge-sm red">↑ 1</span>
-
 </div>
 <div class="disc-content">
 <div class="cat-block">
@@ -968,10 +894,8 @@ látex acr</td>
 <span class="cat-title">INSTALAÇÃO DO SPDA</span>
 <span class="cat-count">1 itens</span>
 <span class="badge-sm red">↑ 1</span>
-
 </div>
 <div class="cat-content">
-
 <div class="tab-block">
 <div class="tab-header">
 <div class="tab-info">
@@ -979,7 +903,7 @@ látex acr</td>
 <strong>Tabela:</strong> QUANTITATIVOS DE CABOS - SPDA
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_SPDA_BL.PEDAGOGICO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_SPDA_BL.PEDAGOGICO_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_SPDA_BL.PEDAGOGICO_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_SPDA_BL.PEDAGOGICO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_SPDA_BL.PEDAGOGICO_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20PEDAGOGICO/GUACUI-EEEFM_SPDA_BL.PEDAGOGICO_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -1007,17 +931,13 @@ látex acr</td>
 <td class="td-center"><span class="badge-red">ADITIVO</span></td>
 <td class="td-just">Tabela: QUANTITATIVOS DE CABOS - SPDA</td>
 </tr>
-
 </tbody>
 </table>
 </div>
 </div>
 </div>
-
 </div>
 </div>
-
-
 </div>
 </div>
 <div class="page-section hidden" id="BLOCO_ADMINISTRATIVO">
@@ -1027,12 +947,8 @@ látex acr</td>
 <div class="stats-bar">
 <div class="stat-item"><span class="stat-num">30</span><span class="stat-label">Itens</span></div>
 <div class="stat-item"><span class="stat-num blue">30</span><span class="stat-label">Com Ref. BIM</span></div>
-
 <div class="stat-item"><span class="stat-num red">30</span><span class="stat-label">Aditivos</span></div>
-
 </div>
-
-
 <!-- Arquivos BIM desta edificação -->
 <div class="arq-summary">
 <strong>Arquivos BIM utilizados:</strong>
@@ -1046,9 +962,7 @@ látex acr</td>
 <span class="disc-arrow">▶</span>
 <span class="disc-title">ARQUITETURA</span>
 <span class="disc-badge">7 itens</span>
-
 <span class="badge-sm red">↑ 7</span>
-
 </div>
 <div class="disc-content">
 <div class="cat-block">
@@ -1057,10 +971,8 @@ látex acr</td>
 <span class="cat-title">COBERTURA</span>
 <span class="cat-count">1 itens</span>
 <span class="badge-sm red">↑ 7</span>
-
 </div>
 <div class="cat-content">
-
 <div class="tab-block">
 <div class="tab-header">
 <div class="tab-info">
@@ -1068,7 +980,7 @@ látex acr</td>
 <strong>Tabela:</strong> ACABAMENTO DE COBERTURA - BLC ADMINISTRATIVO
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_QTD_R00.xlsm" target="_blank">📄 Abrir XLSM</a><a class="path-chip rvt" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_QTD_R00</div><div class="tab-paths"><a class="path-chip rvt" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -1084,9 +996,6 @@ látex acr</td>
 <th>Justificativa / Método</th>
 </tr></thead>
 <tbody>
-
-
-
 <tr>
 <td class="td-code">080202</td>
 <td class="td-desc" title="Arremate de borda lateral LR-40 em aço galvanizado, desenvolvimento 300 mm, pintura cor branca em todas as faces, marcas de referência Perfilor, Dânica, Metform, Isoeste, MBP, Santo André ou Panissol, incl. acessório de fixação">Arremate de borda lateral LR-40 em aço galvanizado, desenvolvimento 300 mm, pint</td>
@@ -1102,10 +1011,8 @@ látex acr</td>
 </tbody>
 </table>
 </div>
-
 </div>
 </div>
-
 <div class="cat-block">
 <div class="cat-header" onclick="this.parentElement.classList.toggle('cat-open')">
 <span class="cat-arrow">▸</span>
@@ -1114,7 +1021,6 @@ látex acr</td>
 <span class="badge-sm red">↑ 7</span>
 </div>
 <div class="cat-content">
-
 <div class="tab-block">
 <div class="tab-header">
 <div class="tab-info">
@@ -1122,7 +1028,7 @@ látex acr</td>
 <strong>Tabela:</strong> BRISE METALICO - BL ADMINISTRATIVO
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_QTD_R00.xlsm" target="_blank">📄 Abrir XLSM</a><a class="path-chip rvt" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_QTD_R00</div><div class="tab-paths"><a class="path-chip rvt" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -1153,7 +1059,6 @@ látex acr</td>
 </tbody>
 </table>
 </div>
-
 </div>
 </div>
 <div class="cat-block">
@@ -1164,7 +1069,6 @@ látex acr</td>
 <span class="badge-sm red">↑ 7</span>
 </div>
 <div class="cat-content">
-
 <div class="tab-block">
 <div class="tab-header">
 <div class="tab-info">
@@ -1172,7 +1076,7 @@ látex acr</td>
 <strong>Tabela:</strong> PAREDE - MATERIAL - BLC ADMINISTRATIVO
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_QTD_R00.xlsm" target="_blank">📄 Abrir XLSM</a><a class="path-chip rvt" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_QTD_R00</div><div class="tab-paths"><a class="path-chip rvt" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -1205,9 +1109,6 @@ látex acr</td>
 </div>
 </div>
 </div>
-
-
-
 <div class="cat-block">
 <div class="cat-header" onclick="this.parentElement.classList.toggle('cat-open')">
 <span class="cat-arrow">▸</span>
@@ -1216,7 +1117,6 @@ látex acr</td>
 <span class="badge-sm red">↑ 7</span>
 </div>
 <div class="cat-content">
-
 <div class="tab-block">
 <div class="tab-header">
 <div class="tab-info">
@@ -1224,7 +1124,7 @@ látex acr</td>
 <strong>Tabela:</strong> PISO MAT / BLOCO - BLC ADMINISTRATIVO
                                 <span class="tab-count">2 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_QTD_R00.xlsm" target="_blank">📄 Abrir XLSM</a><a class="path-chip rvt" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_QTD_R00</div><div class="tab-paths"><a class="path-chip rvt" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -1275,11 +1175,8 @@ látex acr</td>
 <span class="cat-title">REVESTIMENTO DE PAREDES</span>
 <span class="cat-count">1 itens</span>
 <span class="badge-sm red">↑ 7</span>
-
 </div>
 <div class="cat-content">
-
-
 <div class="tab-block">
 <div class="tab-header">
 <div class="tab-info">
@@ -1287,7 +1184,7 @@ látex acr</td>
 <strong>Tabela:</strong> PAREDE - MATERIAL - BLC ADMINISTRATIVO
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_QTD_R00.xlsm" target="_blank">📄 Abrir XLSM</a><a class="path-chip rvt" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_QTD_R00</div><div class="tab-paths"><a class="path-chip rvt" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -1315,8 +1212,6 @@ látex acr</td>
 <td class="td-center"><span class="badge-red">ADITIVO</span></td>
 <td class="td-just">Tabela: PAREDE - MATERIAL - BLC ADMINISTRATIVO</td>
 </tr>
-
-
 </tbody>
 </table>
 </div>
@@ -1328,7 +1223,6 @@ látex acr</td>
 <span class="cat-title">SERVIÇOS COMPLEMENTARES EXTERNOS</span>
 <span class="cat-count">1 itens</span>
 <span class="badge-sm red">↑ 7</span>
-
 </div>
 <div class="cat-content">
 <div class="tab-block">
@@ -1338,7 +1232,7 @@ látex acr</td>
 <strong>Tabela:</strong> GUARDA CORPO - BLC ADMINISTRATIVO
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_QTD_R00.xlsm" target="_blank">📄 Abrir XLSM</a><a class="path-chip rvt" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_QTD_R00</div><div class="tab-paths"><a class="path-chip rvt" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -1366,13 +1260,11 @@ látex acr</td>
 <td class="td-center"><span class="badge-red">ADITIVO</span></td>
 <td class="td-just">Tabela: GUARDA CORPO - BLC ADMINISTRATIVO</td>
 </tr>
-
 </tbody>
 </table>
 </div>
 </div>
 </div>
-
 </div>
 </div>
 <div class="disc-block">
@@ -1381,7 +1273,6 @@ látex acr</td>
 <span class="disc-title">ESTRUTURA — CONCRETO ARMADO</span>
 <span class="disc-badge">4 itens</span>
 <span class="badge-sm red">↑ 4</span>
-
 </div>
 <div class="disc-content">
 <div class="cat-block">
@@ -1390,7 +1281,6 @@ látex acr</td>
 <span class="cat-title">ESTRUTURAS</span>
 <span class="cat-count">3 itens</span>
 <span class="badge-sm red">↑ 4</span>
-
 </div>
 <div class="cat-content">
 <div class="tab-block">
@@ -1400,7 +1290,7 @@ látex acr</td>
 <strong>Tabela:</strong> Fundação - Vigas - Pilares
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_CONC.ARM_BL.ADMINISTRATIVO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_CONC.ARM_BL.ADMINISTRATIVO_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_CONC.ARM_BL.ADMINISTRATIVO_QTD_R00.RVT" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_CONC.ARM_BL.ADMINISTRATIVO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_CONC.ARM_BL.ADMINISTRATIVO_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_CONC.ARM_BL.ADMINISTRATIVO_QTD_R00.RVT" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -1428,7 +1318,6 @@ látex acr</td>
 <td class="td-center"><span class="badge-red">ADITIVO</span></td>
 <td class="td-just">Tabela: Fundação - Vigas - Pilares</td>
 </tr>
-
 </tbody>
 </table>
 </div>
@@ -1439,7 +1328,7 @@ látex acr</td>
 <strong>Tabela:</strong> Lajes
                                 <span class="tab-count">2 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_CONC.ARM_BL.ADMINISTRATIVO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_CONC.ARM_BL.ADMINISTRATIVO_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_CONC.ARM_BL.ADMINISTRATIVO_QTD_R00.RVT" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_CONC.ARM_BL.ADMINISTRATIVO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_CONC.ARM_BL.ADMINISTRATIVO_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_CONC.ARM_BL.ADMINISTRATIVO_QTD_R00.RVT" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -1499,7 +1388,7 @@ látex acr</td>
 <strong>Tabela:</strong> COBERTURA - BL ADMINISTRATIVO
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_CONC.ARM_BL.ADMINISTRATIVO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_CONC.ARM_BL.ADMINISTRATIVO_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_CONC.ARM_BL.ADMINISTRATIVO_QTD_R00.RVT" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_CONC.ARM_BL.ADMINISTRATIVO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_CONC.ARM_BL.ADMINISTRATIVO_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_CONC.ARM_BL.ADMINISTRATIVO_QTD_R00.RVT" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -1539,7 +1428,6 @@ látex acr</td>
 <span class="disc-arrow">▶</span>
 <span class="disc-title">ESTRUTURA — METÁLICA</span>
 <span class="disc-badge">1 itens</span>
-
 <span class="badge-sm red">↑ 1</span>
 </div>
 <div class="disc-content">
@@ -1551,7 +1439,6 @@ látex acr</td>
 <span class="badge-sm red">↑ 1</span>
 </div>
 <div class="cat-content">
-
 <div class="tab-block">
 <div class="tab-header">
 <div class="tab-info">
@@ -1559,7 +1446,7 @@ látex acr</td>
 <strong>Tabela:</strong> ESTRUTURA METALICA COBERTURA  - BLC ADMINISTRATIVO
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_MET_BL.ADMINISTRATIVO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_QTD_R00.xlsm" target="_blank">📄 Abrir XLSM</a><a class="path-chip rvt" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_MET_BL.ADMINISTRATIVO_QTD_R00</div><div class="tab-paths"><a class="path-chip rvt" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -1594,15 +1481,12 @@ látex acr</td>
 </div>
 </div>
 </div>
-
 <div class="disc-block">
 <div class="disc-header" onclick="this.parentElement.classList.toggle('open')">
 <span class="disc-arrow">▶</span>
 <span class="disc-title">HIDROSSANITÁRIA — ÁGUA FRIA</span>
 <span class="disc-badge">3 itens</span>
-
 <span class="badge-sm red">↑ 3</span>
-
 </div>
 <div class="disc-content">
 <div class="cat-block">
@@ -1611,7 +1495,6 @@ látex acr</td>
 <span class="cat-title">APARELHOS HIDRO-SANITÁRIOS</span>
 <span class="cat-count">1 itens</span>
 <span class="badge-sm red">↑ 3</span>
-
 </div>
 <div class="cat-content">
 <div class="tab-block">
@@ -1621,7 +1504,7 @@ látex acr</td>
 <strong>Tabela:</strong> Peças hidráulicas e sanitárias ADM
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_HID_BL.ADMINISTRATIVO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_QTD_R00.xlsm" target="_blank">📄 Abrir XLSM</a><a class="path-chip rvt" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_HID_BL.ADMINISTRATIVO_QTD_R00</div><div class="tab-paths"><a class="path-chip rvt" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -1649,9 +1532,6 @@ látex acr</td>
 <td class="td-center"><span class="badge-red">ADITIVO</span></td>
 <td class="td-just">Tabela: Peças hidráulicas e sanitárias ADM</td>
 </tr>
-
-
-
 </tbody>
 </table>
 </div>
@@ -1663,7 +1543,6 @@ látex acr</td>
 <span class="cat-title">INSTALAÇÕES HIDROSANITÁRIAS</span>
 <span class="cat-count">2 itens</span>
 <span class="badge-sm red">↑ 3</span>
-
 </div>
 <div class="cat-content">
 <div class="tab-block">
@@ -1673,7 +1552,7 @@ látex acr</td>
 <strong>Tabela:</strong> Peças hidráulicas e sanitárias ADM
                                 <span class="tab-count">2 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_HID_BL.ADMINISTRATIVO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_QTD_R00.xlsm" target="_blank">📄 Abrir XLSM</a><a class="path-chip rvt" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_HID_BL.ADMINISTRATIVO_QTD_R00</div><div class="tab-paths"><a class="path-chip rvt" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -1701,8 +1580,6 @@ látex acr</td>
 <td class="td-center"><span class="badge-red">ADITIVO</span></td>
 <td class="td-just">Tabela: Peças hidráulicas e sanitárias ADM</td>
 </tr>
-
-
 <tr>
 <td class="td-code">130502</td>
 <td "="" class="td-desc" title="Adaptador de PVC soldável para registro, diâmetro 50mm x 1 1/2">Adaptador de PVC soldável para registro, diâmetro 50mm x 1 1/2"</td>
@@ -1718,7 +1595,6 @@ látex acr</td>
 </tbody>
 </table>
 </div>
-
 </div>
 </div>
 </div>
@@ -1728,9 +1604,7 @@ látex acr</td>
 <span class="disc-arrow">▶</span>
 <span class="disc-title">HIDROSSANITÁRIA — ESGOTO</span>
 <span class="disc-badge">4 itens</span>
-
 <span class="badge-sm red">↑ 4</span>
-
 </div>
 <div class="disc-content">
 <div class="cat-block">
@@ -1739,11 +1613,8 @@ látex acr</td>
 <span class="cat-title">INSTALAÇÕES HIDROSANITÁRIAS</span>
 <span class="cat-count">4 itens</span>
 <span class="badge-sm red">↑ 4</span>
-
 </div>
 <div class="cat-content">
-
-
 <div class="tab-block">
 <div class="tab-header">
 <div class="tab-info">
@@ -1751,7 +1622,7 @@ látex acr</td>
 <strong>Tabela:</strong> TUBOS RÍGIDOS SISTEMA ESGOTO / DRENO - BLC ADMINISTRATIVO
                                 <span class="tab-count">4 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_SAN_BL.ADMINISTRATIVO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_QTD_R00.xlsm" target="_blank">📄 Abrir XLSM</a><a class="path-chip rvt" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_SAN_BL.ADMINISTRATIVO_QTD_R00</div><div class="tab-paths"><a class="path-chip rvt" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -1779,7 +1650,6 @@ látex acr</td>
 <td class="td-center"><span class="badge-red">ADITIVO</span></td>
 <td class="td-just">Tabela: TUBOS RÍGIDOS SISTEMA ESGOTO / DRENO - BLC ADMINISTRATIVO</td>
 </tr>
-
 <tr>
 <td class="td-code">130208</td>
 <td ),="" class="td-desc" conexões"="" inclusive="" title="Tubo de PVC rígido soldável branco, para esgoto, série normal, diâmetro 75mm (3">Tubo de PVC rígido soldável branco, para esgoto, série normal, diâmetro 75mm (3"</td>
@@ -1792,7 +1662,6 @@ látex acr</td>
 <td class="td-center"><span class="badge-red">ADITIVO</span></td>
 <td class="td-just">Tabela: TUBOS RÍGIDOS SISTEMA ESGOTO / DRENO - BLC ADMINISTRATIVO</td>
 </tr>
-
 <tr>
 <td class="td-code">130207</td>
 <td ),="" class="td-desc" conexões"="" inclusive="" title="Tubo de PVC rígido soldável branco, para esgoto, série normal, diâmetro 50mm (2">Tubo de PVC rígido soldável branco, para esgoto, série normal, diâmetro 50mm (2"</td>
@@ -1805,7 +1674,6 @@ látex acr</td>
 <td class="td-center"><span class="badge-red">ADITIVO</span></td>
 <td class="td-just">Tabela: TUBOS RÍGIDOS SISTEMA ESGOTO / DRENO - BLC ADMINISTRATIVO</td>
 </tr>
-
 <tr>
 <td class="td-code">130203</td>
 <td ),="" areia"="" aterro="" class="td-desc" com="" conexões,="" e="" escavação="" inclusive="" title="Tubo PVC rígido soldável branco, para esgoto, no diâmetro de 75mm (2 1/2">Tubo PVC rígido soldável branco, para esgoto, no diâmetro de 75mm (2 1/2"), incl</td>
@@ -1825,15 +1693,12 @@ látex acr</td>
 </div>
 </div>
 </div>
-
 <div class="disc-block">
 <div class="disc-header" onclick="this.parentElement.classList.toggle('open')">
 <span class="disc-arrow">▶</span>
 <span class="disc-title">ELÉTRICA</span>
 <span class="disc-badge">7 itens</span>
-
 <span class="badge-sm red">↑ 7</span>
-
 </div>
 <div class="disc-content">
 <div class="cat-block">
@@ -1842,10 +1707,8 @@ látex acr</td>
 <span class="cat-title">APARELHOS ELÉTRICOS</span>
 <span class="cat-count">2 itens</span>
 <span class="badge-sm red">↑ 7</span>
-
 </div>
 <div class="cat-content">
-
 <div class="tab-block">
 <div class="tab-header">
 <div class="tab-info">
@@ -1853,7 +1716,7 @@ látex acr</td>
 <strong>Tabela:</strong> Condulete pvc
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_ELE_BL.ADMINISTRATIVO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_QTD_R00.xlsm" target="_blank">📄 Abrir XLSM</a><a class="path-chip rvt" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_ELE_BL.ADMINISTRATIVO_QTD_R00</div><div class="tab-paths"><a class="path-chip rvt" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -1869,7 +1732,6 @@ látex acr</td>
 <th>Justificativa / Método</th>
 </tr></thead>
 <tbody>
-
 <tr>
 <td class="td-code">220301</td>
 <td "="" class="td-desc" title="Interruptor de uma tecla simples 10A/250V, com placa 4x2">Interruptor de uma tecla simples 10A/250V, com placa 4x2"</td>
@@ -1892,7 +1754,7 @@ látex acr</td>
 <strong>Tabela:</strong> Tomada
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_ELE_BL.ADMINISTRATIVO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_QTD_R00.xlsm" target="_blank">📄 Abrir XLSM</a><a class="path-chip rvt" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_ELE_BL.ADMINISTRATIVO_QTD_R00</div><div class="tab-paths"><a class="path-chip rvt" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -1908,7 +1770,6 @@ látex acr</td>
 <th>Justificativa / Método</th>
 </tr></thead>
 <tbody>
-
 <tr>
 <td class="td-code">220305</td>
 <td "="" class="td-desc" title="Tomada padrão brasileiro linha branca, NBR 14136 2 polos + terra 10A/250V, com placa 4x2">Tomada padrão brasileiro linha branca, NBR 14136 2 polos + terra 10A/250V, com p</td>
@@ -1932,12 +1793,8 @@ látex acr</td>
 <span class="cat-title">INFRAESTRUTURA PARA INSTALAÇÕES ELÉTRICAS</span>
 <span class="cat-count">2 itens</span>
 <span class="badge-sm red">↑ 7</span>
-
 </div>
 <div class="cat-content">
-
-
-
 <div class="tab-block">
 <div class="tab-header">
 <div class="tab-info">
@@ -1945,7 +1802,7 @@ látex acr</td>
 <strong>Tabela:</strong> Conduletes pvc
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_ELE_BL.ADMINISTRATIVO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_QTD_R00.xlsm" target="_blank">📄 Abrir XLSM</a><a class="path-chip rvt" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_ELE_BL.ADMINISTRATIVO_QTD_R00</div><div class="tab-paths"><a class="path-chip rvt" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -1983,7 +1840,7 @@ látex acr</td>
 <strong>Tabela:</strong> Lista de Materiais - Eletrodutos
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_ELE_BL.ADMINISTRATIVO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_QTD_R00.xlsm" target="_blank">📄 Abrir XLSM</a><a class="path-chip rvt" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_ELE_BL.ADMINISTRATIVO_QTD_R00</div><div class="tab-paths"><a class="path-chip rvt" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -2011,14 +1868,11 @@ látex acr</td>
 <td class="td-center"><span class="badge-red">ADITIVO</span></td>
 <td class="td-just">Tabela: Lista de Materiais - Eletrodutos</td>
 </tr>
-
-
 </tbody>
 </table>
 </div>
 </div>
 </div>
-
 <div class="cat-block">
 <div class="cat-header" onclick="this.parentElement.classList.toggle('cat-open')">
 <span class="cat-arrow">▸</span>
@@ -2034,7 +1888,7 @@ látex acr</td>
 <strong>Tabela:</strong> PAREDE - MATERIAL - BLC ADMINISTRATIVO
                                 <span class="tab-count">2 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_ELE_BL.ADMINISTRATIVO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_QTD_R00.xlsm" target="_blank">📄 Abrir XLSM</a><a class="path-chip rvt" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_ELE_BL.ADMINISTRATIVO_QTD_R00</div><div class="tab-paths"><a class="path-chip rvt" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -2079,8 +1933,6 @@ látex acr</td>
 </div>
 </div>
 </div>
-
-
 <div class="cat-block">
 <div class="cat-header" onclick="this.parentElement.classList.toggle('cat-open')">
 <span class="cat-arrow">▸</span>
@@ -2096,7 +1948,7 @@ látex acr</td>
 <strong>Tabela:</strong> FORROS - BLC ADMINISTRATIVO
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_ELE_BL.ADMINISTRATIVO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_QTD_R00.xlsm" target="_blank">📄 Abrir XLSM</a><a class="path-chip rvt" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_ELE_BL.ADMINISTRATIVO_QTD_R00</div><div class="tab-paths"><a class="path-chip rvt" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_ARQ_BL.ADMINISTRATIVO_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -2136,9 +1988,7 @@ látex acr</td>
 <span class="disc-arrow">▶</span>
 <span class="disc-title">SPDA</span>
 <span class="disc-badge">3 itens</span>
-
 <span class="badge-sm red">↑ 3</span>
-
 </div>
 <div class="disc-content">
 <div class="cat-block">
@@ -2147,11 +1997,8 @@ látex acr</td>
 <span class="cat-title">INSTALAÇÃO DO SPDA</span>
 <span class="cat-count">3 itens</span>
 <span class="badge-sm red">↑ 3</span>
-
 </div>
 <div class="cat-content">
-
-
 <div class="tab-block">
 <div class="tab-header">
 <div class="tab-info">
@@ -2159,7 +2006,7 @@ látex acr</td>
 <strong>Tabela:</strong> Quantitativo de Materiais - Componentes - SPDA
                                 <span class="tab-count">3 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_SPDA_BL.ADMINISTRATIVO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_SPDA_BL.ADMINISTRATIVO_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_SPDA_BL.ADMINISTRATIVO_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_SPDA_BL.ADMINISTRATIVO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_SPDA_BL.ADMINISTRATIVO_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_SPDA_BL.ADMINISTRATIVO_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -2214,10 +2061,8 @@ látex acr</td>
 </tbody>
 </table>
 </div>
-
 </div>
 </div>
-
 </div>
 </div>
 <div class="disc-block">
@@ -2225,25 +2070,17 @@ látex acr</td>
 <span class="disc-arrow">▶</span>
 <span class="disc-title">HVAC — CLIMATIZAÇÃO</span>
 <span class="disc-badge">1 itens</span>
-
 <span class="badge-sm red">↑ 1</span>
-
 </div>
 <div class="disc-content">
-
-
-
 <div class="cat-block">
 <div class="cat-header" onclick="this.parentElement.classList.toggle('cat-open')">
 <span class="cat-arrow">▸</span>
 <span class="cat-title">SISTEMA DE CLIMATIZAÇÃO</span>
 <span class="cat-count">1 itens</span>
 <span class="badge-sm red">↑ 1</span>
-
 </div>
 <div class="cat-content">
-
-
 <div class="tab-block">
 <div class="tab-header">
 <div class="tab-info">
@@ -2251,7 +2088,7 @@ látex acr</td>
 <strong>Tabela:</strong> Tubos_Quantitativo Tubos de Cobre + Isolamento (m)
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_BL.ADMINISTRATIVO_CLIM_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_BL.ADMINISTRATIVO_CLIM_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_BL.ADMINISTRATIVO_CLIM_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_BL.ADMINISTRATIVO_CLIM_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_BL.ADMINISTRATIVO_CLIM_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20ADMINISTRATIVO/GUACUI-EEEFM_BL.ADMINISTRATIVO_CLIM_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -2279,7 +2116,6 @@ látex acr</td>
 <td class="td-center"><span class="badge-red">ADITIVO</span></td>
 <td class="td-just">Tabela: Tubos_Quantitativo Tubos de Cobre + Isolamento (m)</td>
 </tr>
-
 </tbody>
 </table>
 </div>
@@ -2287,7 +2123,6 @@ látex acr</td>
 </div>
 </div>
 </div>
-
 </div>
 </div>
 <div class="page-section hidden" id="BLOCO_AUDITÓRIO_E_PASSARELA_DE_LIGAÇÃO">
@@ -2297,12 +2132,8 @@ látex acr</td>
 <div class="stats-bar">
 <div class="stat-item"><span class="stat-num">64</span><span class="stat-label">Itens</span></div>
 <div class="stat-item"><span class="stat-num blue">64</span><span class="stat-label">Com Ref. BIM</span></div>
-
 <div class="stat-item"><span class="stat-num red">64</span><span class="stat-label">Aditivos</span></div>
-
 </div>
-
-
 <!-- Arquivos BIM desta edificação -->
 <div class="arq-summary">
 <strong>Arquivos BIM utilizados:</strong>
@@ -2316,9 +2147,7 @@ látex acr</td>
 <span class="disc-arrow">▶</span>
 <span class="disc-title">ARQUITETURA</span>
 <span class="disc-badge">29 itens</span>
-
 <span class="badge-sm red">↑ 29</span>
-
 </div>
 <div class="disc-content">
 <div class="cat-block">
@@ -2336,7 +2165,7 @@ látex acr</td>
 <strong>Tabela:</strong> APARELHOS HIDRO-SANITÁRIOS - AUDITÓRIO
                                 <span class="tab-count">6 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_AUDITÓRIO_ARQ_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_AUDITÓRIO_ARQ_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -2424,14 +2253,6 @@ látex acr</td>
 <td class="td-center"><span class="badge-red">ADITIVO</span></td>
 <td class="td-just">Tabela: APARELHOS HIDRO-SANITÁRIOS - AUDITÓRIO</td>
 </tr>
-
-
-
-
-
-
-
-
 </tbody>
 </table>
 </div>
@@ -2443,10 +2264,8 @@ látex acr</td>
 <span class="cat-title">COBERTURA</span>
 <span class="cat-count">4 itens</span>
 <span class="badge-sm red">↑ 29</span>
-
 </div>
 <div class="cat-content">
-
 <div class="tab-block">
 <div class="tab-header">
 <div class="tab-info">
@@ -2454,7 +2273,7 @@ látex acr</td>
 <strong>Tabela:</strong> ACABAMENTO DE COBERTURA - AUDITÓRIO
                                 <span class="tab-count">3 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_AUDITÓRIO_ARQ_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_AUDITÓRIO_ARQ_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -2506,7 +2325,6 @@ látex acr</td>
 <td class="td-center"><span class="badge-red">ADITIVO</span></td>
 <td class="td-just">Tabela: ACABAMENTO DE COBERTURA - AUDITÓRIO</td>
 </tr>
-
 </tbody>
 </table>
 </div>
@@ -2517,7 +2335,7 @@ látex acr</td>
 <strong>Tabela:</strong> COBERTURA - AUDITORIO
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_AUDITÓRIO_ARQ_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_AUDITÓRIO_ARQ_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -2565,7 +2383,7 @@ látex acr</td>
 <strong>Tabela:</strong> PORTAS - AUDITORIO
                                 <span class="tab-count">2 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_AUDITÓRIO_ARQ_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_AUDITÓRIO_ARQ_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -2605,9 +2423,6 @@ látex acr</td>
 <td class="td-center"><span class="badge-red">ADITIVO</span></td>
 <td class="td-just">Tabela: PORTAS - AUDITORIO</td>
 </tr>
-
-
-
 </tbody>
 </table>
 </div>
@@ -2628,7 +2443,7 @@ látex acr</td>
 <strong>Tabela:</strong> JANELA - AUDITORIO
                                 <span class="tab-count">3 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_AUDITÓRIO_ARQ_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_AUDITÓRIO_ARQ_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -2683,7 +2498,6 @@ látex acr</td>
 </tbody>
 </table>
 </div>
-
 </div>
 </div>
 <div class="cat-block">
@@ -2694,7 +2508,6 @@ látex acr</td>
 <span class="badge-sm red">↑ 29</span>
 </div>
 <div class="cat-content">
-
 <div class="tab-block">
 <div class="tab-header">
 <div class="tab-info">
@@ -2702,7 +2515,7 @@ látex acr</td>
 <strong>Tabela:</strong> PISO MAT / BLOCO - AUDITORIO
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_AUDITÓRIO_ARQ_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_AUDITÓRIO_ARQ_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -2741,10 +2554,8 @@ látex acr</td>
 <span class="cat-title">PAREDES E PAINÉIS</span>
 <span class="cat-count">1 itens</span>
 <span class="badge-sm red">↑ 29</span>
-
 </div>
 <div class="cat-content">
-
 <div class="tab-block">
 <div class="tab-header">
 <div class="tab-info">
@@ -2752,7 +2563,7 @@ látex acr</td>
 <strong>Tabela:</strong> PAREDE - MATERIAL - AUDITORIO
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_AUDITÓRIO_ARQ_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_AUDITÓRIO_ARQ_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -2780,7 +2591,6 @@ látex acr</td>
 <td class="td-center"><span class="badge-red">ADITIVO</span></td>
 <td class="td-just">Tabela: PAREDE - MATERIAL - AUDITORIO</td>
 </tr>
-
 </tbody>
 </table>
 </div>
@@ -2792,11 +2602,8 @@ látex acr</td>
 <span class="cat-title">PINTURA</span>
 <span class="cat-count">1 itens</span>
 <span class="badge-sm red">↑ 29</span>
-
 </div>
 <div class="cat-content">
-
-
 <div class="tab-block">
 <div class="tab-header">
 <div class="tab-info">
@@ -2804,7 +2611,7 @@ látex acr</td>
 <strong>Tabela:</strong> PAREDE - MATERIAL - AUDITORIO
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_AUDITÓRIO_ARQ_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_AUDITÓRIO_ARQ_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -2835,17 +2642,14 @@ látex acr</td>
 </tbody>
 </table>
 </div>
-
 </div>
 </div>
-
 <div class="cat-block">
 <div class="cat-header" onclick="this.parentElement.classList.toggle('cat-open')">
 <span class="cat-arrow">▸</span>
 <span class="cat-title">PISOS INTERNOS E EXTERNOS</span>
 <span class="cat-count">4 itens</span>
 <span class="badge-sm red">↑ 29</span>
-
 </div>
 <div class="cat-content">
 <div class="tab-block">
@@ -2855,7 +2659,7 @@ látex acr</td>
 <strong>Tabela:</strong> JANELA - AUDITORIO
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_AUDITÓRIO_ARQ_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_AUDITÓRIO_ARQ_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -2893,7 +2697,7 @@ látex acr</td>
 <strong>Tabela:</strong> PISO MAT / BLOCO - AUDITORIO
                                 <span class="tab-count">3 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_AUDITÓRIO_ARQ_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_AUDITÓRIO_ARQ_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -2948,7 +2752,6 @@ látex acr</td>
 </tbody>
 </table>
 </div>
-
 </div>
 </div>
 <div class="cat-block">
@@ -2957,10 +2760,8 @@ látex acr</td>
 <span class="cat-title">REVESTIMENTO DE PAREDES</span>
 <span class="cat-count">4 itens</span>
 <span class="badge-sm red">↑ 29</span>
-
 </div>
 <div class="cat-content">
-
 <div class="tab-block">
 <div class="tab-header">
 <div class="tab-info">
@@ -2968,7 +2769,7 @@ látex acr</td>
 <strong>Tabela:</strong> PAREDE - MATERIAL - AUDITORIO
                                 <span class="tab-count">4 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_AUDITÓRIO_ARQ_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_AUDITÓRIO_ARQ_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -3032,7 +2833,6 @@ látex acr</td>
 <td class="td-center"><span class="badge-red">ADITIVO</span></td>
 <td class="td-just">Tabela: PAREDE - MATERIAL - AUDITORIO</td>
 </tr>
-
 </tbody>
 </table>
 </div>
@@ -3053,7 +2853,7 @@ látex acr</td>
 <strong>Tabela:</strong> GUARDA CORPO - AUDITORIO
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_AUDITÓRIO_ARQ_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_AUDITÓRIO_ARQ_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -3101,7 +2901,7 @@ látex acr</td>
 <strong>Tabela:</strong> FORROS - AUDITÓRIO
                                 <span class="tab-count">2 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_AUDITÓRIO_ARQ_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_AUDITÓRIO_ARQ_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -3146,7 +2946,6 @@ látex acr</td>
 </div>
 </div>
 </div>
-
 </div>
 </div>
 <div class="disc-block">
@@ -3155,7 +2954,6 @@ látex acr</td>
 <span class="disc-title">ESTRUTURA — CONCRETO ARMADO</span>
 <span class="disc-badge">2 itens</span>
 <span class="badge-sm red">↑ 2</span>
-
 </div>
 <div class="disc-content">
 <div class="cat-block">
@@ -3164,7 +2962,6 @@ látex acr</td>
 <span class="cat-title">ESTRUTURAS</span>
 <span class="cat-count">2 itens</span>
 <span class="badge-sm red">↑ 2</span>
-
 </div>
 <div class="cat-content">
 <div class="tab-block">
@@ -3174,7 +2971,7 @@ látex acr</td>
 <strong>Tabela:</strong> Resumo por material e por elemento
                                 <span class="tab-count">2 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_CONC.ARM_AUDITORIO_QTD_R00 + GUACUI-EEEFM_CONC.ARM_REFEITORIO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_CONC.ARM_AUDITORIO_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_CONC.ARM_AUDITORIO_QTD_R00.RVT" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_CONC.ARM_AUDITORIO_QTD_R00 + GUACUI-EEEFM_CONC.ARM_REFEITORIO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_CONC.ARM_AUDITORIO_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_CONC.ARM_AUDITORIO_QTD_R00.RVT" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -3214,8 +3011,6 @@ látex acr</td>
 <td class="td-center"><span class="badge-red">ADITIVO</span></td>
 <td class="td-just">Tabela: Resumo por material e por elemento</td>
 </tr>
-
-
 </tbody>
 </table>
 </div>
@@ -3229,7 +3024,6 @@ látex acr</td>
 <span class="disc-title">ESTRUTURA — METÁLICA</span>
 <span class="disc-badge">3 itens</span>
 <span class="badge-sm red">↑ 3</span>
-
 </div>
 <div class="disc-content">
 <div class="cat-block">
@@ -3238,7 +3032,6 @@ látex acr</td>
 <span class="cat-title">COBERTURA</span>
 <span class="cat-count">3 itens</span>
 <span class="badge-sm red">↑ 3</span>
-
 </div>
 <div class="cat-content">
 <div class="tab-block">
@@ -3248,7 +3041,7 @@ látex acr</td>
 <strong>Tabela:</strong> Chapas de Ancoragem dos Pilares - Refeitorio
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_MET_REFEITÓRIO_MOD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_MET_REFEITÓRIO_MOD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -3276,7 +3069,6 @@ látex acr</td>
 <td class="td-center"><span class="badge-red">ADITIVO</span></td>
 <td class="td-just">Tabela: Chapas de Ancoragem dos Pilares - Refeitorio</td>
 </tr>
-
 </tbody>
 </table>
 </div>
@@ -3287,7 +3079,7 @@ látex acr</td>
 <strong>Tabela:</strong> Estrutura de Cobertura  - AUDITORIO
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_MET_AUDITÓRIO_MOD_R00 + GUACUI-EEEFM_MET_REFEITÓRIO_MOD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_MET_AUDITÓRIO_MOD_R00 + GUACUI-EEEFM_MET_REFEITÓRIO_MOD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -3325,7 +3117,7 @@ látex acr</td>
 <strong>Tabela:</strong> Estrutura de Cobertura  - Refeitorio
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_MET_REFEITÓRIO_MOD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_MET_REFEITÓRIO_MOD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -3360,15 +3152,12 @@ látex acr</td>
 </div>
 </div>
 </div>
-
 <div class="disc-block">
 <div class="disc-header" onclick="this.parentElement.classList.toggle('open')">
 <span class="disc-arrow">▶</span>
 <span class="disc-title">HIDROSSANITÁRIA — ÁGUA FRIA</span>
 <span class="disc-badge">6 itens</span>
-
 <span class="badge-sm red">↑ 6</span>
-
 </div>
 <div class="disc-content">
 <div class="cat-block">
@@ -3377,10 +3166,8 @@ látex acr</td>
 <span class="cat-title">INSTALAÇÕES HIDRO-SANITÁRIAS</span>
 <span class="cat-count">6 itens</span>
 <span class="badge-sm red">↑ 6</span>
-
 </div>
 <div class="cat-content">
-
 <div class="tab-block">
 <div class="tab-header">
 <div class="tab-info">
@@ -3388,7 +3175,7 @@ látex acr</td>
 <strong>Tabela:</strong> TUBOS RÍGIDOS
                                 <span class="tab-count">3 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_HID_REFEITÓRIO_QTD_R00 + GUACUI-EEEFM_HID_AUDITORIO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_HID_REFEITÓRIO_QTD_R00 + GUACUI-EEEFM_HID_AUDITORIO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -3440,7 +3227,6 @@ látex acr</td>
 <td class="td-center"><span class="badge-red">ADITIVO</span></td>
 <td class="td-just">Tabela: TUBOS RÍGIDOS</td>
 </tr>
-
 </tbody>
 </table>
 </div>
@@ -3451,7 +3237,7 @@ látex acr</td>
 <strong>Tabela:</strong> TUBOS RÍGIDOS SISTEMA ESGOTO / DRENO - AUDITORIO
                                 <span class="tab-count">3 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_HID_REFEITÓRIO_QTD_R00 + GUACUI-EEEFM_HID_AUDITORIO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_HID_REFEITÓRIO_QTD_R00 + GUACUI-EEEFM_HID_AUDITORIO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -3533,7 +3319,7 @@ látex acr</td>
 <strong>Tabela:</strong> TUBOS RÍGIDOS SISTEMA ESGOTO / DRENO - AUDITORIO
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_SAN_AUDITÓRIO_MOD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_SAN_AUDITÓRIO_MOD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -3568,15 +3354,12 @@ látex acr</td>
 </div>
 </div>
 </div>
-
 <div class="disc-block">
 <div class="disc-header" onclick="this.parentElement.classList.toggle('open')">
 <span class="disc-arrow">▶</span>
 <span class="disc-title">ELÉTRICA</span>
 <span class="disc-badge">8 itens</span>
-
 <span class="badge-sm red">↑ 8</span>
-
 </div>
 <div class="disc-content">
 <div class="cat-block">
@@ -3587,7 +3370,6 @@ látex acr</td>
 <span class="badge-sm red">↑ 8</span>
 </div>
 <div class="cat-content">
-
 <div class="tab-block">
 <div class="tab-header">
 <div class="tab-info">
@@ -3595,7 +3377,7 @@ látex acr</td>
 <strong>Tabela:</strong> INTERRUPTORES E TOMADAS
                                 <span class="tab-count">3 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> QTD ELETRICO</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> QTD ELETRICO</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -3647,7 +3429,6 @@ látex acr</td>
 <td class="td-center"><span class="badge-red">ADITIVO</span></td>
 <td class="td-just">Tabela: INTERRUPTORES E TOMADAS</td>
 </tr>
-
 </tbody>
 </table>
 </div>
@@ -3658,7 +3439,7 @@ látex acr</td>
 <strong>Tabela:</strong> LUMINÁRIAS
                                 <span class="tab-count">2 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> QTD ELETRICO</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> QTD ELETRICO</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -3708,7 +3489,7 @@ látex acr</td>
 <strong>Tabela:</strong> PROJETORES
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> QTD ELETRICO</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> QTD ELETRICO</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -3747,10 +3528,8 @@ látex acr</td>
 <span class="cat-title">INFRAESTRUTURA PARA INSTALAÇÕES ELÉTRICAS</span>
 <span class="cat-count">2 itens</span>
 <span class="badge-sm red">↑ 8</span>
-
 </div>
 <div class="cat-content">
-
 <div class="tab-block">
 <div class="tab-header">
 <div class="tab-info">
@@ -3758,7 +3537,7 @@ látex acr</td>
 <strong>Tabela:</strong> Tabela de bandejas de cabo
                                 <span class="tab-count">2 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_ELE_AUDITÓRIO_MOD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_ELE_AUDITÓRIO_MOD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -3798,15 +3577,11 @@ látex acr</td>
 <td class="td-center"><span class="badge-red">ADITIVO</span></td>
 <td class="td-just">Tabela: Tabela de bandejas de cabo</td>
 </tr>
-
 </tbody>
 </table>
 </div>
 </div>
 </div>
-
-
-
 </div>
 </div>
 <div class="disc-block">
@@ -3814,7 +3589,6 @@ látex acr</td>
 <span class="disc-arrow">▶</span>
 <span class="disc-title">PCI — INCÊNDIO</span>
 <span class="disc-badge">11 itens</span>
-
 <span class="badge-sm red">↑ 11</span>
 </div>
 <div class="disc-content">
@@ -3826,7 +3600,6 @@ látex acr</td>
 <span class="badge-sm red">↑ 11</span>
 </div>
 <div class="cat-content">
-
 <div class="tab-block">
 <div class="tab-header">
 <div class="tab-info">
@@ -3834,7 +3607,7 @@ látex acr</td>
 <strong>Tabela:</strong> DISPOSITIVOS ELÉTRICOS
                                 <span class="tab-count">4 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_PCI_AUDITÓRIO_QTD_R00 + GUACUI-EEEFM_PCI_REFEITORIO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_PCI_AUDITÓRIO_QTD_R00 + GUACUI-EEEFM_PCI_REFEITORIO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -3908,7 +3681,7 @@ látex acr</td>
 <strong>Tabela:</strong> EXTINTORES E COMPONENTES
                                 <span class="tab-count">3 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_PCI_AUDITÓRIO_QTD_R00 + GUACUI-EEEFM_PCI_REFEITORIO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_PCI_AUDITÓRIO_QTD_R00 + GUACUI-EEEFM_PCI_REFEITORIO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -3970,7 +3743,7 @@ látex acr</td>
 <strong>Tabela:</strong> HIDRANTES E COMPONENTES
                                 <span class="tab-count">2 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_PCI_AUDITÓRIO_QTD_R00 + GUACUI-EEEFM_PCI_REFEITORIO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_PCI_AUDITÓRIO_QTD_R00 + GUACUI-EEEFM_PCI_REFEITORIO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -4020,7 +3793,7 @@ látex acr</td>
 <strong>Tabela:</strong> LUMINÁRIAS
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_PCI_AUDITÓRIO_QTD_R00 + GUACUI-EEEFM_PCI_REFEITORIO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_PCI_AUDITÓRIO_QTD_R00 + GUACUI-EEEFM_PCI_REFEITORIO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -4051,7 +3824,6 @@ látex acr</td>
 </tbody>
 </table>
 </div>
-
 <div class="tab-block">
 <div class="tab-header">
 <div class="tab-info">
@@ -4059,7 +3831,7 @@ látex acr</td>
 <strong>Tabela:</strong> TUBULAÇÃO - 65mm - 2.1/2"
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_PCI_AUDITÓRIO_QTD_R00 + GUACUI-EEEFM_PCI_REFEITORIO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_PCI_AUDITÓRIO_QTD_R00 + GUACUI-EEEFM_PCI_REFEITORIO_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_ARQ_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -4099,7 +3871,6 @@ látex acr</td>
 <span class="disc-arrow">▶</span>
 <span class="disc-title">SPDA</span>
 <span class="disc-badge">3 itens</span>
-
 <span class="badge-sm red">↑ 3</span>
 </div>
 <div class="disc-content">
@@ -4111,7 +3882,6 @@ látex acr</td>
 <span class="badge-sm red">↑ 3</span>
 </div>
 <div class="cat-content">
-
 <div class="tab-block">
 <div class="tab-header">
 <div class="tab-info">
@@ -4119,7 +3889,7 @@ látex acr</td>
 <strong>Tabela:</strong> Quantitativo de Cabos - SPDA
                                 <span class="tab-count">3 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_SPDA_AUDITÓRIO_MOD_R00 + GUACUI-EEEFM_SPDA_REFEITORIO_MOD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_SPDA_AUDIT%C3%93RIO_MOD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_SPDA_AUDIT%C3%93RIO_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_SPDA_AUDITÓRIO_MOD_R00 + GUACUI-EEEFM_SPDA_REFEITORIO_MOD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_SPDA_AUDIT%C3%93RIO_MOD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_SPDA_AUDIT%C3%93RIO_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -4176,7 +3946,6 @@ látex acr</td>
 </div>
 </div>
 </div>
-
 </div>
 </div>
 <div class="disc-block">
@@ -4184,7 +3953,6 @@ látex acr</td>
 <span class="disc-arrow">▶</span>
 <span class="disc-title">HVAC — CLIMATIZAÇÃO</span>
 <span class="disc-badge">1 itens</span>
-
 <span class="badge-sm red">↑ 1</span>
 </div>
 <div class="disc-content">
@@ -4203,7 +3971,7 @@ látex acr</td>
 <strong>Tabela:</strong> Quantitativo de Equipamentos e Componentes
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_AUDITÓRIO_CLIM_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_CLIM_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_CLIM_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_AUDITÓRIO_CLIM_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_CLIM_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="BLOCO%20AUDITORIO%20E%20PASSARELA%20DE%20LIGACAO/GUACUI-EEEFM_AUDIT%C3%93RIO_CLIM_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -4236,11 +4004,8 @@ látex acr</td>
 </div>
 </div>
 </div>
-
-
 </div>
 </div>
-
 </div>
 </div>
 <div class="page-section hidden" id="QUADRA_POLIESPORTIVA">
@@ -4250,12 +4015,8 @@ látex acr</td>
 <div class="stats-bar">
 <div class="stat-item"><span class="stat-num">7</span><span class="stat-label">Itens</span></div>
 <div class="stat-item"><span class="stat-num blue">7</span><span class="stat-label">Com Ref. BIM</span></div>
-
 <div class="stat-item"><span class="stat-num red">7</span><span class="stat-label">Aditivos</span></div>
-
 </div>
-
-
 <!-- Arquivos BIM desta edificação -->
 <div class="arq-summary">
 <strong>Arquivos BIM utilizados:</strong>
@@ -4269,9 +4030,7 @@ látex acr</td>
 <span class="disc-arrow">▶</span>
 <span class="disc-title">ARQUITETURA</span>
 <span class="disc-badge">1 itens</span>
-
 <span class="badge-sm red">↑ 1</span>
-
 </div>
 <div class="disc-content">
 <div class="cat-block">
@@ -4280,11 +4039,8 @@ látex acr</td>
 <span class="cat-title">COBERTURA</span>
 <span class="cat-count">1 itens</span>
 <span class="badge-sm red">↑ 1</span>
-
 </div>
 <div class="cat-content">
-
-
 <div class="tab-block">
 <div class="tab-header">
 <div class="tab-info">
@@ -4292,7 +4048,7 @@ látex acr</td>
 <strong>Tabela:</strong> COBERTURA - QUADRA
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_ARQ_QUADRA_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="QUADRA%20POLIESPORTIVA/GUACUI-EEEFM_ARQ_QD.POLIESPORTIVA_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="QUADRA%20POLIESPORTIVA/GUACUI-EEEFM_ARQ_QD.POLIESPORTIVA_QTD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_ARQ_QUADRA_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="QUADRA%20POLIESPORTIVA/GUACUI-EEEFM_ARQ_QD.POLIESPORTIVA_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="QUADRA%20POLIESPORTIVA/GUACUI-EEEFM_ARQ_QD.POLIESPORTIVA_QTD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -4325,12 +4081,6 @@ látex acr</td>
 </div>
 </div>
 </div>
-
-
-
-
-
-
 </div>
 </div>
 <div class="disc-block">
@@ -4356,7 +4106,7 @@ látex acr</td>
 <strong>Tabela:</strong> Resumo por material e por elemento
                                 <span class="tab-count">2 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_CONC.ARM_QUADRA_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="QUADRA%20POLIESPORTIVA/GUACUI-EEEFM_CONC.ARM_QUADRA_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="QUADRA%20POLIESPORTIVA/GUACUI-EEEFM_CONC.ARM_QUADRA_QTD_R00.RVT" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_CONC.ARM_QUADRA_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="QUADRA%20POLIESPORTIVA/GUACUI-EEEFM_CONC.ARM_QUADRA_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="QUADRA%20POLIESPORTIVA/GUACUI-EEEFM_CONC.ARM_QUADRA_QTD_R00.RVT" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -4403,29 +4153,22 @@ látex acr</td>
 </div>
 </div>
 </div>
-
 <div class="disc-block">
 <div class="disc-header" onclick="this.parentElement.classList.toggle('open')">
 <span class="disc-arrow">▶</span>
 <span class="disc-title">ELÉTRICA</span>
 <span class="disc-badge">1 itens</span>
-
 <span class="badge-sm red">↑ 1</span>
-
 </div>
 <div class="disc-content">
-
 <div class="cat-block">
 <div class="cat-header" onclick="this.parentElement.classList.toggle('cat-open')">
 <span class="cat-arrow">▸</span>
 <span class="cat-title">INFRAESTRUTURA PARA INSTALAÇÕES ELÉTRICAS</span>
 <span class="cat-count">1 itens</span>
 <span class="badge-sm red">↑ 1</span>
-
 </div>
 <div class="cat-content">
-
-
 <div class="tab-block">
 <div class="tab-header">
 <div class="tab-info">
@@ -4433,7 +4176,7 @@ látex acr</td>
 <strong>Tabela:</strong> Conduletes de PVC
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_ELE_QD.POLIESPORTIVA_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="QUADRA%20POLIESPORTIVA/GUACUI-EEEFM_ARQ_QD.POLIESPORTIVA_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="QUADRA%20POLIESPORTIVA/GUACUI-EEEFM_ARQ_QD.POLIESPORTIVA_QTD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_ELE_QD.POLIESPORTIVA_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="QUADRA%20POLIESPORTIVA/GUACUI-EEEFM_ARQ_QD.POLIESPORTIVA_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="QUADRA%20POLIESPORTIVA/GUACUI-EEEFM_ARQ_QD.POLIESPORTIVA_QTD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -4464,12 +4207,8 @@ látex acr</td>
 </tbody>
 </table>
 </div>
-
-
 </div>
 </div>
-
-
 </div>
 </div>
 <div class="disc-block">
@@ -4477,7 +4216,6 @@ látex acr</td>
 <span class="disc-arrow">▶</span>
 <span class="disc-title">PCI — INCÊNDIO</span>
 <span class="disc-badge">2 itens</span>
-
 <span class="badge-sm red">↑ 2</span>
 </div>
 <div class="disc-content">
@@ -4489,7 +4227,6 @@ látex acr</td>
 <span class="badge-sm red">↑ 2</span>
 </div>
 <div class="cat-content">
-
 <div class="tab-block">
 <div class="tab-header">
 <div class="tab-info">
@@ -4497,7 +4234,7 @@ látex acr</td>
 <strong>Tabela:</strong> DISPOSITIVOS ELÉTRICOS
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_PCI_QUAD_MOD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="QUADRA%20POLIESPORTIVA/GUACUI-EEEFM_ARQ_QD.POLIESPORTIVA_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="QUADRA%20POLIESPORTIVA/GUACUI-EEEFM_ARQ_QD.POLIESPORTIVA_QTD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_PCI_QUAD_MOD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="QUADRA%20POLIESPORTIVA/GUACUI-EEEFM_ARQ_QD.POLIESPORTIVA_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="QUADRA%20POLIESPORTIVA/GUACUI-EEEFM_ARQ_QD.POLIESPORTIVA_QTD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -4525,14 +4262,9 @@ látex acr</td>
 <td class="td-center"><span class="badge-red">ADITIVO</span></td>
 <td class="td-just">Tabela: DISPOSITIVOS ELÉTRICOS</td>
 </tr>
-
-
 </tbody>
 </table>
 </div>
-
-
-
 <div class="tab-block">
 <div class="tab-header">
 <div class="tab-info">
@@ -4540,7 +4272,7 @@ látex acr</td>
 <strong>Tabela:</strong> TUBULAÇÃO - 65mm - 2.1/2"
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_PCI_QUAD_MOD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="QUADRA%20POLIESPORTIVA/GUACUI-EEEFM_ARQ_QD.POLIESPORTIVA_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="QUADRA%20POLIESPORTIVA/GUACUI-EEEFM_ARQ_QD.POLIESPORTIVA_QTD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_PCI_QUAD_MOD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="QUADRA%20POLIESPORTIVA/GUACUI-EEEFM_ARQ_QD.POLIESPORTIVA_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="QUADRA%20POLIESPORTIVA/GUACUI-EEEFM_ARQ_QD.POLIESPORTIVA_QTD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -4580,9 +4312,7 @@ látex acr</td>
 <span class="disc-arrow">▶</span>
 <span class="disc-title">SPDA</span>
 <span class="disc-badge">1 itens</span>
-
 <span class="badge-sm red">↑ 1</span>
-
 </div>
 <div class="disc-content">
 <div class="cat-block">
@@ -4591,10 +4321,8 @@ látex acr</td>
 <span class="cat-title">INSTALAÇÃO DO SPDA</span>
 <span class="cat-count">1 itens</span>
 <span class="badge-sm red">↑ 1</span>
-
 </div>
 <div class="cat-content">
-
 <div class="tab-block">
 <div class="tab-header">
 <div class="tab-info">
@@ -4602,7 +4330,7 @@ látex acr</td>
 <strong>Tabela:</strong> Quantitativo de Cabos - SPDA
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_SPDA_QD.POLIESPORTIVA_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="QUADRA%20POLIESPORTIVA/GUACUI-EEEFM_SPDA_QD.POLIESPORTIVA_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="QUADRA%20POLIESPORTIVA/GUACUI-EEEFM_SPDA_QD.POLIESPORTIVA_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_SPDA_QD.POLIESPORTIVA_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="QUADRA%20POLIESPORTIVA/GUACUI-EEEFM_SPDA_QD.POLIESPORTIVA_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="QUADRA%20POLIESPORTIVA/GUACUI-EEEFM_SPDA_QD.POLIESPORTIVA_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -4630,17 +4358,13 @@ látex acr</td>
 <td class="td-center"><span class="badge-red">ADITIVO</span></td>
 <td class="td-just">Tabela: Quantitativo de Cabos - SPDA</td>
 </tr>
-
 </tbody>
 </table>
 </div>
-
 </div>
 </div>
-
 </div>
 </div>
-
 </div>
 </div>
 <div class="page-section hidden" id="CASTELO_DAGUA">
@@ -4650,12 +4374,8 @@ látex acr</td>
 <div class="stats-bar">
 <div class="stat-item"><span class="stat-num">10</span><span class="stat-label">Itens</span></div>
 <div class="stat-item"><span class="stat-num blue">10</span><span class="stat-label">Com Ref. BIM</span></div>
-
 <div class="stat-item"><span class="stat-num red">10</span><span class="stat-label">Aditivos</span></div>
-
 </div>
-
-
 <!-- Arquivos BIM desta edificação -->
 <div class="arq-summary">
 <strong>Arquivos BIM utilizados:</strong>
@@ -4664,14 +4384,12 @@ látex acr</td>
 <span class="arq-chip no-ref-chip">📋 131 itens sem ref. direta</span>
 </div>
 </div>
-
 <div class="disc-block">
 <div class="disc-header" onclick="this.parentElement.classList.toggle('open')">
 <span class="disc-arrow">▶</span>
 <span class="disc-title">ESTRUTURA — CONCRETO ARMADO</span>
 <span class="disc-badge">2 itens</span>
 <span class="badge-sm red">↑ 2</span>
-
 </div>
 <div class="disc-content">
 <div class="cat-block">
@@ -4680,7 +4398,6 @@ látex acr</td>
 <span class="cat-title">ESTRUTURAS</span>
 <span class="cat-count">1 itens</span>
 <span class="badge-sm red">↑ 2</span>
-
 </div>
 <div class="cat-content">
 <div class="tab-block">
@@ -4690,7 +4407,7 @@ látex acr</td>
 <strong>Tabela:</strong> Resumo por material e por elemento
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_CONC.ARM_CASTELODAGUA_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="CASTELO%20D%27AGUA/GUACUI-EEEFM_CONC.ARM_CASTELODAGUA_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="CASTELO%20D%27AGUA/GUACUI-EEEFM_CONC.ARM_CASTELODAGUA_QTD_R00.RVT" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_CONC.ARM_CASTELODAGUA_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="CASTELO%20D%27AGUA/GUACUI-EEEFM_CONC.ARM_CASTELODAGUA_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="CASTELO%20D%27AGUA/GUACUI-EEEFM_CONC.ARM_CASTELODAGUA_QTD_R00.RVT" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -4706,7 +4423,6 @@ látex acr</td>
 <th>Justificativa / Método</th>
 </tr></thead>
 <tbody>
-
 <tr>
 <td class="td-code">030301</td>
 <td class="td-desc" title="Fôrma em chapa de madeira compensada plastificada 12mm para estrutura em geral, 5 reaproveitamentos, reforçada com sarrafos de madeira 2.5x10cm (incl material, corte, montagem, escoras em eucalipto e desforma)">Fôrma em chapa de madeira compensada plastificada 12mm para estrutura em geral, </td>
@@ -4724,7 +4440,6 @@ látex acr</td>
 </div>
 </div>
 </div>
-
 <div class="cat-block">
 <div class="cat-header" onclick="this.parentElement.classList.toggle('cat-open')">
 <span class="cat-arrow">▸</span>
@@ -4740,7 +4455,7 @@ látex acr</td>
 <strong>Tabela:</strong> PAREDE - MATERIAL - CASTELO D AGUA
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_CONC.ARM_CASTELODAGUA_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="CASTELO%20D%27AGUA/GUACUI-EEEFM_CONC.ARM_CASTELODAGUA_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="CASTELO%20D%27AGUA/GUACUI-EEEFM_CONC.ARM_CASTELODAGUA_QTD_R00.RVT" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_CONC.ARM_CASTELODAGUA_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="CASTELO%20D%27AGUA/GUACUI-EEEFM_CONC.ARM_CASTELODAGUA_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="CASTELO%20D%27AGUA/GUACUI-EEEFM_CONC.ARM_CASTELODAGUA_QTD_R00.RVT" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -4773,29 +4488,22 @@ látex acr</td>
 </div>
 </div>
 </div>
-
-
 </div>
 </div>
-
 <div class="disc-block">
 <div class="disc-header" onclick="this.parentElement.classList.toggle('open')">
 <span class="disc-arrow">▶</span>
 <span class="disc-title">HIDROSSANITÁRIA — ÁGUA FRIA</span>
 <span class="disc-badge">6 itens</span>
-
 <span class="badge-sm red">↑ 6</span>
-
 </div>
 <div class="disc-content">
-
 <div class="cat-block">
 <div class="cat-header" onclick="this.parentElement.classList.toggle('cat-open')">
 <span class="cat-arrow">▸</span>
 <span class="cat-title">INSTALAÇÕES HIDRO-SANITÁRIAS</span>
 <span class="cat-count">6 itens</span>
 <span class="badge-sm red">↑ 6</span>
-
 </div>
 <div class="cat-content">
 <div class="tab-block">
@@ -4805,7 +4513,7 @@ látex acr</td>
 <strong>Tabela:</strong> Acessórios de Tubulação CASTELO
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_HID_CASTELODAGUA_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="CASTELO%20D%27AGUA/GUACUI-EEEFM_ARQ_CASTELODAGUA_QTD_R00.xlsm" target="_blank">📄 Abrir XLSM</a><a class="path-chip rvt" href="CASTELO%20D%27AGUA/GUACUI-EEEFM_ARQ_CASTELODAGUA_QTD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_HID_CASTELODAGUA_QTD_R00</div><div class="tab-paths"><a class="path-chip rvt" href="CASTELO%20D%27AGUA/GUACUI-EEEFM_ARQ_CASTELODAGUA_QTD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -4821,7 +4529,6 @@ látex acr</td>
 <th>Justificativa / Método</th>
 </tr></thead>
 <tbody>
-
 <tr>
 <td class="td-code">100502</td>
 <td )"="" class="td-desc" title="Registro de gaveta bruto diam. 40mm (11/2">Registro de gaveta bruto diam. 40mm (11/2")</td>
@@ -4834,7 +4541,6 @@ látex acr</td>
 <td class="td-center"><span class="badge-red">ADITIVO</span></td>
 <td class="td-just">Tabela: Acessórios de Tubulação CASTELO</td>
 </tr>
-
 </tbody>
 </table>
 </div>
@@ -4845,7 +4551,7 @@ látex acr</td>
 <strong>Tabela:</strong> CONEXÕES - ÁGUA FRIA CASTELO
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_HID_CASTELODAGUA_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="CASTELO%20D%27AGUA/GUACUI-EEEFM_ARQ_CASTELODAGUA_QTD_R00.xlsm" target="_blank">📄 Abrir XLSM</a><a class="path-chip rvt" href="CASTELO%20D%27AGUA/GUACUI-EEEFM_ARQ_CASTELODAGUA_QTD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_HID_CASTELODAGUA_QTD_R00</div><div class="tab-paths"><a class="path-chip rvt" href="CASTELO%20D%27AGUA/GUACUI-EEEFM_ARQ_CASTELODAGUA_QTD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -4861,7 +4567,6 @@ látex acr</td>
 <th>Justificativa / Método</th>
 </tr></thead>
 <tbody>
-
 <tr>
 <td class="td-code">100606</td>
 <td "="" class="td-desc" title="Adaptador de PVC soldável com flanges livres para caixa d'água, diâmetro 40mm x 1 1/4">Adaptador de PVC soldável com flanges livres para caixa d'água, diâmetro 40mm x </td>
@@ -4874,8 +4579,6 @@ látex acr</td>
 <td class="td-center"><span class="badge-red">ADITIVO</span></td>
 <td class="td-just">Tabela: CONEXÕES - ÁGUA FRIA CASTELO</td>
 </tr>
-
-
 </tbody>
 </table>
 </div>
@@ -4886,7 +4589,7 @@ látex acr</td>
 <strong>Tabela:</strong> TUBOS RÍGIDOS CASTELO
                                 <span class="tab-count">4 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_HID_CASTELODAGUA_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="CASTELO%20D%27AGUA/GUACUI-EEEFM_ARQ_CASTELODAGUA_QTD_R00.xlsm" target="_blank">📄 Abrir XLSM</a><a class="path-chip rvt" href="CASTELO%20D%27AGUA/GUACUI-EEEFM_ARQ_CASTELODAGUA_QTD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_HID_CASTELODAGUA_QTD_R00</div><div class="tab-paths"><a class="path-chip rvt" href="CASTELO%20D%27AGUA/GUACUI-EEEFM_ARQ_CASTELODAGUA_QTD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -4926,7 +4629,6 @@ látex acr</td>
 <td class="td-center"><span class="badge-red">ADITIVO</span></td>
 <td class="td-just">Tabela: TUBOS RÍGIDOS CASTELO</td>
 </tr>
-
 <tr>
 <td class="td-code">100101</td>
 <td ),="" class="td-desc" conexões"="" inclusive="" title="Tubo de PVC rígido soldável marrom, DN 32mm (1">Tubo de PVC rígido soldável marrom, DN 32mm (1"), inclusive conexões</td>
@@ -4958,16 +4660,12 @@ látex acr</td>
 </div>
 </div>
 </div>
-
-
 <div class="disc-block">
 <div class="disc-header" onclick="this.parentElement.classList.toggle('open')">
 <span class="disc-arrow">▶</span>
 <span class="disc-title">PCI — INCÊNDIO</span>
 <span class="disc-badge">1 itens</span>
-
 <span class="badge-sm red">↑ 1</span>
-
 </div>
 <div class="disc-content">
 <div class="cat-block">
@@ -4976,13 +4674,8 @@ látex acr</td>
 <span class="cat-title">INSTALAÇÃO DE INCÊNDIO</span>
 <span class="cat-count">1 itens</span>
 <span class="badge-sm red">↑ 1</span>
-
 </div>
 <div class="cat-content">
-
-
-
-
 <div class="tab-block">
 <div class="tab-header">
 <div class="tab-info">
@@ -4990,7 +4683,7 @@ látex acr</td>
 <strong>Tabela:</strong> TUBULAÇÃO - 65mm - 2.1/2"
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_PCI_CASTELODAGUA_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="CASTELO%20D%27AGUA/GUACUI-EEEFM_ARQ_CASTELODAGUA_QTD_R00.xlsm" target="_blank">📄 Abrir XLSM</a><a class="path-chip rvt" href="CASTELO%20D%27AGUA/GUACUI-EEEFM_ARQ_CASTELODAGUA_QTD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_PCI_CASTELODAGUA_QTD_R00</div><div class="tab-paths"><a class="path-chip rvt" href="CASTELO%20D%27AGUA/GUACUI-EEEFM_ARQ_CASTELODAGUA_QTD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -5021,8 +4714,6 @@ látex acr</td>
 </tbody>
 </table>
 </div>
-
-
 </div>
 </div>
 </div>
@@ -5032,9 +4723,7 @@ látex acr</td>
 <span class="disc-arrow">▶</span>
 <span class="disc-title">SPDA</span>
 <span class="disc-badge">1 itens</span>
-
 <span class="badge-sm red">↑ 1</span>
-
 </div>
 <div class="disc-content">
 <div class="cat-block">
@@ -5043,11 +4732,8 @@ látex acr</td>
 <span class="cat-title">INSTALAÇÃO DO SPDA</span>
 <span class="cat-count">1 itens</span>
 <span class="badge-sm red">↑ 1</span>
-
 </div>
 <div class="cat-content">
-
-
 <div class="tab-block">
 <div class="tab-header">
 <div class="tab-info">
@@ -5055,7 +4741,7 @@ látex acr</td>
 <strong>Tabela:</strong> Quantitativo de Materiais - Componentes - SPDA
                                 <span class="tab-count">1 itens</span>
 </div>
-<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_SPDA_CASTELODAGUA_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="CASTELO%20D%27AGUA/GUACUI-EEEFM_SPDA_CASTELODAGUA_QTD_R00.xlsx" target="_blank">📄 Abrir XLSX</a><a class="path-chip rvt" href="CASTELO%20D%27AGUA/GUACUI-EEEFM_SPDA_CASTELODAGUA_MOD_R00.rvt" target="_blank">🧊 Abrir RVT</a></div>
+<div class="tab-arquivo"><span class="tab-icon">📁</span> <strong>Arquivo:</strong> GUACUI-EEEFM_SPDA_CASTELODAGUA_QTD_R00</div><div class="tab-paths"><a class="path-chip xlsx" href="CASTELO%20D%27AGUA/GUACUI-EEEFM_SPDA_CASTELODAGUA_QTD_R00.xlsx" download>📄 Abrir XLSX</a><a class="path-chip rvt" href="CASTELO%20D%27AGUA/GUACUI-EEEFM_SPDA_CASTELODAGUA_MOD_R00.rvt" download>🧊 Abrir RVT</a></div>
 </div>
 <table class="item-table">
 <thead><tr>
@@ -5083,17 +4769,13 @@ látex acr</td>
 <td class="td-center"><span class="badge-red">ADITIVO</span></td>
 <td class="td-just">Tabela: Quantitativo de Materiais - Componentes - SPDA</td>
 </tr>
-
 </tbody>
 </table>
 </div>
-
 </div>
 </div>
-
 </div>
 </div>
-
 </div>
 </div>
 <!-- RESUMO GERAL -->
@@ -5108,11 +4790,8 @@ látex acr</td>
 <th style="text-align:center">Categorias</th>
 <th style="text-align:center">Arquivos</th>
 <th style="text-align:center">Tabelas</th>
-
 <th style="text-align:center">Aditivos</th>
-
 <th style="text-align:right">Valor Aditivo</th>
-
 </tr></thead>
 <tbody>
 <tr>
@@ -5121,11 +4800,8 @@ látex acr</td>
 <td class="td-center">15</td>
 <td class="td-center">7</td>
 <td class="td-center">35</td>
-
 <td class="td-center red">48</td>
-
 <td class="td-right positivo">R$ 551.665,23</td>
-
 </tr>
 <tr>
 <td class="td-bold">ESTRUTURA — CONCRETO ARMADO</td>
@@ -5133,11 +4809,8 @@ látex acr</td>
 <td class="td-center">6</td>
 <td class="td-center">5</td>
 <td class="td-center">5</td>
-
 <td class="td-center red">13</td>
-
 <td class="td-right positivo">R$ 844.110,59</td>
-
 </tr>
 <tr>
 <td class="td-bold">ESTRUTURA — METÁLICA</td>
@@ -5145,11 +4818,8 @@ látex acr</td>
 <td class="td-center">1</td>
 <td class="td-center">4</td>
 <td class="td-center">7</td>
-
 <td class="td-center red">5</td>
-
 <td class="td-right positivo">R$ 692.897,96</td>
-
 </tr>
 <tr>
 <td class="td-bold">ESTRUTURA</td>
@@ -5157,11 +4827,8 @@ látex acr</td>
 <td class="td-center">6</td>
 <td class="td-center">0</td>
 <td class="td-center">0</td>
-
 <td class="td-center red">0</td>
-
 <td class="td-right">—</td>
-
 </tr>
 <tr>
 <td class="td-bold">HIDROSSANITÁRIA — ÁGUA FRIA</td>
@@ -5169,11 +4836,8 @@ látex acr</td>
 <td class="td-center">3</td>
 <td class="td-center">4</td>
 <td class="td-center">11</td>
-
 <td class="td-center red">18</td>
-
 <td class="td-right positivo">R$ 22.574,01</td>
-
 </tr>
 <tr>
 <td class="td-bold">HIDROSSANITÁRIA — ESGOTO</td>
@@ -5181,11 +4845,8 @@ látex acr</td>
 <td class="td-center">2</td>
 <td class="td-center">3</td>
 <td class="td-center">7</td>
-
 <td class="td-center red">5</td>
-
 <td class="td-right positivo">R$ 6.359,25</td>
-
 </tr>
 <tr>
 <td class="td-bold">HIDROSSANITÁRIA</td>
@@ -5193,11 +4854,8 @@ látex acr</td>
 <td class="td-center">3</td>
 <td class="td-center">0</td>
 <td class="td-center">0</td>
-
 <td class="td-center red">0</td>
-
 <td class="td-right">—</td>
-
 </tr>
 <tr>
 <td class="td-bold">ELÉTRICA</td>
@@ -5205,11 +4863,8 @@ látex acr</td>
 <td class="td-center">7</td>
 <td class="td-center">6</td>
 <td class="td-center">18</td>
-
 <td class="td-center red">17</td>
-
 <td class="td-right positivo">R$ 41.877,77</td>
-
 </tr>
 <tr>
 <td class="td-bold">PCI — INCÊNDIO</td>
@@ -5217,11 +4872,8 @@ látex acr</td>
 <td class="td-center">2</td>
 <td class="td-center">4</td>
 <td class="td-center">11</td>
-
 <td class="td-center red">14</td>
-
 <td class="td-right positivo">R$ 36.611,82</td>
-
 </tr>
 <tr>
 <td class="td-bold">SPDA</td>
@@ -5229,11 +4881,8 @@ látex acr</td>
 <td class="td-center">2</td>
 <td class="td-center">5</td>
 <td class="td-center">4</td>
-
 <td class="td-center red">9</td>
-
 <td class="td-right positivo">R$ 6.426,37</td>
-
 </tr>
 <tr>
 <td class="td-bold">HVAC — CLIMATIZAÇÃO</td>
@@ -5241,11 +4890,8 @@ látex acr</td>
 <td class="td-center">5</td>
 <td class="td-center">3</td>
 <td class="td-center">5</td>
-
 <td class="td-center red">2</td>
-
 <td class="td-right positivo">R$ 33.525,71</td>
-
 </tr>
 <tr>
 <td class="td-bold">OUTROS</td>
@@ -5253,11 +4899,8 @@ látex acr</td>
 <td class="td-center">11</td>
 <td class="td-center">0</td>
 <td class="td-center">0</td>
-
 <td class="td-center red">0</td>
-
 <td class="td-right">—</td>
-
 </tr>
 <tr class="total-row">
 <td>TOTAL</td>
@@ -5265,11 +4908,8 @@ látex acr</td>
 <td></td>
 <td class="td-center">41</td>
 <td></td>
-
 <td class="td-center red">131</td>
-
 <td class="td-right positivo">R$ 2.236.048,72</td>
-
 </tr>
 </tbody>
 </table>
@@ -6537,9 +6177,7 @@ látex acr</td>
 <div class="metodo-item">
 <h4>4. Classificação dos Itens</h4>
 <ul>
-
 <li><strong>ADITIVO</strong> — BIM &gt; Orçamento (necessidade de aditivo)</li>
-
 </ul>
 </div>
 <div class="metodo-item">
@@ -6552,8 +6190,6 @@ látex acr</td>
 <li>Total de itens aditivos: <strong>131</strong></li>
 <li>Com referência BIM: <strong>347</strong> (27%)</li>
 <li>Arquivos BIM: <strong>41</strong></li>
-
-
 </ul>
 </div>
 </div>
