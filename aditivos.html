@@ -28,14 +28,14 @@ body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background
 .kpi-label { font-size: 0.8em; text-transform: uppercase; letter-spacing: 1.5px; color: #94a3b8; font-weight: 600; margin-bottom: 8px; }
 .kpi-value { font-size: 1.8em; font-weight: 800; }
 .kpi-sub { font-size: 0.85em; color: #64748b; margin-top: 6px; }
-.kpi-card.red { border-top: 4px solid #dc2626; }
-.kpi-card.red .kpi-value { color: #dc2626; }
+.kpi-card.red { border-top: 4px solid #475569; }
+.kpi-card.red .kpi-value { color: #334155; }
 .kpi-card.blue { border-top: 4px solid #3b82f6; }
 .kpi-card.blue .kpi-value { color: #1a1a2e; }
-.kpi-card.orange { border-top: 4px solid #f59e0b; }
-.kpi-card.orange .kpi-value { color: #92400e; }
-.kpi-card.purple { border-top: 4px solid #7c3aed; }
-.kpi-card.purple .kpi-value { color: #5b21b6; }
+.kpi-card.orange { border-top: 4px solid #64748b; }
+.kpi-card.orange .kpi-value { color: #475569; }
+.kpi-card.purple { border-top: 4px solid #6b7280; }
+.kpi-card.purple .kpi-value { color: #4b5563; }
 
 .section { background: white; border-radius: 16px; padding: 32px; margin: 24px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.06); border: 1px solid #e2e8f0; }
 .section-title { font-size: 1.3em; font-weight: 700; color: #1a1a2e; margin-bottom: 6px; }
@@ -58,7 +58,7 @@ td { padding: 10px 14px; }
 .td-bold { font-weight: 700; }
 .td-code { font-family: 'Cascadia Code', 'Fira Code', monospace; font-size: 0.9em; color: #475569; }
 .td-desc { max-width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.9em; color: #475569; }
-.positivo { color: #dc2626; }
+.positivo { color: #334155; }
 
 .total-row { background: #fef2f2 !important; font-weight: 700; border-top: 2px solid #fca5a5; }
 
@@ -67,7 +67,7 @@ td { padding: 10px 14px; }
 .search-box input:focus { border-color: #991b1b; }
 
 .metodo-item { margin-bottom: 24px; }
-.metodo-item h4 { color: #991b1b; font-size: 1.05em; margin-bottom: 8px; border-left: 4px solid #dc2626; padding-left: 12px; }
+.metodo-item h4 { color: #1e293b; font-size: 1.05em; margin-bottom: 8px; border-left: 4px solid #475569; padding-left: 12px; }
 .metodo-item p, .metodo-item ul { color: #475569; font-size: 0.95em; line-height: 1.7; }
 .metodo-item ul { padding-left: 20px; }
 .metodo-item li { margin-bottom: 4px; }
@@ -163,7 +163,6 @@ if (sessionStorage.getItem('auth_talisma') === '1') {
     <h1>ADITIVOS — AUDITORIA BIM</h1>
     <p>Itens com quantidade BIM superior ao orçamento original</p>
     <p class="subtitle">Escola Estadual — Município de Guaçuí/ES</p>
-    <div class="tag">APENAS ADITIVOS — SEM RETROATIVOS</div>
 </div>
 
 <div class="nav">
@@ -217,7 +216,7 @@ if (sessionStorage.getItem('auth_talisma') === '1') {
     </div>
 
     <div class="nota">
-        <strong>Este relatório apresenta APENAS os itens de aditivo</strong> — onde o levantamento BIM identificou quantidade superior ao orçamento original. Itens onde o orçamento tinha quantidade maior que o BIM (retroativo/economia) não estão incluídos.
+        <strong>Este relatório apresenta os itens de aditivo</strong> — onde o levantamento BIM identificou quantidade superior ao orçamento original.
     </div>
 </div>
 
@@ -2456,7 +2455,6 @@ látex acr</td>
                 <li>Análises incompletas em Estrutura e Elétrica devem-se à inexistência ou não disponibilidade de todos os projetos executivos</li>
                 <li>A Quadra Poliesportiva não inclui estrutura metálica na auditoria</li>
                 <li>Valores unitários do orçamento original foram mantidos — apenas quantidades foram revisadas</li>
-                <li>Este relatório não inclui itens retroativos (onde o orçamento superou o BIM)</li>
             </ul>
         </div>
     </div>
@@ -2473,8 +2471,8 @@ látex acr</td>
 Chart.defaults.font.family = "'Segoe UI', system-ui, sans-serif";
 Chart.defaults.font.size = 12;
 
-const coresEdif = ['#dc2626','#ef4444','#f97316','#f59e0b','#eab308'];
-const coresCat = ['#dc2626','#ef4444','#f97316','#f59e0b','#eab308','#84cc16','#10b981','#06b6d4','#3b82f6','#8b5cf6'];
+const coresEdif = ['#334155','#475569','#64748b','#6b7280','#78716c'];
+const coresCat = ['#334155','#475569','#64748b','#6b7280','#78716c','#57534e','#44403c','#3f3f46','#525252','#71717a'];
 
 // Edificações - horizontal bar
 new Chart(document.getElementById('chartEdif'), {
@@ -2519,7 +2517,7 @@ new Chart(document.getElementById('chartEdifComp'), {
         labels: ["BLOCO AUDIT\u00d3RIO E PASSARELA", "BLOCO PEDAG\u00d3GICO", "BLOCO ADMINISTRATIVO", "QUADRA POLIESPORTIVA", "CASTELO D'\u00c1GUA"],
         datasets: [
             { label: 'Valor Original', data: [1792299.37, 5439454.52, 2580193.77, 1837439.4, 526443.98], backgroundColor: '#3b82f6', borderRadius: 4 },
-            { label: 'Aditivo', data: [1444402.68, 432768.65, 270378.21, 64586.19, 23912.99], backgroundColor: '#dc2626', borderRadius: 4 }
+            { label: 'Aditivo', data: [1444402.68, 432768.65, 270378.21, 64586.19, 23912.99], backgroundColor: '#475569', borderRadius: 4 }
         ]
     },
     options: {
@@ -2534,7 +2532,7 @@ new Chart(document.getElementById('chartTop10'), {
     type: 'bar',
     data: {
         labels: ["080101 - 'Fornecimento, fabrica\u00e7\u00e3o, t", "030202 - F\u00f4rma de t\u00e1bua de madeira de", "080105 - 'Fornecimento, fabrica\u00e7\u00e3o, t", "080201 - Cobertura em telha termoacus", "030206 - Fornecimento e aplica\u00e7\u00e3o de ", "080101 - Fornecimento, fabrica\u00e7\u00e3o, tr", "120201 - Porcelanato polido, acabamen", "030305 - Fornecimento e aplica\u00e7\u00e3o de ", "030301 - F\u00f4rma em chapa de madeira co", "030202 - F\u00f4rma de t\u00e1bua de madeira de"],
-        datasets: [{ label: 'Aditivo R$', data: [318597.24, 263118.94, 221190.62, 146132.9, 140524.7, 122900.29, 108895.65, 92937.65, 80440.61, 62435.28], backgroundColor: '#dc2626', borderRadius: 6 }]
+        datasets: [{ label: 'Aditivo R$', data: [318597.24, 263118.94, 221190.62, 146132.9, 140524.7, 122900.29, 108895.65, 92937.65, 80440.61, 62435.28], backgroundColor: '#475569', borderRadius: 6 }]
     },
     options: {
         indexAxis: 'y',
